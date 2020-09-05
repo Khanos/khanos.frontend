@@ -43,7 +43,7 @@
       "parser": "babel-eslint"
     },
     "rules": {
-      "linebreak-style": ["error", "windows"]
+      "linebreak-style": 0
     },
     "overrides": [
       {
