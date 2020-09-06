@@ -4,6 +4,13 @@
       <img src="../assets/img/menu-toggle.png"/>
     </b-button>
     <b-sidebar id="sidebar-variant" bg-variant="light" text-variant="dark" shadow>
+      <b-container class="profile-img">
+        <b-img
+          :src="require('../assets/img/profile.png')"
+          rounded="circle"
+          fluid-grow alt="Fluid-grow image">
+        </b-img>
+      </b-container>
       <div class="title">
         <h1 class="first-row"><span>epilef</span></h1>
         <h1 class="second-row"><span>rodriguez</span></h1>
@@ -21,15 +28,15 @@
             <img class="img-arrow" src="../assets/img/arrow-right.png"/>
           </li>
           <li>
-            <router-link to="/about">What i do </router-link>
+            <router-link to="/what">What i do </router-link>
             <img class="img-arrow" src="../assets/img/arrow-right.png"/>
           </li>
           <li>
-            <router-link to="/about">Who am i </router-link>
+            <router-link to="/who">Who am i </router-link>
             <img class="img-arrow" src="../assets/img/arrow-right.png"/>
           </li>
           <li>
-            <router-link to="/about">How i do it </router-link>
+            <router-link to="/how">How i do it </router-link>
             <img class="img-arrow" src="../assets/img/arrow-right.png"/>
           </li>
         </ol>
@@ -67,7 +74,9 @@ export default {
     flex-direction: column;
     align-items: center;
   }
-
+  #aside .profile-img{
+    width: 70%;
+  }
   #aside .title {
     width: 100%;
     margin-top: 10%;
@@ -124,10 +133,11 @@ export default {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    padding: 0px;
   }
 
   #aside ol li {
-    padding: 2vh 20px;
+    padding: 2vh 10px;
   }
 
   #aside ol li a {
