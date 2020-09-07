@@ -1,7 +1,9 @@
 <template>
   <div id="app">
     <SideBar/>
-    <router-view/>
+    <b-container class="main-container" fluid>
+      <router-view/>
+    </b-container>
   </div>
 </template>
 
@@ -17,6 +19,10 @@ export default {
 </script>
 
 <style>
+  body {
+    background: #DCD8DC;
+    height: 100%;
+  }
   #app {
     font-family: "Roboto", sans-serif;
     -webkit-font-smoothing: antialiased;

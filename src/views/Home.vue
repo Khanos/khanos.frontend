@@ -1,18 +1,16 @@
 <template>
-  <div class="main-container">
-    <section class="section-container home">
-      <div class="img-home"><img class="img-notebook" src="../assets/img/notebook.png" /></div>
-      <div class="main-title">
-        <h1>Hi, i am a full stack web developer.</h1>
-        <h1>and i<span class="love" > love </span>what i <span class="me"> do</span></h1>
-        <h1></h1><a class="main-button" href="#">start</a>
-      </div>
-      <footer class="home-footer">
-        <p>shared on <a href="https://github.com/Khanos/khanos.github.io" target="_blank">GitHub
-          </a>& managed on <a href="https://trello.com/b/KdkP1DtZ" target="_blank">Trello</a></p>
-      </footer>
-    </section>
-  </div>
+  <section class="section-container home">
+    <div class="img-home"><img class="img-notebook" src="../assets/img/notebook.png" /></div>
+    <div class="main-title">
+      <h1>Hi, i am a full stack web developer.</h1>
+      <h1>and i<span class="love" > love </span>what i <span class="me"> do</span></h1>
+      <h1></h1><a class="main-button" href="#/what">start</a>
+    </div>
+    <footer class="home-footer">
+      <p>shared on <a href="https://github.com/Khanos/khanos.github.io" target="_blank">GitHub
+        </a>& managed on <a href="https://trello.com/b/KdkP1DtZ" target="_blank">Trello</a></p>
+    </footer>
+  </section>
 </template>
 
 <script>
@@ -21,7 +19,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
   .section-container.home {
     display: flex;
     flex-direction: column;

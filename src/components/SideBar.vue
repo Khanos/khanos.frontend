@@ -3,7 +3,10 @@
     <b-button id="toggle-btn" v-b-toggle.sidebar-variant>
       <img src="../assets/img/menu-toggle.png"/>
     </b-button>
-    <b-sidebar id="sidebar-variant" bg-variant="light" text-variant="dark" shadow>
+    <b-sidebar id="sidebar-variant"
+      bg-variant="light"
+      text-variant="dark"
+      backdrop shadow>
       <b-container class="profile-img">
         <b-img
           :src="require('../assets/img/profile.png')"
@@ -32,11 +35,11 @@
             <img class="img-arrow" src="../assets/img/arrow-right.png"/>
           </li>
           <li>
-            <router-link to="/who">Who am i </router-link>
+            <router-link to="/how">How i do it </router-link>
             <img class="img-arrow" src="../assets/img/arrow-right.png"/>
           </li>
           <li>
-            <router-link to="/how">How i do it </router-link>
+            <router-link to="/who">Who am i </router-link>
             <img class="img-arrow" src="../assets/img/arrow-right.png"/>
           </li>
         </ol>
@@ -58,6 +61,7 @@ export default {
     top: 10px;
     background-color: transparent;
     border-color: transparent;
+    z-index: 1000;
   }
   #aside #toggle-btn:focus, #aside #toggle-btn.focus {
     box-shadow: none !important;
@@ -67,8 +71,6 @@ export default {
   }
   #aside {
     background-color: #FDFFFC;
-    width: 20%;
-    height: 100%;
     align-self: stretch;
     display: flex;
     flex-direction: column;
