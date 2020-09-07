@@ -29,7 +29,12 @@ export default {
     -moz-osx-font-smoothing: grayscale;
     text-align: center;
   }
-
+  span.foxy{
+    color: #F800AE;
+  }
+  span.foxy > span{
+    color: black;
+  }
   @font-face {
     font-family: "Raleway";
     src: url("./assets/fonts/Raleway-Regular.ttf");

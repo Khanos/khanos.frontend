@@ -15,7 +15,7 @@
             <h2><span class="foxy">d</span>emostration</h2>
           </b-container>
           <b-container class="what-form">
-            <b-form @submit="onSubmit" @reset="onReset" v-if="show">
+            <b-form @submit="onSubmit" v-if="show">
               <b-form-group
                 id="input-group-search"
                 label="Lets search some FUN words for the most recent
@@ -32,7 +32,9 @@
                   placeholder="e.g. cheese"
                 ></b-form-input>
               </b-form-group>
-              <b-button class="main-button" type="submit" variant="primary">SEARCH</b-button>
+              <b-button class="main-button" type="submit" variant="primary">
+                SEARCH
+              </b-button>
             </b-form>
           </b-container>
           <b-container class="what-explanation text-left">
@@ -48,10 +50,11 @@
         </b-col>
         <b-col>
           <b-container class="cards" fluid  v-if="response">
-            <Commits
+            <p v-if="loading">Loading...</p>
+            <Commits v-else
               v-for="commit in response"
+              v-bind:item="commit"
               :key="commit.id"
-              :item="commit"
             />
           </b-container>
         </b-col>
@@ -74,20 +77,21 @@ export default {
       form: {
         search: '',
       },
+      loading: false,
+      response: [],
       show: true,
-      response: null,
     };
   },
   mounted() {
-    console.log('hola from mounted');
-    this.response = this.getFistCommits('cheese');
+    this.getFirstCommits('cheese');
   },
   methods: {
     onSubmit(evt) {
       evt.preventDefault();
-      alert(JSON.stringify(this.form));
+      this.getFirstCommits(this.form.search);
     },
-    async getFistCommits(word) {
+    getFirstCommits(word) {
+      this.loading = true;
       const options = {
         method: 'get',
         url: `https://khanos-backend.herokuapp.com/api/v1/github/getCommits/${word}`,
@@ -96,8 +100,24 @@ export default {
         },
         responseType: 'json',
       };
-      const { data } = await axios(options);
-      return data;
+      axios(options)
+        .then((response) => {
+          const { data } = response;
+          data.map((item) => {
+            const localItem = item;
+            const regex = new RegExp(`${word}`, 'gi');
+            localItem.commit.message = item.commit.message.replace(regex, `<span class="foxy">${word}<span>`);
+            return localItem;
+          });
+          this.response = data;
+          this.loading = false;
+        })
+        .catch((error) => {
+          this.response = error;
+        })
+        .finally(() => {
+          this.loading = false;
+        });
     },
   },
 };
@@ -157,5 +177,9 @@ export default {
     -moz-box-shadow: 0px 0px 2px 1px #F800AE;
     box-shadow: 0px 0px 2px 1px #F800AE;
     opacity: 1;
+  }
+  .what .cards {
+    max-height: 100vh;
+    overflow: auto;
   }
 </style>
