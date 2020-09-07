@@ -41,13 +41,19 @@
             <p>Which would render those cards on the right.</p>
             <p>Check Out:</p>
             <ol>
-              <li>BackEnd api. <a href="https://khanos-backend.herokuapp.com/">HERE</a></li>
-              <li>BackEnd Source Code. <a href="https://github.com/Khanos/khanos.backend">HERE</a></li>
+              <li>BackEnd api. <a href="https://khanos-backend.herokuapp.com/" target="_blank">HERE</a></li>
+              <li>BackEnd Source Code. <a href="https://github.com/Khanos/khanos.backend" target="_blank">HERE</a></li>
             </ol>
           </b-container>
         </b-col>
         <b-col>
-          <h1>right</h1>
+          <b-container class="cards" fluid  v-if="response">
+            <Commits
+              v-for="commit in response"
+              :key="commit.id"
+              :item="commit"
+            />
+          </b-container>
         </b-col>
       </b-row>
     </b-container>
@@ -55,20 +61,43 @@
 </template>
 
 <script>
+import Commits from '@/components/Commits.vue';
+import axios from 'axios';
+
 export default {
   name: 'What',
+  components: {
+    Commits,
+  },
   data() {
     return {
       form: {
         search: '',
       },
       show: true,
+      response: null,
     };
+  },
+  mounted() {
+    console.log('hola from mounted');
+    this.response = this.getFistCommits('cheese');
   },
   methods: {
     onSubmit(evt) {
       evt.preventDefault();
       alert(JSON.stringify(this.form));
+    },
+    async getFistCommits(word) {
+      const options = {
+        method: 'get',
+        url: `https://khanos-backend.herokuapp.com/api/v1/github/getCommits/${word}`,
+        headers: {
+          Accept: 'application/vnd.github.cloak-preview',
+        },
+        responseType: 'json',
+      };
+      const { data } = await axios(options);
+      return data;
     },
   },
 };
@@ -123,7 +152,6 @@ export default {
     box-shadow: 0px 0px 0.2px 1px #F800AE;
     opacity: 0.6;
   }
-
   .section-container.what button.main-button:hover {
     -webkit-box-shadow: 0px 0px 2px 1px #F800AE;
     -moz-box-shadow: 0px 0px 2px 1px #F800AE;
