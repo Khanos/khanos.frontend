@@ -1,5 +1,8 @@
 # khanos.frontend
 
+> [Check it out: https://khanos-frontend.herokuapp.com](https://khanos-frontend.herokuapp.com)
+
+
 ## Project setup
 ```
 npm install
