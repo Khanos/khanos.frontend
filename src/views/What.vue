@@ -2,12 +2,14 @@
   <section class="section-container what">
     <b-container fluid>
       <b-row>
-        <b-col cols="4">
+        <b-col class="left-pane" cols="4">
           <b-container class="github-img">
             <b-img
               :src="require('../assets/img/github.png')"
               rounded="circle"
-              fluid-grow alt="Fluid-grow image">
+              fluid-grow
+              alt="Fluid-grow image"
+            >
             </b-img>
           </b-container>
           <b-container class="what-title">
@@ -38,24 +40,57 @@
             </b-form>
           </b-container>
           <b-container class="what-explanation text-left">
-            <p>This would make a http request to the backend server where all the magic happens,
-               then returns a json response.</p>
+            <p>
+              This would make a http request to the backend server where all the
+              magic happens, then returns a json response.
+            </p>
             <p>Which would render those cards on the right.</p>
             <p>Check Out:</p>
             <ol>
-              <li>BackEnd api. <a href="https://khanos-backend.herokuapp.com/" target="_blank">HERE</a></li>
-              <li>BackEnd Source Code. <a href="https://github.com/Khanos/khanos.backend" target="_blank">HERE</a></li>
+              <li>
+                BackEnd api.
+                <a href="https://khanos-backend.herokuapp.com/" target="_blank"
+                  >HERE</a
+                >
+              </li>
+              <li>
+                BackEnd Source Code.
+                <a
+                  href="https://github.com/Khanos/khanos.backend"
+                  target="_blank"
+                  >HERE</a
+                >
+              </li>
             </ol>
           </b-container>
         </b-col>
         <b-col>
-          <b-container class="cards" fluid  v-if="response">
-            <p v-if="loading">Loading...</p>
-            <Commits v-else
-              v-for="commit in response"
-              v-bind:item="commit"
-              :key="commit.id"
-            />
+          <b-container class="cards" fluid v-if="response">
+            <div class="loading" v-if="loading">
+              <p>
+                <b-spinner
+                  style="width: 2.5rem; height: 2.5rem"
+                  label="Spinning"
+                ></b-spinner>
+                Loading...
+              </p>
+            </div>
+            <div v-else>
+              <div v-if="response.length > 0">
+                <Commits
+                  v-for="commit in response"
+                  v-bind:item="commit"
+                  :key="commit.id"
+                />
+              </div>
+              <div class="error" v-else>
+                <b-alert class="" variant="danger" show>
+                  <i class="far fa-tired"></i> Ups, no luck with the word:
+                  <span class="foxy">{{ this.form.search }}</span> You could try
+                  with another one.
+                </b-alert>
+              </div>
+            </div>
           </b-container>
         </b-col>
       </b-row>
@@ -106,7 +141,10 @@ export default {
           data.map((item) => {
             const localItem = item;
             const regex = new RegExp(`${word}`, 'gi');
-            localItem.commit.message = item.commit.message.replace(regex, `<span class="foxy">${word}<span>`);
+            localItem.commit.message = item.commit.message.replace(
+              regex,
+              `<span class="foxy">${word}</span>`,
+            );
             return localItem;
           });
           this.response = data;
@@ -124,62 +162,81 @@ export default {
 </script>
 
 <style scoped>
-  .what .github-img{
-    width: 40%;
-    padding: 30px;
-  }
-  .what .what-title, .what .what-form, .what .what-explanation {
-    margin-bottom: 25px;
-  }
-  .what-title h2 {
-    color: #FFFFFF;
-    font-weight: 600;
-    font-size: 2.5rem;
-  }
-  .what-title h2 .foxy {
-    color: #F800AE;
-    font-size: 3rem;
-    font-family: "Roboto", sans-serif;
-    font-weight: 900;
-    font-style: italic;
-    text-decoration: none;
-    margin-right: 5px;
-  }
-  .what input#input-search {
-    -webkit-box-shadow: 0px 0px 0.2px 1px #F800AE;
-    -moz-box-shadow: 0px 0px 0.2px 1px #F800AE;
-    box-shadow: 0px 0px 0.2px 1px #F800AE;
-    opacity: 0.6;
-    height: 40px;
-    width: 300px;
-    margin: 0 auto;
-  }
-  .section-container.what button.main-button {
-    border: solid 2px #4D4444;
-    padding: 8px 80px;
-    display: inline-block;
-    margin-top: 40px;
-    margin-bottom: 40px;
-    text-decoration: none;
-    text-transform: uppercase;
-    font-family: "Roboto", sans-serif;
-    font-size: 4vh;
-    font-weight: 400;
-    color: #4D4444;
-    background-color: #D6D5D6;
-    -webkit-box-shadow: 0px 0px 0.2px 1px #F800AE;
-    -moz-box-shadow: 0px 0px 0.2px 1px #F800AE;
-    box-shadow: 0px 0px 0.2px 1px #F800AE;
-    opacity: 0.6;
-  }
-  .section-container.what button.main-button:hover {
-    -webkit-box-shadow: 0px 0px 2px 1px #F800AE;
-    -moz-box-shadow: 0px 0px 2px 1px #F800AE;
-    box-shadow: 0px 0px 2px 1px #F800AE;
-    opacity: 1;
-  }
-  .what .cards {
-    max-height: 100vh;
-    overflow: auto;
-  }
+.loading {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2rem;
+}
+.error {
+  position: absolute !important;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.what .github-img {
+  width: 40%;
+  padding: 30px;
+}
+.what .what-title,
+.what .what-form,
+.what .what-explanation {
+  margin-bottom: 25px;
+}
+.what-title h2 {
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 2.5rem;
+}
+.what-title h2 .foxy {
+  color: #f800ae;
+  font-size: 3rem;
+  font-family: "Roboto", sans-serif;
+  font-weight: 900;
+  font-style: italic;
+  text-decoration: none;
+  margin-right: 5px;
+}
+.what input#input-search {
+  -webkit-box-shadow: 0px 0px 0.2px 1px #f800ae;
+  -moz-box-shadow: 0px 0px 0.2px 1px #f800ae;
+  box-shadow: 0px 0px 0.2px 1px #f800ae;
+  opacity: 0.6;
+  height: 40px;
+  width: 300px;
+  margin: 0 auto;
+}
+.section-container.what button.main-button {
+  border: solid 2px #4d4444;
+  padding: 8px 80px;
+  display: inline-block;
+  margin-top: 40px;
+  margin-bottom: 40px;
+  text-decoration: none;
+  text-transform: uppercase;
+  font-family: "Roboto", sans-serif;
+  font-size: 4vh;
+  font-weight: 400;
+  color: #4d4444;
+  background-color: #d6d5d6;
+  -webkit-box-shadow: 0px 0px 0.2px 1px #f800ae;
+  -moz-box-shadow: 0px 0px 0.2px 1px #f800ae;
+  box-shadow: 0px 0px 0.2px 1px #f800ae;
+  opacity: 0.6;
+}
+.section-container.what button.main-button:hover {
+  -webkit-box-shadow: 0px 0px 2px 1px #f800ae;
+  -moz-box-shadow: 0px 0px 2px 1px #f800ae;
+  box-shadow: 0px 0px 2px 1px #f800ae;
+  opacity: 1;
+}
+.what .cards {
+  max-height: 100vh;
+  overflow: auto;
+}
 </style>
