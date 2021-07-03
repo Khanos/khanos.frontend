@@ -177,8 +177,21 @@ h1 {
   background: #2ec866;
 }
 @media screen and (max-width: 700px) {
+  #logo-name .title h1 {
+    color: #fdfffc;
+    font-size: 2rem;
+    letter-spacing: 5px;
+  }
+
+  #logo-name .title h2 {
+    font-family: "Raleway", sans-serif;
+    font-size: 1rem;
+    letter-spacing: 5px;
+  }
   #who-description-container {
     width: 90%;
+    max-width: unset;
+    font-size: 4rem;
   }
 }
 </style>

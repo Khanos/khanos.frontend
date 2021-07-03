@@ -167,6 +167,7 @@ export default {
     top: 10px;
     background-color: transparent;
     border-color: transparent;
+    z-index: 1000;
   }
   #aside #toggle-btn img {
     width: 40px;
@@ -184,11 +185,11 @@ export default {
   }
 
   #aside .title h1 {
-    font-size: 4.2vh;
+    font-size: 1.5rem;
   }
 
   #aside .title h2 {
-    font-size: 2.6vh;
+    font-size: 0.5vh;
   }
 
   #aside ol li a {

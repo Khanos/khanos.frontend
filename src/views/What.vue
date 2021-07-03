@@ -2,7 +2,7 @@
   <section class="section-container what">
     <b-container fluid>
       <b-row>
-        <b-col class="left-pane" cols="4">
+        <b-col class="left-pane" sm="12">
           <b-container class="github-img">
             <b-img
               :src="require('../assets/img/github.png')"
@@ -64,8 +64,8 @@
             </ol>
           </b-container>
         </b-col>
-        <b-col>
-          <b-container class="cards" fluid v-if="response">
+        <b-col sm="12">
+          <b-container id="cards" class="cards" fluid v-if="response">
             <div class="loading" v-if="loading">
               <p>
                 <b-spinner
@@ -155,6 +155,7 @@ export default {
         })
         .finally(() => {
           this.loading = false;
+          document.getElementById('cards').scrollIntoView({ behavior: 'smooth' });
         });
     },
   },
@@ -238,5 +239,28 @@ export default {
 .what .cards {
   max-height: 100vh;
   overflow: auto;
+}
+@media screen and (max-width: 700px) {
+  .loading[data-v-12cc5bfe] {
+    width: 10rem;
+    height: fit-content;
+    position: fixed;
+    top: 50%;
+    left: 30%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2rem;
+    background: #fff;
+    padding: 10px;
+  }
+  .left-pane {
+    margin-left: 0;
+  }
+  .what .github-img {
+    width: 5rem;
+    margin: 0 auto;
+    padding: 10px;
+  }
 }
 </style>
