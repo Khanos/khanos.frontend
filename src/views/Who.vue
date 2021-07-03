@@ -39,6 +39,50 @@
               but the result of a constant and conscious effort.
             </p>
           </b-container>
+          <b-container id="who-social-networks-links">
+            <div class="mb-2">
+              <b-avatar
+                button
+                v-on:click="openLink('https://www.instagram.com/epilef.js')"
+                class="link-container instagram"
+                size="4em"
+              >
+                <i class="fab fa-instagram fa-3x"></i>
+              </b-avatar>
+              <b-avatar
+                button
+                v-on:click="openLink('https://twitter.com/EpilefRodriguez')"
+                class="link-container twitter"
+                size="4em"
+              >
+                <i class="fab fa-twitter fa-3x"></i>
+              </b-avatar>
+              <b-avatar
+                button
+                v-on:click="openLink('https://www.linkedin.com/in/khanos/')"
+                class="link-container linkedin"
+                size="4em"
+              >
+                <i class="fab fa-linkedin-in fa-3x"></i>
+              </b-avatar>
+              <b-avatar
+                button
+                v-on:click="openLink('https://github.com/khanos')"
+                class="link-container github"
+                size="4em"
+              >
+                <i class="fab fa-github fa-3x"></i>
+              </b-avatar>
+              <b-avatar
+                button
+                v-on:click="openLink('https://www.hackerrank.com/KhanosVe')"
+                class="link-container hackerrank"
+                size="4em"
+              >
+                <i class="fab fa-hackerrank fa-3x"></i>
+              </b-avatar>
+            </div>
+          </b-container>
         </b-col>
       </b-row>
     </b-container>
@@ -48,6 +92,12 @@
 <script>
 export default {
   name: 'Who',
+  methods: {
+    openLink(url) {
+      const safeUrl = url || /^(?:(?:(?:https?|ftp):)?\/\/)(?:\S+(?::\S*)?@)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})).?)(?::\d{2,5})?(?:[/?#]\S*)?$/i.test(url);
+      return window.open(safeUrl, '_blank');
+    },
+  },
 };
 </script>
 
@@ -56,12 +106,12 @@ h1 {
   color: black;
 }
 #logo-name {
+  margin-top: 4rem;
   width: fit-content;
 }
 #logo-name .title {
   width: 100%;
   margin-top: 10%;
-  margin-bottom: 10%;
   text-align: center;
 }
 
@@ -93,8 +143,38 @@ h1 {
   color: #f800ae;
 }
 #who-description-container {
+  margin-top: 4rem;
   max-width: 50%;
   text-align: left;
+}
+#who-social-networks-links {
+  margin-top: 4rem;
+}
+.link-container {
+  margin: 5px;
+}
+.instagram:hover {
+  background: linear-gradient(
+    45deg,
+    #405de6,
+    #5851db,
+    #833ab4,
+    #c13584,
+    #e1306c,
+    #fd1d1d
+  );
+}
+.twitter:hover {
+  background: #1da1f2;
+}
+.linkedin:hover {
+  background: #0077b5;
+}
+.github:hover {
+  background: #333333;
+}
+.hackerrank:hover {
+  background: #2ec866;
 }
 @media screen and (max-width: 700px) {
   #who-description-container {

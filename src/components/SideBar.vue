@@ -3,7 +3,13 @@
     <b-button id="toggle-btn" v-b-toggle.sidebar-variant>
       <img src="../assets/img/menu-toggle.png" />
     </b-button>
-    <b-sidebar id="sidebar-variant" bg-variant="light" text-variant="dark">
+    <b-sidebar
+      id="sidebar-variant"
+      bg-variant="light"
+      text-variant="dark"
+      backdrop
+      shadow
+    >
       <b-container class="profile-img">
         <b-img
           :src="require('../assets/img/profile.png')"
@@ -19,10 +25,7 @@
         <h2><span>Design & Develop</span></h2>
       </div>
       <div class="quote">
-        <p>
-          I'm a software engineer specialised in frontend and backend
-          development for complex scalable web apps.
-        </p>
+        <p>Full=Stack Software Engineer - Looking for the next Challenge.</p>
         <!-- <h2>This is a work in progress, so don't judge and check out the <a href="https://github.com/Khanos/khanos.github.io" target="_blank">github</a> and <a href="https://trello.com/b/KdkP1DtZ" target="_blank">trello</a> of the project.</h2> -->
       </div>
       <div class="nav-menu">
@@ -35,10 +38,10 @@
             <router-link to="/what">What i do </router-link>
             <img class="img-arrow" src="../assets/img/arrow-right.png" />
           </li>
-          <li>
+          <!-- <li>
             <router-link to="/how">How i do it </router-link>
             <img class="img-arrow" src="../assets/img/arrow-right.png" />
-          </li>
+          </li> -->
           <li>
             <router-link to="/who">Who am i </router-link>
             <img class="img-arrow" src="../assets/img/arrow-right.png" />
