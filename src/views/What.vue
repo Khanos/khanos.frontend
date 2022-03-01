@@ -193,6 +193,10 @@ export default {
   justify-content: center;
   align-items: center;
 }
+.what .github-img {
+  width: 40%;
+  padding: 30px;
+}
 .what .what-title,
 .what .what-form,
 .what .what-explanation {
