@@ -4,7 +4,7 @@
     img-alt="Card image"
     img-left
     no-body
-    class="overflow-hidden mb-3"
+    class="card-container overflow-hidden mb-3"
   >
     <b-card-body :title="'Author: ' + item.author.login" class="text-left">
       <b-card-text>
@@ -71,6 +71,10 @@ p.footer {
   right: 20px;
 }
 @media screen and (max-width: 700px) {
+  .card-container {
+    padding: 0;
+    margin: 0;
+  }
   .container-fluid {
     margin: 0;
   }
@@ -82,6 +86,9 @@ p.footer {
   }
   .message {
     margin-bottom: 2rem;
+  }
+  img.card-img-left {
+    max-width: 25% !important;
   }
 }
 </style>
