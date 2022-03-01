@@ -2,7 +2,7 @@
   <section class="section-container what">
     <b-container fluid>
       <b-row>
-        <b-col class="left-pane" sm="12">
+        <b-col class="left-pane" lg="6" md="12" sm="12">
           <b-container class="github-img">
             <b-img
               :src="require('../assets/img/github.png')"
@@ -64,7 +64,7 @@
             </ol>
           </b-container>
         </b-col>
-        <b-col sm="12">
+        <b-col class="right-pane" lg="6" md="12" sm="12">
           <b-container id="cards" class="cards" fluid v-if="response">
             <div class="loading" v-if="loading">
               <p>
@@ -163,6 +163,19 @@ export default {
 </script>
 
 <style scoped>
+*::-webkit-scrollbar {
+  width: 0.5em;
+  border-radius: 0.5em;
+}
+
+*::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 6px #f800ae44;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: darkgrey;
+  outline: 1px solid slategrey;
+}
 .loading {
   position: absolute;
   width: 100%;

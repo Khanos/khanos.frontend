@@ -35,12 +35,6 @@ span.foxy {
 span.foxy > span {
   color: black;
 }
-.left-pane {
-  margin-left: 5rem;
-}
-.right-pane {
-  margin-right: 5rem;
-}
 @font-face {
   font-family: "Raleway";
   src: url("./assets/fonts/Raleway-Regular.ttf");

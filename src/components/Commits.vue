@@ -1,48 +1,61 @@
 <template>
-  <b-card no-body class="overflow-hidden">
-    <b-row no-gutters>
-      <b-col md="2" sm="12" class="imgContainer">
-        <b-card-img
-          :src="item.author.avatar"
-          alt="Image"
-          class="rounded-0"
-          fluid
-        ></b-card-img>
-      </b-col>
-      <b-col md="10" sm="12" class="text-left">
-        <b-card-body :title="'Author: ' + item.author.login">
-          <b-card-text>
-            <p class="repo-info">
-              <span>{{ item.repo.name }}</span
-              >,
-              <span>{{ item.repo.description }}</span>
-            </p>
-            <h4 class="message">
-              Commit: <span v-html="item.commit.message"></span>.
-              <a :href="item.commit.url" target="_blank">See commit</a>
-            </h4>
-            <p class="footer">{{ item.commit.date }}</p>
-          </b-card-text>
-        </b-card-body>
-      </b-col>
-    </b-row>
+  <b-card
+    :img-src="item.author.avatar"
+    img-alt="Card image"
+    img-left
+    no-body
+    class="overflow-hidden mb-3"
+  >
+    <b-card-body :title="'Author: ' + item.author.login" class="text-left">
+      <b-card-text>
+        <p class="repo-info">
+          <span>{{ item.repo.name }}</span
+          >,
+          <span>{{ item.repo.description }}</span>
+        </p>
+        <b-container class="m-0 p-0">
+          <p class="message mb-4">
+            Commit: <span v-html="item.commit.message"></span>.
+            <a :href="item.commit.url" target="_blank">See commit</a>
+          </p>
+          <p class="footer">
+            {{ getFormatDate(item.commit.date) }}
+          </p>
+        </b-container>
+      </b-card-text>
+    </b-card-body>
   </b-card>
 </template>
 
 <script>
+import moment from 'moment';
+
 export default {
   name: 'Commits',
   props: ['item'],
+  methods: {
+    getFormatDate(date) {
+      return moment(date).format('MMMM Do YYYY, h:mm:ss a');
+    },
+  },
 };
 </script>
 
 <style scoped>
 .card {
   margin: 20px;
+  border-radius: 15px;
 }
-.card .imgContainer {
-  min-height: 180px;
+.card-img-left {
+  display: block;
+  max-width: 180px;
   max-height: 180px;
+  width: auto;
+  height: auto;
+  aspect-ratio: 1;
+  margin: auto 0;
+  border-radius: 50%;
+  padding: 10px;
 }
 h4.card-title {
   margin-bottom: 0px;
