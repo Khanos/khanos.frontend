@@ -68,5 +68,9 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Khanos/khanos.frontend.git"
+  },
+  "engines" : { 
+    "npm" : "16.16.0",
+    "node" : "8.11.0"
   }
 }
