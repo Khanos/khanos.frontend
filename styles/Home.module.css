@@ -1,0 +1,114 @@
+.main {
+  background-color: #f5f5f5;
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+  height: 100vh;
+  background-color: #d6d5d6;
+}
+
+.container {
+  padding: 1rem 0.5rem;
+  display: flex;
+  justify-content: space-around;
+}
+
+.content {
+  flex-basis: 100%;
+}
+
+.section-container-home {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.img-home {
+  flex-grow: 1;
+  display: inline-block;
+  margin-bottom: 40px;
+  overflow: hidden;
+}
+
+.img-home img {
+  width: min(50vw, 60vh);
+  height: auto;
+}
+
+.main-title {
+  flex-grow: 1;
+  font-weight: 100;
+  font-size: 2.5rem;
+  color: #4D4444;
+  text-align: center;
+}
+
+.love {
+  font-family: "Roboto", sans-serif;
+  font-weight: 600;
+  font-style: italic;
+  text-decoration: none;
+}
+
+.me {
+  color: #F800AE;
+  font-family: "Roboto", sans-serif;
+  font-weight: bolder;
+  font-style: italic;
+  text-decoration: none;
+}
+
+.main-button {
+  border: solid 2px #4D4444;
+  padding: 8px 80px;
+  display: inline-block;
+  margin-top: 40px;
+  text-decoration: none;
+  text-transform: uppercase;
+  font-family: "Roboto", sans-serif;
+  font-size: 4vh;
+  font-weight: 400;
+  color: #4D4444;
+  -webkit-box-shadow: 0px 0px 0.2px 1px #F800AE;
+  -moz-box-shadow: 0px 0px 0.2px 1px #F800AE;
+  box-shadow: 0px 0px 0.2px 1px #F800AE;
+  opacity: 0.6;
+}
+
+.main-button:hover {
+  -webkit-box-shadow: 0px 0px 2px 1px #F800AE;
+  -moz-box-shadow: 0px 0px 2px 1px #F800AE;
+  box-shadow: 0px 0px 2px 1px #F800AE;
+  opacity: 1;
+}
+
+.home-footer {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  padding: 20px;
+  width: 100%;
+}
+
+.home-footer p {
+  font-family: "Raleway", sans-serif;
+  font-weight: 100;
+  color: #4D4444;
+  text-align: right;
+}
+
+.home-footer p a {
+  text-decoration: none;
+  color: #4D4444;
+  font-weight: 600;
+}
+
+@media (min-width: 45rem) {
+  .content {
+    flex-basis: 78%;
+  }
+}
+

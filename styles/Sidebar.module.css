@@ -1,0 +1,166 @@
+.sidebar {
+  background-color: #fdfffc;
+  border-radius: 25px;
+  flex-basis: 20%;
+  display: none;
+  align-self: stretch;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  height: calc(100vh - 2rem);
+  z-index: 1;
+}
+
+.close {
+  display: none;
+  margin-left: auto;
+  float: none;
+  font-size: 2rem;
+  cursor: pointer;
+  padding: 0.5rem;
+  background-color: transparent;
+  border: 0;
+  color: #343a40;
+  text-shadow: 0 1px 0 #fff;
+  opacity: .5;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.close svg {
+  display: inline-block;
+  overflow: visible;
+  vertical-align: -0.15em;
+  width: 1em;
+  height: 1em;
+  fill: currentcolor;
+}
+
+.toggle {
+  display: none;
+  position: absolute;
+  left: 10px;
+  top: 10px;
+  background-color: transparent;
+  border-color: transparent;
+  z-index: 1000;
+}
+
+.toggle:focus,
+.toggle.focus {
+  box-shadow: none !important;
+}
+
+.toggle img {
+  width: 40px;
+}
+
+.profile {
+  margin-top: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.profile img {
+    border-radius: 50%;
+    width: 8rem;
+    height: 8rem;
+}
+
+.title {
+    width: 100%;
+    margin-top: 10%;
+    margin-bottom: 10%;
+    text-align: center;
+  }
+  
+.title h1 {
+    color: #fdfffc;
+    font-size: 2vw;
+    letter-spacing: 5px;
+}
+
+.title h2 {
+    font-family: "Raleway", sans-serif;
+    font-size: 1.4vw;
+    letter-spacing: 5px;
+}
+
+.title h1.first-row span {
+    background-color: #4d4444;
+    position: relative;
+    right: 20%;
+}
+
+.title h1.second-row span {
+    background-color: #4d4444;
+    position: relative;
+    left: 10%;
+}
+
+.title h1.second-row::first-letter {
+    color: #f800ae; 
+}
+
+.quote {
+    text-align: center;
+    margin-bottom: 10%;
+    padding: 0 1rem;
+}
+
+.nav-menu {
+    height: 100%;
+    padding: 2rem 0;
+    align-self: end;
+}
+
+.img-arrow {
+    width: 0.8vw;
+    margin-left: 8px;
+    position: relative;
+    top: -5px;
+}
+
+.link-list {
+    width: 100%;
+    height: 100%;
+    text-align: right;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+.link {
+    padding: 2vh 10px; 
+}
+
+.text {
+    text-decoration: none;
+    color: #4d4444;
+    font-family: "Roboto-Thin", sans-serif;
+    font-size: 1.8vw;
+    font-weight: bold;
+}
+.text-active {
+    background-color: #4d4444;
+    color: #ffffff !important;
+    padding-left: 6vw;
+}
+
+@media (min-width: 45rem) {
+  .sidebar {
+    display: flex;
+  }
+  .toggle {
+    display: none;
+  }
+  .close {
+    display: none;
+  }
+  .profile {
+    margin-top: 2rem;
+  }
+}
