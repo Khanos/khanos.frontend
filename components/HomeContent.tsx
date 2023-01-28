@@ -1,13 +1,10 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import styles from '@/styles/Home.module.css'
-import { Inter } from '@next/font/google'
-
-const inter = Inter({ subsets: ['latin'] })
 
 export default function HomeContent() {
   return (
-    <div className={`${styles.item} ${styles.content}`}> 
+    <div className={`${styles.content}`}> 
       <section className={styles['section-container-home']}>
         <div className={styles['img-home']}>
           <Image 

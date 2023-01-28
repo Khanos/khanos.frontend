@@ -6,13 +6,7 @@
   text-align: center;
   color: #2c3e50;
   height: 100vh;
-  background-color: #d6d5d6;
-}
-
-.container {
-  padding: 1rem 0.5rem;
-  display: flex;
-  justify-content: space-around;
+  background-color: #dbd9dc;
 }
 
 .content {
@@ -29,7 +23,8 @@
 .img-home {
   flex-grow: 1;
   display: inline-block;
-  margin-bottom: 40px;
+  margin-top: 2rem;
+  margin-bottom: 4rem;
   overflow: hidden;
 }
 
@@ -106,7 +101,7 @@
   font-weight: 600;
 }
 
-@media (min-width: 45rem) {
+@media (min-width: 60rem) {
   .content {
     flex-basis: 78%;
   }

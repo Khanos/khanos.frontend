@@ -1,11 +1,8 @@
-import { Inter } from '@next/font/google'
-import styles from '@/styles/Home.module.css'
+import styles from '@/styles/What.module.css'
 
 import Header from '@/components/Header'
 import Sidebar from '@/components/Sidebar'
-import HomeContent from '@/components/HomeContent'
-
-const inter = Inter({ subsets: ['latin'] })
+import WhatContent from '@/components/WhatContent'
 
 export default function Home() {
   return (
@@ -13,7 +10,7 @@ export default function Home() {
       <Header />
       <main className={styles.main}>
         <Sidebar />
-        <HomeContent />
+        <WhatContent />
       </main>
     </>
   )
