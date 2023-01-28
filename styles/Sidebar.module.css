@@ -122,6 +122,8 @@
 .nav-menu {
     height: 100%;
     align-self: end;
+    padding-bottom: 1rem;
+    padding-right: 1rem;
 }
 
 .img-arrow {
@@ -161,7 +163,6 @@
 @media (min-width: 60rem) {
   .sidebar {
     display: flex;
-    height: calc(100vh - 2rem);
     width: 24rem;
   }
   .toggle {

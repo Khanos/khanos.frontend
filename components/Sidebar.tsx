@@ -2,10 +2,10 @@ import Image from 'next/image'
 import Link from 'next/link'
 
 import styles from '@/styles/Sidebar.module.css'
-import { useApp } from '@/context/appContext';
+import { useAppContext } from '@/context/appContext';
 
 export default function Sidebar() {
-    const { sidebar, toggleSidebar, hideSidebar } = useApp();
+    const { sidebar, toggleSidebar, hideSidebar } = useAppContext();
     return (
         <>
             { !sidebar.isOpen &&

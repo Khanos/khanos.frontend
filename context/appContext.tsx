@@ -22,7 +22,7 @@ const appContextDefaultValues: appContextType = {
 
 const AppContext = createContext<appContextType>(appContextDefaultValues);
 
-export function useApp() {
+export function useAppContext() {
     return useContext(AppContext);
 }
 
