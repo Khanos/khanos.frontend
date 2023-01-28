@@ -4,7 +4,7 @@ import Header from '@/components/Header'
 import Sidebar from '@/components/Sidebar'
 import WhatContent from '@/components/WhatContent'
 
-export default function Home() {
+export default function What() {
   return (
     <>
       <Header />

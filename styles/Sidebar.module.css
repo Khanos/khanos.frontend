@@ -3,13 +3,11 @@
   align-self: stretch;
   background-color: #fdfffc;
   border-radius: 25px;
-  display: flex;
   flex-direction: column;
   height: calc(100vh - 20vh);
   width: 18rem;
   top: 1rem;
   left: 1rem;
-  transition: all 0.5s ease-in-out;
   z-index: 1;
   position: absolute;
 }
