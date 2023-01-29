@@ -4,7 +4,7 @@
   background-color: #fdfffc;
   border-radius: 25px;
   flex-direction: column;
-  height: calc(100vh - 10vh);
+  height: auto;
   width: 18rem;
   top: 1rem;
   left: 1rem;
@@ -41,7 +41,7 @@
   display: block;
   position: absolute;
   left: 0.5rem;
-  top: 0.5rem;
+  top: 0.8rem;
   background-color: transparent;
   border-color: transparent;
   transition: all 0.5s ease-in-out;

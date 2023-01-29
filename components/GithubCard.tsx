@@ -12,8 +12,12 @@ interface GithubCardProps {
 // create a method that finds a specific word in a string and wraps it in a span
 // with a class name of foxy
 const findAndReplace = (string: string, word: string) => {
+  const stringLimit = 300;
   const regex = new RegExp(word, 'gi');
   const newString = string.replace(regex, `<span class='foxy'>${word}</span>`);
+  if (newString.length > stringLimit) {
+    return `${newString.substring(0, stringLimit)}...`;
+  }
   return newString;
 }
 

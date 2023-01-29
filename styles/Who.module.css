@@ -1,11 +1,11 @@
 .section-container{
-  width: 100%;
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
   align-items: center;
-  margin-top: 5rem;
+  margin-top: 1rem;
   margin-bottom: 5rem;
+  padding: 2rem;
 }
 
 .outer {
@@ -15,13 +15,12 @@
   height: 5rem;
 }
 .logo-name {
-  margin-top: 4rem;
+  margin-top: 2rem;
   width: fit-content;
   font-family: Roboto,sans-serif;
   -webkit-font-smoothing: antialiased;
 }
 .title {
-  width: 100%;
   margin-top: 10%;
   text-align: center;
 }

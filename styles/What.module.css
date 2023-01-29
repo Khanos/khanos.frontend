@@ -6,10 +6,6 @@
   color: #2c3e50;
 }
 
-.content {
-  flex-basis: 100%;
-}
-
 .section-container-what {
   display: flex;
   flex-direction: row;
@@ -20,14 +16,11 @@
 }
 
 .left-panel {
-  width: 100%;
-  display: flex;
-  justify-content: flex-start;
-  flex-direction: column;
+  flex-basis: 100%;
 }
 
 .right-panel {
-  width: 100%;
+  flex-basis: 100%;
 }
 
 .section-container-what::-webkit-scrollbar {
@@ -107,14 +100,14 @@
 
 .main-button {
   border: solid 2px #4d4444;
-  padding: 0.6rem 4rem;
+  padding: 0.4rem 3.5rem;
   display: inline-block;
   margin-top: 1rem;
   margin-bottom: 2rem;
   text-decoration: none;
   text-transform: uppercase;
   font-family: "Roboto", sans-serif;
-  font-size: 4vh;
+  font-size: 1.52rem;
   font-weight: 400;
   color: #4d4444;
   background-color: #d6d5d6;
@@ -164,11 +157,16 @@
   }
   
   .left-panel {
-    width: 40%;
+    flex-basis: 40%;
   }
 
   .right-panel {
-    width: 60%;
+    flex-basis: 60%;
+  }
+
+  .main-button {
+    padding: 0.6rem 4rem;
+    font-size: 4vh;
   }
 
   .explanation {

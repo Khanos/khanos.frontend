@@ -2,12 +2,12 @@
   background-color: #FFF;
   border-radius: 1rem;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   align-items: center;
   min-height: auto;
   margin-bottom: 2rem;
   padding: 1rem;
-  width: 90%;
+  width: 95vw;
   color: #212529;
   font-weight: 600;
   text-align: center;
@@ -24,15 +24,15 @@
   flex-direction: column;
   justify-content: center;
   text-align: left;
-  width: 100%;
+  /* width: 100%; */
 }
 
 .card-body-header h1 {
   font-size: 1.5rem;
   font-weight: 500;
   line-height: 1.2;
-  margin-bottom: 0.5rem;
-  text-align: left!important;
+  margin-bottom: 0.2rem;
+  text-align: center;
 }
 
 .card-body-sub-header {
@@ -43,11 +43,11 @@
   margin-bottom: 1rem;
   margin-top: 0;
   word-wrap: break-word;
+  text-align: center;
 }
 
 .card-body-content{
-  margin-top: 0;
-  margin-bottom: 1.5rem;
+  margin: 0 0 1.5rem 0;
   word-wrap: break-word;
   font-family: Roboto,sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -62,7 +62,7 @@
   font-weight: 400;
   line-height: 1.5;
   color: #212529;
-  width: 100%;
+  /* width: 100%; */
   text-align: right;
 }
 
@@ -70,5 +70,12 @@
 @media (min-width: 60rem) {
   .github-card {
     width: 50vw;
+    flex-direction: row;
+  }
+  .card-body-header h1{
+    text-align: left;
+  }
+  .card-body-sub-header{
+    text-align: left;
   }
 }

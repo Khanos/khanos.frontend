@@ -1,11 +1,8 @@
 .github-card-list {
-  padding: 2rem;
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: auto;
-  height: auto;
-  overflow-y: hidden;
+  padding: 0.5rem;
 }
 
 .loading {
@@ -25,6 +22,7 @@
   .github-card-list {
     overflow: scroll;
     height: 100vh;
+    padding: 2rem;
   }
 }
 
