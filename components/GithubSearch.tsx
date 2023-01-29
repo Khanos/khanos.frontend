@@ -19,6 +19,7 @@ export default function GithubSearch() {
   };
 
   const getCommitsData = (searchWord: string ) => {
+    if(searchWord.length < 4) return;
     setIsLoading(true);
     setGithubSearchWord(searchWord);
     fetch(`https://khanos-backend.herokuapp.com/api/v1/github/getCommits/${searchWord}`)
@@ -50,8 +51,8 @@ export default function GithubSearch() {
         />
       </div>
       <div className={styles['what-title']}>
-        <h2><span className={styles['foxy']}>G</span>itHub API connection</h2>
-        <h2><span className={styles['foxy']}>d</span>emostration</h2>
+        <h2><span className={styles['foxy']}>G</span>itHub API</h2>
+        <h2><span className={styles['foxy']}>D</span>emo</h2>
       </div>
       <div className={styles['what-form']}>
         <form onSubmit={handleSubmit}>

@@ -8,12 +8,6 @@
   padding: 2rem;
 }
 
-.outer {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 5rem;
-}
 .logo-name {
   margin-top: 2rem;
   width: fit-content;
@@ -52,12 +46,12 @@
 .second-row::first-letter {
   color: #f800ae;
 }
-.who-description-container {
+.description-container {
   margin-top: 4rem;
   max-width: 50%;
   text-align: left;
 }
-.who-description-container p {
+.description-container p {
   -webkit-font-smoothing: antialiased;
   color: #212529;
   font-family: Roboto,sans-serif;
@@ -68,50 +62,43 @@
   margin-top: 0;
   text-align: left;
 }
-.who-social-networks-links {
+
+.social-networks-links {
   margin-top: 4rem;
+  display: flex;
+  justify-content: space-between;
+  width: 18rem;
 }
+
 .link-container {
   margin: 5px;
 }
+
 .instagram:hover {
-  background: linear-gradient(
-    45deg,
-    #405de6,
-    #5851db,
-    #833ab4,
-    #c13584,
-    #e1306c,
-    #fd1d1d
-  );
   transform: translate(0px, 5px);
   -webkit-transform: translate(0px, 5px);
   box-shadow: 0px 1px 0px 0px;
   transition: all 0.5s ease-in-out;
 }
 .twitter:hover {
-  background: #1da1f2;
   transform: translate(0px, 5px);
   -webkit-transform: translate(0px, 5px);
   box-shadow: 0px 1px 0px 0px;
   transition: all 0.5s ease-in-out;
 }
 .linkedin:hover {
-  background: #0077b5;
   transform: translate(0px, 5px);
   -webkit-transform: translate(0px, 5px);
   box-shadow: 0px 1px 0px 0px;
   transition: all 0.5s ease-in-out;
 }
 .github:hover {
-  background: #333333;
   transform: translate(0px, 5px);
   -webkit-transform: translate(0px, 5px);
   box-shadow: 0px 1px 0px 0px;
   transition: all 0.5s ease-in-out;
 }
 .hackerrank:hover {
-  background: #2ec866;
   transform: translate(0px, 5px);
   -webkit-transform: translate(0px, 5px);
   box-shadow: 0px 1px 0px 0px;
@@ -129,7 +116,7 @@
     font-size: 1rem;
     letter-spacing: 5px;
   }
-  .who-description-container {
+  .description-container {
     width: 90%;
     max-width: unset;
     font-size: 4rem;

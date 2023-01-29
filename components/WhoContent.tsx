@@ -1,4 +1,6 @@
 import styles from '@/styles/Who.module.css'
+import Link from 'next/link'
+import Image from 'next/image'
 
 export default function WhoContent(){
   return (
@@ -10,7 +12,7 @@ export default function WhoContent(){
           <h2><span>Design & Develop</span></h2>
         </div>
       </div>
-      <div className={styles['who-description-container']}>
+      <div className={styles['description-container']}>
         <p>
           {`
           All human beings have characteristics that make us unique. But
@@ -46,49 +48,67 @@ export default function WhoContent(){
           `}
         </p>
       </div>
-      <div className={styles['who-social-networks-links']}>
-        {/* <div className="mb-2 outer">
-          <div
-            button
-            v-on:click="openLink('https://www.instagram.com/epilef.js')"
-            className="link-container instagram"
-            size="4em"
-          >
-            <i className="fab fa-instagram fa-3x"></i>
-          </div>
-          <div
-            button
-            v-on:click="openLink('https://twitter.com/EpilefRodriguez')"
-            className="link-container twitter"
-            size="4em"
-          >
-            <i className="fab fa-twitter fa-3x"></i>
-          </div>
-          <div
-            button
-            v-on:click="openLink('https://www.linkedin.com/in/khanos/')"
-            className="link-container linkedin"
-            size="4em"
-          >
-            <i className="fab fa-linkedin-in fa-3x"></i>
-          </div>
-          <div
-            button
-            v-on:click="openLink('https://github.com/khanos')"
-            className="link-container github"
-            size="4em"
-          >
-            <i className="fab fa-github fa-3x"></i>
-          </div>
-          <div
-            button
-            v-on:click="openLink('https://www.hackerrank.com/KhanosVe')"
-            className="link-container hackerrank"
-            size="4em"
-          >
-            <i className="fab fa-hackerrank fa-3x"></i>
-          </div>
-        </div> */}
+      <div className={styles['social-networks-links']}>
+        <Link
+          href='https://www.instagram.com/epilef.js'
+          className={`$styles['link-container] ${styles['instagram']}`}
+          target="_blank"
+        >
+          <Image 
+            src="/icons/instagram.png" 
+            alt="Image of of the logo of instagram"
+            width={40}
+            height={40}
+          />
+        </Link>
+        <Link
+          href='https://twitter.com/EpilefRodrigue'
+          className={`$styles['link-container] ${styles['twitter']}`}
+          target="_blank"
+        >
+          <Image 
+            src="/icons/twitter.png" 
+            alt="Image of of the logo of twitter"
+            width={40}
+            height={40}
+          />
+        </Link>
+        <Link
+          href='https://www.linkedin.com/in/khanos/'
+          className={`$styles['link-container] ${styles['linkedin']}`}
+          target="_blank"
+        >
+          <Image 
+            src="/icons/linkedin.png" 
+            alt="Image of of the logo of linkedin"
+            width={40}
+            height={40}
+          />
+        </Link>
+        <Link
+          href='https://github.com/khanos'
+          className={`$styles['link-container] ${styles['github']}`}
+          target="_blank"
+        >
+          <Image 
+            src="/icons/github.png" 
+            alt="Image of of the logo of github"
+            width={40}
+            height={40}
+          />
+        </Link>
+        <Link
+          href='https://www.hackerrank.com/KhanosVe'
+          className={`$styles['link-container] ${styles['hackerrank']}`}
+          target="_blank"
+        >
+          <Image 
+            src="/icons/hackerrank.png" 
+            alt="Image of of the logo of hackerrank"
+            width={40}
+            height={40}
+          />
+        </Link>
       </div>
     </section>
   )
