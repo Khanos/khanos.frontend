@@ -3,9 +3,10 @@ import Link from 'next/link'
 import { useAppContext } from '@/context/appContext';
 
 import styles from '@/styles/What.module.css'
+import { useEffect } from 'react';
 
 export default function GithubSearch() {
-  const { github, setCommitList } = useAppContext();
+  const { github, setCommitList, setGithubSearchWord, setIsLoading } = useAppContext();
   const handleSubmit = (e: React.SyntheticEvent) => {
     e.preventDefault();
     const target = e.target as typeof e.target & {
@@ -14,7 +15,13 @@ export default function GithubSearch() {
     if(!target.search) {
       return;
     }
-    fetch(`https://khanos-backend.herokuapp.com/api/v1/github/getCommits/${target.search}`)
+    getCommitsData(target.search.value);
+  };
+
+  const getCommitsData = (searchWord: string ) => {
+    setIsLoading(true);
+    setGithubSearchWord(searchWord);
+    fetch(`https://khanos-backend.herokuapp.com/api/v1/github/getCommits/${searchWord}`)
       .then((response) => response.json())
       .then((data) => {
         if (data.length > 0) {
@@ -22,8 +29,16 @@ export default function GithubSearch() {
         }
       }).catch((error) => {
         console.log(error);
+      }).finally(() => {
+        setIsLoading(false);
       });
   };
+
+  useEffect(() => {
+    if(github.commits.length === 0) getCommitsData('cheese');
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <> 
       <div className={styles['github-img']}>
@@ -48,6 +63,9 @@ export default function GithubSearch() {
             type="text"
             placeholder="e.g. cheese"
             name='search'
+            onKeyUp={(e) => {
+              if (e.key === "Enter") getCommitsData(e.currentTarget.value);
+            }}
           ></input>
           <div className={styles['input-description']}>
             {`The use of bad words is on your own discretion, it's pretty fun, though.`}

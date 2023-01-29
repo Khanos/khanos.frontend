@@ -29,8 +29,9 @@ footer, header, hgroup, menu, nav, section {
 }
 body {
 	line-height: 1;
-	height: 100vh;
+	min-height: 100vh;
 	background-color: #dbd9dc;
+	overflow-y: auto;
 }
 ol, ul {
 	list-style: none;
@@ -46,4 +47,15 @@ q:before, q:after {
 table {
 	border-collapse: collapse;
 	border-spacing: 0;
+}
+
+.foxy {
+	color: #f800ae;
+	font-weight: 600;
+}
+
+@media (min-width: 60rem) {
+	body {
+		overflow-y: hidden;
+	}
 }

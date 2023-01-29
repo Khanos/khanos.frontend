@@ -4,22 +4,32 @@ type sidebarType = {
   isOpen: boolean;
 };
 
-type githubCommitType = {
-  author: string;
+export type githubCommitType = {
+  id: string;
+  queryWord: string;
+  author: {
+    login: string;
+    avatar: string;
+  };
   commit: {
     message: string;
     date: string;
     url: string;
   };
-  id: string;
-  queryWord: string;
+  repo: {
+    name: string;
+    description: string;
+  };
 };
 
 type githubType = {
   commits: githubCommitType[];
+  searchWord: string;
 };
 
 type appContextType = {
+  loading: boolean;
+  setIsLoading: (loading: boolean) => void;
   sidebar: sidebarType;
   toggleSidebar: () => void;
   hideSidebar: () => void;
@@ -27,9 +37,12 @@ type appContextType = {
   github: githubType;
   addCommit: (commit: githubCommitType) => void;
   setCommitList: (commitList: githubCommitType[]) => void;
+  setGithubSearchWord: (searchWord: string) => void;
 };
 
 const appContextDefaultValues: appContextType = {
+  loading: false,
+  setIsLoading: () => {},
   sidebar: {
     isOpen: false,
   },
@@ -38,9 +51,11 @@ const appContextDefaultValues: appContextType = {
   showSidebar: () => {},
   github: {
     commits: [],
+    searchWord: '',
   },
   addCommit: () => {},
   setCommitList: () => {},
+  setGithubSearchWord: () => {},
 };
 
 const AppContext = createContext<appContextType>(appContextDefaultValues);
@@ -54,9 +69,12 @@ type Props = {
 };
 
 export function AppProvider({ children }: Props) {
+  const [loading, setLoading] = useState<boolean>(appContextDefaultValues.loading);
+  const setIsLoading = (loading: boolean) => {
+    setLoading(loading);
+  };
   // SideBar stuff
   const [sidebar, setSidebar] = useState<sidebarType>(appContextDefaultValues.sidebar);
-
   const toggleSidebar = () => {
     setSidebar((prev) => {
       return {
@@ -65,7 +83,6 @@ export function AppProvider({ children }: Props) {
       };
     });
   };
-
   const hideSidebar = () => {
     setSidebar((prev) => {
       return {
@@ -74,7 +91,6 @@ export function AppProvider({ children }: Props) {
       };
     });
   };
-
   const showSidebar = () => {
     setSidebar((prev) => {
       return {
@@ -86,7 +102,6 @@ export function AppProvider({ children }: Props) {
 
   // Github stuff
   const [github, setGithub] = useState<githubType>(appContextDefaultValues.github);
-
   const addCommit = (commit: githubCommitType) => {
     setGithub((prev) => {
       return {
@@ -95,7 +110,6 @@ export function AppProvider({ children }: Props) {
       };
     });
   };
-
   const setCommitList = (commitList: githubCommitType[]) => {
     setGithub((prev) => {
       return {
@@ -104,9 +118,19 @@ export function AppProvider({ children }: Props) {
       };
     });
   };
+  const setGithubSearchWord = (searchWord: string) => {
+    setGithub((prev) => {
+      return {
+        ...prev,
+        searchWord,
+      };
+    });
+  };
 
 
   const value = {
+    loading,
+    setIsLoading,
     // SideBar stuff
     sidebar,
     toggleSidebar,
@@ -116,6 +140,7 @@ export function AppProvider({ children }: Props) {
     github,
     addCommit,
     setCommitList,
+    setGithubSearchWord,
     // Other Stuff
   };
 

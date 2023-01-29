@@ -1,4 +1,5 @@
 import GithubSearch from '@/components/GithubSearch'
+import GithubCardList from '@/components/GithubCardList'
 
 import styles from '@/styles/What.module.css'
 
@@ -10,7 +11,7 @@ export default function WhatContent() {
           <GithubSearch />
         </div>
         <div className={styles['right-panel']}>
-          <h1>Right panel</h1>
+          <GithubCardList />
         </div>
       </section>
     </div>
