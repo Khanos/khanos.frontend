@@ -17,7 +17,7 @@ export default function HomeContent() {
         <div className={styles['main-title']}>
           <h1>Hi, i am a full stack web developer.</h1>
           <h1>and i<span className={styles['love']} > love </span>what i <span className={styles['me']}> do</span></h1>
-          <h1></h1><Link className={styles['main-button']} href="/what">start</Link>
+          <h1></h1><Link className={styles['main-button']} href="/what/github">start</Link>
         </div>
         <footer className={styles['home-footer']}>
           <p>shared on <a href="https://github.com/Khanos/khanos.github.io" target="_blank" rel="noreferrer">GitHub
