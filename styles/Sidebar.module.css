@@ -42,7 +42,7 @@
 .toggle {
   display: block;
   position: absolute;
-  left: 0.5rem;
+  left: 0.8rem;
   top: 0.8rem;
   background-color: transparent;
   border-color: transparent;
@@ -62,7 +62,9 @@
 }
 
 .toggle img {
-  width: 40px;
+  width: 3rem;
+  height: 2.5rem;
+  border-radius: 0.2rem;
 }
 
 .profile {
