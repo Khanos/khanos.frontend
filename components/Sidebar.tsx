@@ -1,11 +1,20 @@
 import Image from 'next/image'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 
 import styles from '@/styles/Sidebar.module.css'
 import { useAppContext } from '@/context/appContext';
+import { useEffect, useState } from 'react';
 
 export default function Sidebar() {
+  const router = useRouter();
   const { sidebar, toggleSidebar, hideSidebar } = useAppContext();
+  const [currentRoute, setCurrentRoute] = useState<string>(router.pathname);
+
+  useEffect (() => {
+    setCurrentRoute(router.pathname);
+  }, [router.pathname]);
+
   return (
   <>
     { !sidebar.isOpen &&
@@ -50,28 +59,28 @@ export default function Sidebar() {
       </div>
       <div className={styles['nav-menu']}>
         <ol className={styles['link-list']}>
-          <li className={styles['link']}>
+          <li className={`${styles['link']} ${currentRoute === '/' ? styles['link-active'] : ''}`}>
             <Link className={styles['text']} href="/" onClick={hideSidebar}>Home </Link>
             <Image src="/img/arrow-right.png" alt="Arrow right" width={20} height={20} />
           </li>
-          <li className={styles['link']}>
-            <Link className={styles['text']} href="/what" onClick={hideSidebar}>
+          <li className={`${styles['link']} ${currentRoute === '/what/github' ? styles['link-active'] : ''}`}>
+            <Link className={styles['text']} href="/what/github" onClick={hideSidebar}>
               <div>What i do </div>
               <div className={styles['text-subtitle']}>github demo</div>
             </Link>
             <Image src="/img/arrow-right.png" alt="Arrow right" width={20} height={20} />
           </li>
-          <li className={styles['link']}>
+          <li className={`${styles['link']} ${currentRoute === '/what/chatgpt' ? styles['link-active'] : ''}`}>
             <Link className={styles['text']} href="#" onClick={hideSidebar}>
               <div>What i do </div>
               <div className={styles['text-subtitle']}>chatGPT demo</div>
             </Link>
             <Image src="/img/arrow-right.png" alt="Arrow right" width={20} height={20} />
           </li>
-          <li className={styles['link']}>
+          {/* <li className={styles['link']}>
             <Link className={styles['text']} href="#" onClick={hideSidebar}>How i do it </Link>
             <Image src="/img/arrow-right.png" alt="Arrow right" width={20} height={20} />
-          </li>
+          </li> */}
           <li className={styles['link']}>
             <Link className={styles['text']} href="/who" onClick={hideSidebar}>Who am i </Link>
             <Image src="/img/arrow-right.png" alt="Arrow right" width={20} height={20} />

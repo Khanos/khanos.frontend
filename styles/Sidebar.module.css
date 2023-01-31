@@ -140,7 +140,7 @@
 }
 
 .link {
-  padding: 2vh 10px; 
+  padding: 1rem 0.2rem; 
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
@@ -151,9 +151,19 @@
   text-decoration: none;
   color: #4d4444;
   font-family: "Roboto-Thin", sans-serif;
-  font-size: 2rem;
+  font-size: 1.5rem;
   font-weight: bold;
   margin-right: 1rem;
+}
+
+.link:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.link-active > .text {
+  text-decoration: underline;
+  text-decoration-color: #f800ae;
 }
 
 .text-subtitle {

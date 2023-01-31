@@ -20,7 +20,7 @@
 
 @media (min-width: 60rem) {
   .github-card-list {
-    overflow: scroll;
+    overflow-Y: scroll;
     height: 100vh;
     padding: 2rem;
   }
