@@ -1,16 +1,68 @@
 .section-container-chatgpt {
-  max-width: calc(100vw - 2rem);
-  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   margin-top: 1rem;
-  height: calc(100vh - 2rem);
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+  padding-bottom: 1rem;
+}
+
+.chat-left-panel{
+  flex-basis: 40%;
+  padding: 0.5rem;
+}
+
+.chatgpt-img {
+  padding: 1rem;
+}
+
+.chatgpt-img img{
+  max-width: 10rem;
+  max-height: 10rem;
+  object-fit: cover;
+}
+
+.what-title {
+  margin-bottom: 2rem;
+}
+
+.what-title h2 {
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 2.5rem;
+  text-shadow: 0 0 6px #212529;
+}
+
+.what-title h2 .foxy {
+  color: #f800ae;
+  font-size: 3rem;
+  font-family: "Roboto", sans-serif;
+  font-weight: 900;
+  font-style: italic;
+  text-decoration: none;
+  margin-right: 5px;
+}
+
+.resume {
+  display: none;
+}
+
+.resume p {
+  padding: 0 3rem;
+  margin-bottom: 1rem;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #212529;
 }
 
 .chat-container {
   display: flex;
   flex-direction: column;
   height: 100%;
-  width: 100%;
+  max-width: calc(100vw - 2rem);
+  max-height: calc(100vh - 2rem);
   background-color: #f5f5f5;
   border-radius: 10px;
   overflow: hidden;
@@ -102,9 +154,24 @@
 
 @media (min-width: 60rem) {
   .section-container-chatgpt {
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    padding-bottom: 0;
+  }
+  .chat-left-panel {
+    padding: 2rem;
+    align-self: flex-start;
+  }
+  .chat-container {
     max-width: 40rem;
-    margin-top: 2rem;
-    height: calc(100vh - 4rem);
+  }
+  .chatgpt-img img{
+    max-width: 100%;
+    max-height: 100%;
+  }
+  .resume{
+    display: block;
   }
   .chat-message {
     margin: 0 2rem 2rem 2rem;
