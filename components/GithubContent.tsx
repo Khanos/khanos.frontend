@@ -3,7 +3,7 @@ import GithubCardList from '@/components/GithubCardList'
 
 import styles from '@/styles/What.module.css'
 
-export default function WhatContent() {
+export default function GithubContent() {
   return (
     <section className={styles['section-container-what']}>
       <div className={styles['left-panel']}>

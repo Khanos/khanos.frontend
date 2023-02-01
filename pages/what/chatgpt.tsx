@@ -2,9 +2,9 @@ import styles from '@/styles/What.module.css'
 
 import Header from '@/components/Header'
 import Sidebar from '@/components/Sidebar'
-import ChatgptContent from '@/components/GithubContent'
+import ChatgptContent from '@/components/ChatgptContent'
 
-export default function Github() {
+export default function Chatgpt() {
   return (
     <>
       <Header />

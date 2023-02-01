@@ -34,7 +34,7 @@ export default function SidebarLinks() {
           <Image src="/img/arrow-right.png" alt="Arrow right" width={20} height={20} />
         </li>
         <li className={getLinsClassName('/what/chatgpt')}>
-          <Link className={styles['text']} href="#" onClick={hideSidebar}>
+          <Link className={styles['text']} href="/what/chatgpt" onClick={hideSidebar}>
             <div>What i do </div>
             <div className={styles['text-subtitle']}>chatGPT demo</div>
           </Link>

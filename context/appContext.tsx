@@ -21,11 +21,21 @@ export type githubCommitType = {
     description: string;
   };
 };
-
 type githubType = {
   commits: githubCommitType[];
   searchWord: string;
 };
+
+export type chatGptMessageType = {
+  id: string;
+  message: string;
+  isUser: boolean;
+};
+export type chatGptType = {
+  messageList: chatGptMessageType[];
+  userMessage: string;
+  aiMessage: string;
+}
 
 type appContextType = {
   loading: boolean;
@@ -38,6 +48,10 @@ type appContextType = {
   addCommit: (commit: githubCommitType) => void;
   setCommitList: (commitList: githubCommitType[]) => void;
   setGithubSearchWord: (searchWord: string) => void;
+  chatGpt: chatGptType;
+  addChatGptMessage: (message: chatGptMessageType) => void;
+  setUserMessage: (message: string) => void;
+  setAiMessage: (message: string) => void;
 };
 
 const appContextDefaultValues: appContextType = {
@@ -56,6 +70,17 @@ const appContextDefaultValues: appContextType = {
   addCommit: () => {},
   setCommitList: () => {},
   setGithubSearchWord: () => {},
+  chatGpt: {
+    messageList: [{
+      id: '00001',
+      message: `Hi, I'm a chatbot that uses GPT-3 to answer your questions. Ask me anything!`,
+      isUser: false,
+    }],
+    userMessage: '',
+    aiMessage: '',
+  },
+  addChatGptMessage: () => {},
+  setUserMessage: () => {},
 };
 
 const AppContext = createContext<appContextType>(appContextDefaultValues);
@@ -127,6 +152,33 @@ export function AppProvider({ children }: Props) {
     });
   };
 
+  // ChatGpt stuff
+  const [chatGpt, setChatGpt] = useState<chatGptType>(appContextDefaultValues.chatGpt);
+  const addChatGptMessage = (message: chatGptMessageType) => {
+    setChatGpt((prev) => {
+      return {
+        ...prev,
+        messageList: [...prev.messageList, message],
+      };
+    });
+  };
+  const setUserMessage = (message: string) => {
+    setChatGpt((prev) => {
+      return {
+        ...prev,
+        userMessage: message,
+      };
+    });
+  };
+  const setAiMessage = (message: string) => {
+    setChatGpt((prev) => {
+      return {
+        ...prev,
+        aiMessage: message,
+      };
+    });
+  };
+
 
   const value = {
     loading,
@@ -141,6 +193,11 @@ export function AppProvider({ children }: Props) {
     addCommit,
     setCommitList,
     setGithubSearchWord,
+    // ChatGpt Stuff
+    chatGpt,
+    addChatGptMessage,
+    setUserMessage,
+    setAiMessage,
     // Other Stuff
   };
 
