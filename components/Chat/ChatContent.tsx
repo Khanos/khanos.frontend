@@ -7,7 +7,6 @@ export default function ChatContent() {
   const { chatGpt } = useAppContext();
   // Scroll to the bottom of the chat content
   useEffect(() => {
-    console.log('scrolling to bottom');
     const chatContent = document.getElementById('chatContainer');
     if (chatContent) chatContent.scrollTop = chatContent.scrollHeight;
   }, [chatGpt.messageList]);

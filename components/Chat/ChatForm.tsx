@@ -15,7 +15,7 @@ export default function ChatForm() {
       isUser: true,
     });
 
-    fetch(`https://khanos-backend.herokuapp.com/api/v1/openai/getResponse/${message.value}`)
+    fetch(`https://khanos-backend.herokuapp.com/api/v1/mocked/openai/getResponse/${message.value}`)
       .then((response) => response.json())
       .then((data) => {
         message.value = '';
