@@ -50,8 +50,6 @@ type appContextType = {
   setGithubSearchWord: (searchWord: string) => void;
   chatGpt: chatGptType;
   addChatGptMessage: (message: chatGptMessageType) => void;
-  setUserMessage: (message: string) => void;
-  setAiMessage: (message: string) => void;
 };
 
 const appContextDefaultValues: appContextType = {
@@ -80,7 +78,6 @@ const appContextDefaultValues: appContextType = {
     aiMessage: '',
   },
   addChatGptMessage: () => {},
-  setUserMessage: () => {},
 };
 
 const AppContext = createContext<appContextType>(appContextDefaultValues);
@@ -162,22 +159,6 @@ export function AppProvider({ children }: Props) {
       };
     });
   };
-  const setUserMessage = (message: string) => {
-    setChatGpt((prev) => {
-      return {
-        ...prev,
-        userMessage: message,
-      };
-    });
-  };
-  const setAiMessage = (message: string) => {
-    setChatGpt((prev) => {
-      return {
-        ...prev,
-        aiMessage: message,
-      };
-    });
-  };
 
 
   const value = {
@@ -196,8 +177,6 @@ export function AppProvider({ children }: Props) {
     // ChatGpt Stuff
     chatGpt,
     addChatGptMessage,
-    setUserMessage,
-    setAiMessage,
     // Other Stuff
   };
 
