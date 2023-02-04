@@ -1,41 +1,5 @@
 import { createContext, useContext, ReactNode, useState } from "react";
-
-type sidebarType = {
-  isOpen: boolean;
-};
-
-export type githubCommitType = {
-  id: string;
-  queryWord: string;
-  author: {
-    login: string;
-    avatar: string;
-  };
-  commit: {
-    message: string;
-    date: string;
-    url: string;
-  };
-  repo: {
-    name: string;
-    description: string;
-  };
-};
-type githubType = {
-  commits: githubCommitType[];
-  searchWord: string;
-};
-
-export type chatGptMessageType = {
-  id: string;
-  message: string;
-  isUser: boolean;
-};
-export type chatGptType = {
-  messageList: chatGptMessageType[];
-  userMessage: string;
-  aiMessage: string;
-}
+import { sidebarType, githubCommitType, githubType, chatGptMessageType, chatGptType, dalleType, dalleImageType } from "@/context/types";
 
 type appContextType = {
   loading: boolean;
@@ -50,6 +14,8 @@ type appContextType = {
   setGithubSearchWord: (searchWord: string) => void;
   chatGpt: chatGptType;
   addChatGptMessage: (message: chatGptMessageType) => void;
+  dalle: dalleType;
+  addImage: (image: dalleImageType) => void;
 };
 
 const appContextDefaultValues: appContextType = {
@@ -78,10 +44,13 @@ const appContextDefaultValues: appContextType = {
     aiMessage: '',
   },
   addChatGptMessage: () => {},
+  dalle: {
+    imageList: [],
+  },
+  addImage: () => {},
 };
 
 const AppContext = createContext<appContextType>(appContextDefaultValues);
-
 export function useAppContext() {
     return useContext(AppContext);
 }
@@ -89,7 +58,6 @@ export function useAppContext() {
 type Props = {
     children: ReactNode;
 };
-
 export function AppProvider({ children }: Props) {
   const [loading, setLoading] = useState<boolean>(appContextDefaultValues.loading);
   const setIsLoading = (loading: boolean) => {
@@ -160,6 +128,17 @@ export function AppProvider({ children }: Props) {
     });
   };
 
+  // Dalle stuff
+  const [dalle, setDalle] = useState<dalleType>(appContextDefaultValues.dalle);
+  const addImage = (image: dalleImageType) => {
+    setDalle((prev) => {
+      return {
+        ...prev,
+        imageList: [...prev.imageList, image],
+      };
+    });
+  };
+
 
   const value = {
     loading,
@@ -177,6 +156,9 @@ export function AppProvider({ children }: Props) {
     // ChatGpt Stuff
     chatGpt,
     addChatGptMessage,
+    // Dalle Stuff
+    dalle,
+    addImage,
     // Other Stuff
   };
 
