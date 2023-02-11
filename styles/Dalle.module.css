@@ -1,0 +1,199 @@
+.section-container-dalle {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  max-height: unset;
+}
+
+.top-panel {
+  flex-basis: 100%;
+  padding: 1rem;
+  align-self: flex-start;
+}
+
+.bottom-panel {
+  flex-basis: 1000%;
+  padding: 1rem;
+}
+
+.dalle-img {
+  padding: 1rem;
+}
+
+.dalle-img img{
+  max-width: 10rem;
+  max-height: 10rem;
+  object-fit: cover;
+}
+
+.what-title {
+  margin-bottom: 2rem;
+}
+
+.what-title h2 {
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 2.5rem;
+  text-shadow: 0 0 6px #212529;
+}
+
+.what-title h2 .foxy {
+  color: #f800ae;
+  font-size: 3rem;
+  font-family: "Roboto", sans-serif;
+  font-weight: 900;
+  font-style: italic;
+  text-decoration: none;
+  margin-right: 5px;
+}
+
+.resume {
+  display: none;
+}
+
+.resume p {
+  padding: 0 3rem;
+  margin-bottom: 1rem;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #212529;
+}
+
+.input-label {
+  margin-bottom: 0.5rem;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #212529;
+}
+
+.input-prompt {
+  -webkit-box-shadow: 0px 0px 0.2px 1px #f800ae;
+  -moz-box-shadow: 0px 0px 0.2px 1px #f800ae;
+  box-shadow: 0px 0px 0.2px 1px #f800ae;
+  opacity: 0.6;
+  height: 2rem;
+  width: 18rem;
+  margin: 0 auto;
+  padding: 0.375rem 0.75rem;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #495057;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+  transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+
+.input-description {
+  margin-top: 0.25rem;
+  margin-bottom: 0.5rem;
+  font-size: 80%;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #6c757d;
+}
+
+.main-button {
+  border: solid 2px #4d4444;
+  padding: 0.4rem 3.5rem;
+  display: inline-block;
+  margin-top: 1rem;
+  margin-bottom: 2rem;
+  text-decoration: none;
+  text-transform: uppercase;
+  font-family: "Roboto", sans-serif;
+  font-size: 1.52rem;
+  font-weight: 400;
+  color: #4d4444;
+  background-color: #d6d5d6;
+  cursor: pointer;
+  -webkit-box-shadow: 0px 0px 0.2px 1px #f800ae;
+  -moz-box-shadow: 0px 0px 0.2px 1px #f800ae;
+  box-shadow: 0px 0px 0.2px 1px #f800ae;
+  opacity: 0.6;
+}
+
+.gallery-container {
+  padding: 1rem;
+  background-color: #f5f5f5;
+  border-radius: 10px;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+  overflow-y: scroll;
+}
+
+.gallery {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 1rem;
+  height: calc(100vh - 4rem);
+  gap: 2rem;
+}
+
+.gallery-item {
+  flex-basis: 33%;
+  position: relative;
+  max-width: 300px;
+  /* Add card look with ronded corners and shadows */
+  border-radius: 10px;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+}
+
+.gallery-item-current {
+  transition: all 0.5s ease;
+  max-width: 300px;
+  max-height: 300px;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+}
+
+.gallery-item-current img {
+  max-width: 300px;
+  max-height: 300px;
+}
+
+.gallery-item-text {
+  padding: 0.5rem;
+  font-size: 0.9rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #ffffff;
+  text-align: left;
+  background-color: #212529;
+  opacity: 0.8;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+
+@media (min-width: 60rem) {
+  .section-container-dalle {
+    flex-direction: row;
+    max-height: 100vh;
+  }
+  .top-panel {
+    flex-basis: 40%;
+  }
+  
+  .bottom-panel {
+    flex-basis: 60%;
+  }
+  .resume{
+    display: block;
+  }
+  .gallery-item-current {
+    max-width: 450px;
+    max-height: 450px;
+  }
+  .gallery-item-current img {
+    max-width: 450px;
+    max-height: 450px;
+  }
+}

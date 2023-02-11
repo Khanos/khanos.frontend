@@ -144,11 +144,12 @@
 }
 
 .link {
-  padding: 1rem 0.2rem; 
+  padding: 0.5rem 0.2rem; 
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
   align-items: center;
+  min-height: 4rem;
 }
 
 .text {
@@ -156,6 +157,7 @@
   color: #4d4444;
   font-family: "Roboto-Thin", sans-serif;
   font-size: 1.5rem;
+  line-height: 1.5rem;
   font-weight: bold;
   margin-right: 1rem;
 }
@@ -172,6 +174,7 @@
 
 .text-subtitle {
   font-size: 1rem;
+  color: #979797;
 }
 
 .text-active {

@@ -1,11 +1,10 @@
 import styles from '@/styles/Chatgpt.module.css'
 import { parseISO, format } from 'date-fns';
-import type { chatGptMessageType, useAppContext } from '@/context/appContext'
+import type { chatGptMessageType } from '@/context/types'
 
 interface chatMessageProp {
   data: chatGptMessageType
 }
-
 export default function ChatMessage({ data }: chatMessageProp) {
   return (
     <div className={`${styles['chat-message']} ${

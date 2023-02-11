@@ -40,6 +40,13 @@ export default function SidebarLinks() {
           </Link>
           <Image src="/img/arrow-right.png" alt="Arrow right" width={20} height={20} />
         </li>
+        <li className={getLinsClassName('/what/dalle')}>
+          <Link className={styles['text']} href="/what/dalle" onClick={hideSidebar}>
+            <div>What i do </div>
+            <div className={styles['text-subtitle']}>Dall-E 2 demo</div>
+          </Link>
+          <Image src="/img/arrow-right.png" alt="Arrow right" width={20} height={20} />
+        </li>
         {/* <li className={getLinsClassName('/how')}>
           <Link className={styles['text']} href="#" onClick={hideSidebar}>How i do it </Link>
           <Image src="/img/arrow-right.png" alt="Arrow right" width={20} height={20} />
