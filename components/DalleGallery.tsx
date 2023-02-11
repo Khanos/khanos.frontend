@@ -8,7 +8,7 @@ export default function DalleGallery() {
   return (
     <div className={styles['gallery-container']}>
       <div className={styles['gallery']}>
-        {dalle.imageList.length > 0 && dalle.imageList.map((item, index) => {
+        {dalle.imageList.map((item, index) => {
           return (
             <DalleGalleryItem
               key={item.text}

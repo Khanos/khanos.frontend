@@ -4,7 +4,7 @@ import DalleGallery from '@/components/DalleGallery';
 import { useAppContext } from '@/context/appContext';
 
 export default function DalleContent() {
-  const { addImage, loading, setIsLoading } = useAppContext();
+  const { addImage, loading, setIsLoading, dalle } = useAppContext();
   const handleSubmit = (e: React.SyntheticEvent) => {
     e.preventDefault();
     const target = e.target as typeof e.target & {
@@ -75,9 +75,9 @@ export default function DalleContent() {
           </form>
         </div>
       </div>
-      <div className={styles['bottom-panel']}>
+      {dalle.imageList.length > 0 && <div className={styles['bottom-panel']}>
         <DalleGallery />
-      </div>
+      </div>}
         
     </section>
   )
