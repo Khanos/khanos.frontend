@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { useAppContext } from '@/context/appContext';
 import styles from '@/styles/Chatgpt.module.css'
 
@@ -42,6 +43,7 @@ export default function ChatForm() {
         setIsLoading(false);
       });
   } 
+
   return (
     <div className={styles['chat-input-container']}>
       <input name='message' type="text" autoComplete="off" className={styles['chat-input']} onKeyUp={(e) => {
@@ -49,7 +51,11 @@ export default function ChatForm() {
       }}/>
       <button className={styles['chat-button']} onClick={submitMessage}>{
         loading ?
-          'loading...'
+          <div className="snippet" data-title="dot-pulse">
+            <div className="stage">
+              <div className="dot-pulse"></div>
+            </div>
+          </div>
           : 
           'Send'
       }</button>
