@@ -16,6 +16,7 @@ export default function DalleGalleryItem({ text, image, index }: Props) {
         {text}
       </div>
       <Image
+        className={styles['gallery-item-image']}
         src={image}
         alt={text}
         width={index === 0 ? 450 : 300}

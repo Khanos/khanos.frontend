@@ -10,7 +10,7 @@ export default function DalleContent() {
     const target = e.target as typeof e.target & {
       prompt: { value: string };
     };
-    if(!target.prompt || target.prompt.value.length < 4) {
+    if(!target.prompt || target.prompt.value.length < 4 || loading) {
       return;
     }
     getImageData(target.prompt.value);
@@ -69,8 +69,14 @@ export default function DalleContent() {
             <div className={styles['input-description']}>
               {`The prompt is the text description of the image you want to generate.`}
             </div>
-            <button className={styles['main-button']} type="submit">
-              {loading ? 'Loading...' : 'Generate'}
+            <button className={styles['main-button']} type="submit" disabled={loading}>
+              {loading ? 
+                <div className="snippet" data-title="dot-pulse">
+                  <div className={styles['stage']}>
+                    <div className="dot-pulse"></div>
+                  </div>
+                </div>
+               : 'Generate'}
             </button>
           </form>
         </div>
