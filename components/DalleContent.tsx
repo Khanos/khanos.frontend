@@ -19,7 +19,7 @@ export default function DalleContent() {
   const getImageData = (prompt: string ) => {
     setIsLoading(true);
     console.log('prompt',prompt);
-    fetch(`http://localhost:3030/api/v1/openai/getImage/${prompt}`)
+    fetch(`https://khanos-backend.herokuapp.com/api/v1/openai/getImage/${prompt}`)
       .then((response) => response.json())
       .then((data) => {
         if (!data.error) {
