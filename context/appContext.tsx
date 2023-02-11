@@ -134,7 +134,7 @@ export function AppProvider({ children }: Props) {
     setDalle((prev) => {
       return {
         ...prev,
-        imageList: [...prev.imageList, image],
+        imageList: [image, ...prev.imageList],
       };
     });
   };

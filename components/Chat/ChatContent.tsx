@@ -1,4 +1,5 @@
-import { useAppContext, chatGptMessageType } from '@/context/appContext';
+import { useAppContext } from '@/context/appContext';
+import type { chatGptMessageType } from '@/context/types';
 import ChatMessage from '@/components/Chat/ChatMessage';
 import styles from '@/styles/Chatgpt.module.css'
 import { useEffect } from 'react';
@@ -17,5 +18,5 @@ export default function ChatContent() {
         <ChatMessage key={data.id} data={ data } />
       ))}
     </div>
-  )
+  );
 }

@@ -17,13 +17,16 @@ export default function DalleContent() {
   };
 
   const getImageData = (prompt: string ) => {
-    if(prompt.length < 4) return;
     setIsLoading(true);
-    fetch(`http://localhost:3030/api/v1/mocked/openai/getImage/${prompt}`)
+    console.log('prompt',prompt);
+    fetch(`http://localhost:3030/api/v1/openai/getImage/${prompt}`)
       .then((response) => response.json())
       .then((data) => {
         if (!data.error) {
-          addImage(data.output.b64jsonImage);
+          addImage({
+            text: data.input,
+            image: `data:image/png;base64,${data.output}`,
+          });
         }
       }).catch((error) => {
         console.log(error);
