@@ -178,6 +178,11 @@
   right: 0;
 }
 
+.gallery-item:hover .gallery-item-text {
+  display: none;
+  transition: all 0.5s ease;
+}
+
 @media (min-width: 60rem) {
   .section-container-dalle {
     flex-direction: row;
