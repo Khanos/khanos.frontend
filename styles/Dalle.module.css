@@ -145,8 +145,6 @@
 .gallery-item {
   flex-basis: 33%;
   position: relative;
-  max-width: 300px;
-  /* Add card look with ronded corners and shadows */
   border-radius: 10px;
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
   cursor: pointer;
@@ -158,9 +156,14 @@
   box-shadow: 0 0 10px 0 rgba(248, 0, 174, 0.1), 0 0 20px 0 rgba(248, 0, 174, 0.1);
 }
 
-.gallery-item-image {
-  max-width: 300px;
-  max-height: 300px;
+.gallery-item-current img {
+  width: 300px;
+  height: 300px;
+}
+
+.gallery-item img {
+  width: 300px;
+  height: 300px;
 }
 
 .gallery-item-text {
@@ -178,9 +181,14 @@
   right: 0;
 }
 
-.gallery-item:hover .gallery-item-text {
-  display: none;
-  transition: all 0.5s ease;
+.gallery-item-download {
+  padding: 0.5rem;
+  font-size: 1rem;
+}
+.gallery-item-download-loading {
+  padding: 0.5rem;
+  font-size: 1rem;
+  animation: rotate 1s linear infinite;
 }
 
 @media (min-width: 60rem) {
@@ -201,15 +209,12 @@
   .gallery {
     height: calc(100vh - 4rem);
   }
-  .gallery-item-current {
-    max-width: 450px;
-    max-height: 450px;
+  .gallery-item-current img {
+    width: 450px;
+    height: 450px;
   }
-  .gallery-item-text {
-    position: absolute;
-  }
-  .gallery-item-image {
-    max-width: 450px;
-    max-height: 450px;
+  .gallery-item-image img {
+    width: 300px;
+    height: 300px;
   }
 }
