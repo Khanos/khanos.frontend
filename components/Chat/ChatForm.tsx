@@ -1,20 +1,25 @@
 import { useEffect } from 'react';
-import { useAppContext } from '@/context/appContext';
 import styles from '@/styles/Chatgpt.module.css'
+import { useAppSelector, useAppDispatch } from '@/store/hooks'
+import { setLoading } from '@/store/slices/MainSlice';
+import { addChatGptMessage } from '@/store/slices/ChatGPTSlice';
 
 export default function ChatForm() {
-  const { addChatGptMessage, setIsLoading, loading } = useAppContext();
+  const dispatch = useAppDispatch();
+  const loading = useAppSelector((state) => state.main.loading);
   const submitMessage = () => {
     const message = document.getElementsByName('message')[0] as HTMLInputElement;
     if(!message || message.value === '') return;
     const messageValue = message.value;
     message.value = '';
-    setIsLoading(true);
-    addChatGptMessage({
+    console.log('loading before', loading);
+    dispatch(setLoading(true));
+    console.log('loading after', loading);
+    dispatch(addChatGptMessage({
       id: `${Date.now()}`,
       message: messageValue,
       isUser: true,
-    });
+    }));
 
     fetch(`https://khanos-backend.herokuapp.com/api/v1/openai/getResponse/${messageValue}`)
       .then((response) => response.json())
@@ -27,20 +32,20 @@ export default function ChatForm() {
           });
         }
         const response = data.output.split('\n').slice(2).join('<br />');
-        addChatGptMessage({
+        dispatch(addChatGptMessage({
           id: `${Date.now()}`,
           message: response,
           isUser: false,
-        });
-        setIsLoading(false);
+        }));
+        dispatch(setLoading(false));
       })
       .catch((error) => {
-        addChatGptMessage({
+        dispatch(addChatGptMessage({
           id: `${Date.now()}`,
           message: `I'm sorry, I don't understand that. Please try again.`,
           isUser: false,
-        });
-        setIsLoading(false);
+        }));
+        dispatch(setLoading(false));
       });
   } 
 

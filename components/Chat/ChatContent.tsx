@@ -1,5 +1,5 @@
 import { useAppContext } from '@/context/appContext';
-import type { chatGptMessageType } from '@/context/types';
+import type { chatGptMessageType } from '@/store/types';
 import ChatMessage from '@/components/Chat/ChatMessage';
 import styles from '@/styles/Chatgpt.module.css'
 import { useEffect } from 'react';

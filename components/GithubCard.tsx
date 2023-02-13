@@ -3,7 +3,7 @@ import { parseISO, format } from 'date-fns';
 import styles from '@/styles/Card.module.css'
 import { useAppContext } from '@/context/appContext';
 
-import type { githubCommitType } from '@/context/types';
+import type { githubCommitType } from '@/store/types';
 
 interface GithubCardProps {
   item: githubCommitType

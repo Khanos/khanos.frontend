@@ -1,5 +1,5 @@
 import { createContext, useContext, ReactNode, useState } from "react";
-import { sidebarType, githubCommitType, githubType, chatGptMessageType, chatGptType, dalleType, dalleImageType } from "@/context/types";
+import { sidebarType, githubCommitType, githubType, chatGptMessageType, chatGptType, dalleType, dalleImageType } from "@/store/types";
 
 type appContextType = {
   loading: boolean;

@@ -2,7 +2,7 @@ import styles from '@/styles/CardList.module.css'
 import { useAppContext } from '@/context/appContext';
 import GithubCard from '@/components/GithubCard';
 
-import type { githubCommitType } from '@/context/types';
+import type { githubCommitType } from '@/store/types';
 
 export default function GithubCardList() {
   const { github, loading } = useAppContext();

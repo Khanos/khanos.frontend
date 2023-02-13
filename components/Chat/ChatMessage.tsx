@@ -1,6 +1,6 @@
 import styles from '@/styles/Chatgpt.module.css'
 import { parseISO, format } from 'date-fns';
-import type { chatGptMessageType } from '@/context/types'
+import type { chatGptMessageType } from '@/store/types'
 
 interface chatMessageProp {
   data: chatGptMessageType
