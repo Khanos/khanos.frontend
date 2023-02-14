@@ -12,9 +12,7 @@ export default function ChatForm() {
     if(!message || message.value === '') return;
     const messageValue = message.value;
     message.value = '';
-    console.log('loading before', loading);
     dispatch(setLoading(true));
-    console.log('loading after', loading);
     dispatch(addChatGptMessage({
       id: `${Date.now()}`,
       message: messageValue,

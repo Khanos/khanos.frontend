@@ -1,16 +1,24 @@
 import Image from 'next/image'
 import styles from '@/styles/Sidebar.module.css'
-import { useAppContext } from '@/context/appContext';
 import SidebarLinks from './SidebarLinks';
-
+import { useAppSelector, useAppDispatch } from '@/store/hooks'
+import { toggleSidebar, hideSidebar } from '@/store/slices/SidebarSlice';
 
 export default function Sidebar() {
-  const { sidebar, toggleSidebar, hideSidebar } = useAppContext();
+  const dispatch = useAppDispatch();
+  const sidebar = useAppSelector((state) => state.sidebar.sidebar);
 
+  const handleSidebarToggle = () => {
+    dispatch(toggleSidebar());
+  };
+
+  const handleHideSidebar = () => {
+    dispatch(hideSidebar());
+  };
   return (
   <>
     { !sidebar.isOpen &&
-    <button type='button' className={styles.toggle} onClick={toggleSidebar} >
+    <button type='button' className={styles.toggle} onClick={handleSidebarToggle} >
       <Image 
       src="/img/menu-toggle.png" 
       alt="Toggle button for the side panel"
@@ -23,7 +31,7 @@ export default function Sidebar() {
     opacity: !sidebar.isOpen ? "0" : "1",
     display: !sidebar.isOpen ? "none" : "flex",
     }}> 
-      <button onClick={hideSidebar} type="button" aria-label="Close" className={styles.close}>
+      <button onClick={handleHideSidebar} type="button" aria-label="Close" className={styles.close}>
         <svg viewBox="0 0 16 16" width="1em" height="1em" focusable="false" role="img" aria-label="x" xmlns="http://www.w3.org/2000/svg" fill="currentColor"><g><path fillRule="evenodd" d="M11.854 4.146a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708-.708l7-7a.5.5 0 0 1 .708 0z"></path><path fillRule="evenodd" d="M4.146 4.146a.5.5 0 0 0 0 .708l7 7a.5.5 0 0 0 .708-.708l-7-7a.5.5 0 0 0-.708 0z"></path></g></svg>
       </button>
       <div className={styles.profile}>

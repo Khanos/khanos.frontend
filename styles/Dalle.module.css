@@ -135,7 +135,7 @@
 .gallery {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
+  justify-content: space-evenly;
   align-items: flex-start;
   padding: 1rem;
   height: auto;
@@ -144,6 +144,7 @@
 
 .gallery-item {
   flex-basis: 33%;
+  max-width: 300px;
   position: relative;
   border-radius: 10px;
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
@@ -152,38 +153,51 @@
 }
 
 .gallery-item-current {
+  flex-basis: 33%;
+  max-width: 300px;
   transition: all 0.5s ease;
-  box-shadow: 0 0 10px 0 rgba(248, 0, 174, 0.1), 0 0 20px 0 rgba(248, 0, 174, 0.1);
+  position: relative;
+  cursor: pointer;
+  border-radius: 10px;
+  transition: all 0.5s ease;
+  box-shadow: 0 0 10px 0 rgba(248, 0, 174, 0.6), 0 0 20px 0 rgba(248, 0, 174, 0.6);
 }
 
-.gallery-item-current img {
+.gallery-item-current img, .gallery-item img {
+  border-radius: 0 0 10px 10px;
   width: 300px;
   height: 300px;
-}
-
-.gallery-item img {
-  width: 300px;
-  height: 300px;
+  margin-bottom: -3px;
 }
 
 .gallery-item-text {
-  padding: 0.5rem;
+  align-items: center;
+  background-color: #4d4444;
+  border-radius: 10px 10px 0 0;
+  color: #ffffff;
+  display: flex;
   font-size: 0.9rem;
   font-weight: 400;
-  line-height: 1.5;
-  color: #ffffff;
-  text-align: left;
-  background-color: #4d4444;
-  opacity: 0.8;
-  position: relative;
-  top: 0;
+  height: 4rem;
+  justify-content: space-between;
   left: 0;
+  line-height: 1.5;
+  opacity: 0.8;
+  padding: 0.5rem;
+  position: relative;
   right: 0;
+  text-align: left;
+  top: 0;
+  /* keep the text in two lines */
+  width: 300px;
+  word-break: break-all;
+  word-wrap: break-word;
+
 }
 
 .gallery-item-download {
-  padding: 0.5rem;
-  font-size: 1rem;
+  padding: 0.1rem;
+  font-size: 1.5rem;
 }
 .gallery-item-download-loading {
   padding: 0.5rem;
@@ -208,13 +222,5 @@
   }
   .gallery {
     height: calc(100vh - 4rem);
-  }
-  .gallery-item-current img {
-    width: 450px;
-    height: 450px;
-  }
-  .gallery-item-image img {
-    width: 300px;
-    height: 300px;
   }
 }

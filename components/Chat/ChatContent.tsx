@@ -1,12 +1,11 @@
-import { useAppContext } from '@/context/appContext';
 import type { chatGptMessageType } from '@/store/types';
 import ChatMessage from '@/components/Chat/ChatMessage';
 import styles from '@/styles/Chatgpt.module.css'
 import { useEffect } from 'react';
+import { useAppSelector } from '@/store/hooks';
 
 export default function ChatContent() {
-  const { chatGpt } = useAppContext();
-  // Scroll to the bottom of the chat content
+  const chatGpt = useAppSelector((state) => state.chatGpt.chatGpt);
   useEffect(() => {
     const chatContent = document.getElementById('chatContainer');
     if (chatContent) chatContent.scrollTop = chatContent.scrollHeight;

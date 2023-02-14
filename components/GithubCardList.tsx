@@ -1,12 +1,11 @@
 import styles from '@/styles/CardList.module.css'
-import { useAppContext } from '@/context/appContext';
 import GithubCard from '@/components/GithubCard';
-
+import { useAppSelector } from '@/store/hooks';
 import type { githubCommitType } from '@/store/types';
 
 export default function GithubCardList() {
-  const { github, loading } = useAppContext();
-
+  const github = useAppSelector((state) => state.github.github);
+  const loading = useAppSelector((state) => state.main.loading);
   if (loading) {
     return (
       <div className={styles['github-card-list']}>

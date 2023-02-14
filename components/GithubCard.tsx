@@ -1,10 +1,8 @@
 import Image from 'next/image'
 import { parseISO, format } from 'date-fns';
 import styles from '@/styles/Card.module.css'
-import { useAppContext } from '@/context/appContext';
-
 import type { githubCommitType } from '@/store/types';
-
+import { useAppSelector } from '@/store/hooks';
 interface GithubCardProps {
   item: githubCommitType
 }
@@ -22,7 +20,7 @@ const findAndReplace = (string: string, word: string) => {
 }
 
 export default function GithubCard( { item }: GithubCardProps ) {
-  const { github } = useAppContext();
+  const github = useAppSelector((state) => state.github.github);
   return (
     <div className={styles['github-card']}>
        <Image 
