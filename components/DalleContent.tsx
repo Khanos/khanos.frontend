@@ -1,10 +1,14 @@
 import Image from 'next/image'
 import styles from '@/styles/Dalle.module.css'
 import DalleGallery from '@/components/DalleGallery';
-import { useAppContext } from '@/context/appContext';
+import { useAppSelector, useAppDispatch } from '@/store/hooks'
+import { setLoading } from '@/store/slices/MainSlice';
+import { addImage } from '@/store/slices/DalleSlice';
 
 export default function DalleContent() {
-  const { addImage, loading, setIsLoading, dalle } = useAppContext();
+  const dispatch = useAppDispatch();
+  const loading = useAppSelector((state) => state.main.loading)
+  const dalle = useAppSelector((state) => state.dalle.dalle);
   const handleSubmit = (e: React.SyntheticEvent) => {
     e.preventDefault();
     const target = e.target as typeof e.target & {
@@ -17,21 +21,21 @@ export default function DalleContent() {
   };
 
   const getImageData = (prompt: string ) => {
-    setIsLoading(true);
+    dispatch(setLoading(true));
     console.log('prompt',prompt);
     fetch(`https://khanos-backend.herokuapp.com/api/v1/openai/getImage/${prompt}`)
       .then((response) => response.json())
       .then((data) => {
         if (!data.error) {
-          addImage({
+          dispatch(addImage({
             text: data.input,
             image: `data:image/png;base64,${data.output}`,
-          });
+          }));
         }
       }).catch((error) => {
         console.log(error);
       }).finally(() => {
-        setIsLoading(false);
+        dispatch(setLoading(false));
       });
   };
   return (

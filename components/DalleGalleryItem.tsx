@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import styles from '@/styles/Dalle.module.css'
-import type { dalleImageType } from '@/context/types'
+import type { dalleImageType } from '@/store/types'
 import { useState } from 'react'
 
 interface Props {
@@ -25,7 +25,7 @@ export default function DalleGalleryItem({ text, image, index }: Props) {
   }
 
   return (
-    <div className={`${styles['gallery-item']} ${index === 0 ? styles['gallery-item-current'] : ''}`}>
+    <div className={`${index === 0 ? styles['gallery-item-current'] : styles['gallery-item']}`}>
       <div className={styles['gallery-item-text']}>
         {text}
         {loading ?

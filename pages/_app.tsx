@@ -1,6 +1,7 @@
 import '@/styles/globals.css'
 import type { AppProps } from 'next/app'
-import { AppProvider } from "@/context/appContext";
+import { Provider } from 'react-redux'
+import { store } from '@/store'
 import { useEffect } from 'react';
 
 export default function App({ Component, pageProps }: AppProps) {
@@ -15,8 +16,8 @@ export default function App({ Component, pageProps }: AppProps) {
     });
   }, []);
   return (
-    <AppProvider>
+    <Provider store={store}>
       <Component {...pageProps} />
-    </AppProvider>
+    </Provider>
   )
 }
