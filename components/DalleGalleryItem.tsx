@@ -11,15 +11,19 @@ interface Props {
 
 export default function DalleGalleryItem({ text, image, index }: Props) {
   const [loading, setIsLoading] = useState(false);
-  function downloadImage(base64String: string) {
+  function downloadImage(url: string) {
     setIsLoading(true);
     setTimeout(() => {
+      // Create a link element to download the image
       const link = document.createElement('a');
       link.download = 'image.png';
-      link.href = base64String;
+      link.href = url;
+      link.target = '_blank';
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
+      
+      
       setIsLoading(false);
     } , 1000);
   }
@@ -38,6 +42,8 @@ export default function DalleGalleryItem({ text, image, index }: Props) {
         className={styles['gallery-item-image']}
         src={image}
         alt={text}
+        placeholder="blur"
+        blurDataURL="/img/image-placeholder.png"
         width={1024}
         height={1024}
       />

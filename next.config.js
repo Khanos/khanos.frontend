@@ -12,6 +12,14 @@ const nextConfig = {
       {
         protocol: 'https',
         hostname: 'www.fillmurray.com',
+        port: '',
+        pathname: '**/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'oaidalleapiprodscus.blob.core.windows.net',
+        port: '',
+        pathname: '**/**',
       },
     ],
   },

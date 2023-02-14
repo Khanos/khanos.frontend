@@ -11,7 +11,7 @@ export default function DalleGallery() {
         {dalle.imageList.map((item, index) => {
           return (
             <DalleGalleryItem
-              key={item.text}
+              key={index}
               image={item.image}
               text={item.text}
               index={index}
