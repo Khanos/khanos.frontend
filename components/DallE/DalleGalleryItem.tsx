@@ -11,10 +11,10 @@ interface Props {
 
 export default function DalleGalleryItem({ text, image, index }: Props) {
   const [loading, setIsLoading] = useState(false);
+  
   function downloadImage(url: string) {
     setIsLoading(true);
     setTimeout(() => {
-      // Create a link element to download the image
       const link = document.createElement('a');
       link.download = 'image.png';
       link.href = url;
@@ -22,8 +22,6 @@ export default function DalleGalleryItem({ text, image, index }: Props) {
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
-      
-      
       setIsLoading(false);
     } , 1000);
   }

@@ -1,5 +1,5 @@
 import type { chatGptMessageType } from '@/store/types';
-import ChatMessage from '@/components/Chat/ChatMessage';
+import ChatMessage from '@/components/ChatGPT/ChatMessage';
 import styles from '@/styles/Chatgpt.module.css'
 import { useEffect } from 'react';
 import { useAppSelector } from '@/store/hooks';

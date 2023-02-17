@@ -1,6 +1,6 @@
 import Image from 'next/image'
-import ChatContent from '@/components/Chat/ChatContent'
-import ChatForm from '@/components/Chat/ChatForm'
+import ChatContent from '@/components/ChatGPT/ChatContent'
+import ChatForm from '@/components/ChatGPT/ChatForm'
 import styles from '@/styles/Chatgpt.module.css'
 
 export default function ChatgptContent() {

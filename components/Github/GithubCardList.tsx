@@ -1,5 +1,5 @@
 import styles from '@/styles/CardList.module.css'
-import GithubCard from '@/components/GithubCard';
+import GithubCard from '@/components/Github/GithubCard';
 import { useAppSelector } from '@/store/hooks';
 import type { githubCommitType } from '@/store/types';
 

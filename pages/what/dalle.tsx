@@ -2,7 +2,7 @@ import styles from '@/styles/What.module.css'
 
 import Header from '@/components/Header'
 import Sidebar from '@/components/Sidebar'
-import DalleContent from '@/components/DalleContent'
+import DalleContent from '@/components/DallE/DalleContent'
 
 export default function Dalle() {
   return (

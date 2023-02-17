@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import styles from '@/styles/Dalle.module.css'
-import DalleGallery from '@/components/DalleGallery';
+import DalleGallery from '@/components/DallE/DalleGallery';
 import { useAppSelector, useAppDispatch } from '@/store/hooks'
 import { setLoading } from '@/store/slices/MainSlice';
 import { addImage } from '@/store/slices/DalleSlice';

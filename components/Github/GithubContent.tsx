@@ -1,5 +1,5 @@
-import GithubSearch from '@/components/GithubSearch'
-import GithubCardList from '@/components/GithubCardList'
+import GithubSearch from '@/components/Github/GithubSearch'
+import GithubCardList from '@/components/Github/GithubCardList'
 
 import styles from '@/styles/What.module.css'
 

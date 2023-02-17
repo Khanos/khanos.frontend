@@ -17,7 +17,7 @@ export const dalleSlice = createSlice({
   initialState,
   reducers: {
     addImage: (state, action: PayloadAction<dalleImageType>) => {
-      state.dalle.imageList = [action.payload, ...state.dalle.imageList];
+      state.dalle.imageList = [...state.dalle.imageList, action.payload];
     },
   },
 })

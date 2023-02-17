@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import styles from '@/styles/Dalle.module.css';
-import DalleGalleryItem from '@/components/DalleGalleryItem';
+import DalleGalleryItem from '@/components/DallE/DalleGalleryItem';
 import { useAppSelector } from '@/store/hooks'
 
 export default function DalleGallery() {
@@ -8,7 +8,7 @@ export default function DalleGallery() {
   return (
     <div className={styles['gallery-container']}>
       <div className={styles['gallery']}>
-        {dalle.imageList.map((item, index) => {
+        {dalle.imageList.slice(0).reverse().map((item, index) => {
           return (
             <DalleGalleryItem
               key={index}
