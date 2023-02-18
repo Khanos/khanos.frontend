@@ -28,7 +28,7 @@ export default function ChatgptContent() {
         </div>
       </div>
       <div className={styles['chat-container']}>
-        <ChatContent />
+        <ChatContent/>
         <ChatForm />
       </div>
     </section>

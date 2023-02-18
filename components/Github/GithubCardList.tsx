@@ -1,11 +1,27 @@
 import styles from '@/styles/CardList.module.css'
 import GithubCard from '@/components/Github/GithubCard';
-import { useAppSelector } from '@/store/hooks';
+import { useAppSelector, useAppDispatch, useFetch } from '@/store/hooks';
 import type { githubCommitType } from '@/store/types';
+import { setCommitList } from '@/store/slices/GithubSlice';
+import { useEffect } from 'react';
 
-export default function GithubCardList() {
+interface Props {
+  searchWord: string
+}
+
+export default function GithubCardList({ searchWord }: Props) {
+  const dispatch = useAppDispatch();
   const github = useAppSelector((state) => state.github.github);
-  const loading = useAppSelector((state) => state.main.loading);
+  const { response, error, loading } = useFetch({
+    url: `https://khanos-backend.herokuapp.com/api/v1/github/getCommits/${searchWord}`,
+  });
+
+  useEffect(() => {
+    if (response.length > 0) {
+      dispatch(setCommitList(response));
+    }
+  }, [response, dispatch]);
+
   if (loading) {
     return (
       <div className={styles['github-card-list']}>
@@ -19,7 +35,7 @@ export default function GithubCardList() {
 
   return (
     <div className={styles['github-card-list']}>
-      {github.commits.length > 0 ? 
+      {github.commits.length > 0 || error ? 
         github.commits.map((item: githubCommitType) => (
           <GithubCard key={item.id} item={ item } />
         ))

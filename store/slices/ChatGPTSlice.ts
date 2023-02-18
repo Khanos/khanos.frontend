@@ -24,10 +24,16 @@ export const chatGptSlice = createSlice({
   reducers: {
     addChatGptMessage: (state, action: PayloadAction<chatGptMessageType>) => {
       state.chatGpt.messageList.push(action.payload);
+    },
+    setUserMessage: (state, action: PayloadAction<string>) => {
+      state.chatGpt.userMessage = action.payload;
+    },
+    setAiMessage: (state, action: PayloadAction<string>) => {
+      state.chatGpt.aiMessage = action.payload;
     }
   },
 });
 
-export const { addChatGptMessage } = chatGptSlice.actions;
+export const { addChatGptMessage, setUserMessage, setAiMessage } = chatGptSlice.actions;
 
 export default chatGptSlice.reducer;

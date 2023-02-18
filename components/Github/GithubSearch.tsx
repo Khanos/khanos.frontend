@@ -3,12 +3,17 @@ import Image from 'next/image'
 import Link from 'next/link'
 import styles from '@/styles/What.module.css'
 import { useAppSelector, useAppDispatch } from '@/store/hooks'
-import { setLoading } from '@/store/slices/MainSlice';
-import { setCommitList, setGithubSearchWord } from '@/store/slices/GithubSlice';
+import { setGithubSearchWord } from '@/store/slices/GithubSlice';
 
 export default function GithubSearch() {
   const dispatch = useAppDispatch();
   const github = useAppSelector((state) => state.github.github);
+  
+  const getCommitsData = (searchWord: string ) => {
+    if(searchWord.length < 4) return;
+    dispatch(setGithubSearchWord(searchWord));
+  };
+  
   const handleSubmit = (e: React.SyntheticEvent) => {
     e.preventDefault();
     const target = e.target as typeof e.target & {
@@ -18,23 +23,6 @@ export default function GithubSearch() {
       return;
     }
     getCommitsData(target.search.value);
-  };
-
-  const getCommitsData = (searchWord: string ) => {
-    if(searchWord.length < 4) return;
-    dispatch(setLoading(true));
-    dispatch(setGithubSearchWord(searchWord));
-    fetch(`https://khanos-backend.herokuapp.com/api/v1/github/getCommits/${searchWord}`)
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.length > 0) {
-          dispatch(setCommitList(data));
-        }
-      }).catch((error) => {
-        console.log(error);
-      }).finally(() => {
-        dispatch(setLoading(false));
-      });
   };
 
   useEffect(() => {
