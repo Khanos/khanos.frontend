@@ -24,7 +24,7 @@ export default function GithubSearch() {
     if(searchWord.length < 4) return;
     dispatch(setLoading(true));
     dispatch(setGithubSearchWord(searchWord));
-    fetch(`https://khanos-backend.herokuapp.com/api/v1/github/getCommits/${searchWord}`)
+    fetch(`https://khanos-backend.herokuapp.com/api/github/getCommits/${searchWord}`)
       .then((response) => response.json())
       .then((data) => {
         if (data.length > 0) {
