@@ -27,8 +27,8 @@ export default function GithubSearch() {
     fetch(`https://khanos-backend.herokuapp.com/api/github/getCommits/${searchWord}`)
       .then((response) => response.json())
       .then((data) => {
-        if (data.length > 0) {
-          dispatch(setCommitList(data));
+        if (data.total_count > 0) {
+          dispatch(setCommitList(data.items));
         }
       }).catch((error) => {
         console.log(error);

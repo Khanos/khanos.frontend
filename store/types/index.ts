@@ -9,14 +9,16 @@ export type githubCommitType = {
   queryWord: string;
   author: {
     login: string;
-    avatar: string;
+    avatar_url: string;
   };
   commit: {
     message: string;
-    date: string;
+    author: {
+      date: string;
+    };
     url: string;
   };
-  repo: {
+  repository: {
     name: string;
     description: string;
   };

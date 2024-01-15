@@ -21,11 +21,11 @@ const findAndReplace = (string: string, word: string) => {
 
 export default function GithubCard( { item }: GithubCardProps ) {
   const github = useAppSelector((state) => state.github.github);
-  return (
+  return item.author && (
     <div className={styles['github-card']}>
        <Image 
         className={styles['github-card-avatar']}
-        src={item.author.avatar || ''}
+        src={item.author.avatar_url || ''}
         alt="Author avatar"
         width={120}
         height={120}
@@ -34,7 +34,7 @@ export default function GithubCard( { item }: GithubCardProps ) {
         <div className={styles['card-body-header']}>
           <h1>Author: {item.author.login}</h1>
           <p className={styles['card-body-sub-header']}>
-            {item.repo.name}, {item.repo.description}
+            {item.repository.name}, {item.repository.description}
           </p>
         </div>
         <div className={styles['card-body-content']}>
@@ -45,7 +45,7 @@ export default function GithubCard( { item }: GithubCardProps ) {
           </p>
         </div>
         <div className={styles['card-body-footer']}>
-          <time dateTime={item.commit.date}>{format(parseISO(item.commit.date), 'LLLL d, yyyy, HH:MM')}</time> 
+          <time dateTime={item.commit.author.date}>{format(parseISO(item.commit.author.date), 'LLLL d, yyyy, HH:MM')}</time> 
         </div>
       </div>
     </div>
