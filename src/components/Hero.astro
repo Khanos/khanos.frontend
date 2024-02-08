@@ -1,0 +1,57 @@
+---
+import Badge from "@/components/Badge.astro"
+import LinkedInIcon from "@/components/icons/LinkedIn.astro"
+import MailIcon from "@/components/icons/Mail.astro"
+import SocialPill from "@/components/SocialPill.astro"
+import GithubIcon from "./icons/GitHub.astro"
+import Instagram from "./icons/Instagram.astro"
+import Hackerrank from "./icons/Hackerrank.astro"
+import { getLangFromUrl, useTranslations } from '../i18n/utils';
+
+type tLang = (str: any) => any;
+
+const lang = getLangFromUrl(Astro.url);
+const t:tLang = useTranslations(lang);
+---
+
+<div class="max-w-l">
+  <div class="flex justify-center mb-4">
+    <img
+      class="rounded-full shadow-lg size-16 md:size-20 lg:size-24 xl:size-28"
+      src="/hero.jpg"
+      alt={t('hero').profileAlt}
+    />
+  </div>
+  <h1
+    class="text-4xl font-bold tracking-tight text-gray-800 sm:text-5xl dark:text-white"
+  >
+    {t('hero').title}
+  </h1>
+  <p
+    class="mt-6 text-xl text-gray-800 dark:[&>strong]:text-[#F800AE] [&>strong]:text-[#F800AE] [&>strong]:font-semibold dark:text-gray-300"
+    set:html={t('hero').bio}
+  >
+  </p>
+  <nav class="flex flex-row flex-wrap justify-center gap-4 mt-8">
+    <SocialPill href={`mailto:${t('footer').mail}`}>
+      <MailIcon class="size-4" />
+      {t('hero').pills.mail}
+    </SocialPill>
+    <SocialPill href="https://linkedin.com/in/khanos">
+      <LinkedInIcon class="size-4 text-[#007acc]" />
+      {t('hero').pills.linkedin}
+    </SocialPill>
+    <SocialPill href="https://github.com/Khanos">
+      <GithubIcon class="size-4 text-black" />
+      {t('hero').pills.github}
+    </SocialPill>
+    <SocialPill href="https://github.com/Khanos">
+      <Hackerrank class="size-4" />
+      {t('hero').pills.hackerank}
+    </SocialPill>
+    <SocialPill href="https://www.instagram.com/epilef.js/">
+      <Instagram class="size-4 text-[#bc2a8d]" />
+      {t('hero').pills.instagram}
+    </SocialPill>
+  </nav>
+</div>
