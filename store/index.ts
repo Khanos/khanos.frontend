@@ -4,6 +4,7 @@ import sidebarReducer from '@/store/slices/SidebarSlice'
 import chatGptReducer from '@/store/slices/ChatGPTSlice'
 import githubReducer from '@/store/slices/GithubSlice'
 import dalleReducer from '@/store/slices/DalleSlice'
+import expreducer from '@/store/slices/ExpSlice'
 
 export const store = configureStore({
   reducer: {
@@ -12,6 +13,7 @@ export const store = configureStore({
     chatGpt: chatGptReducer,
     github: githubReducer,
     dalle: dalleReducer,
+    exp: expreducer, 
   },
 })
 
