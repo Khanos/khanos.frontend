@@ -1,0 +1,14 @@
+---
+const { href } = Astro.props
+---
+
+<a
+  href={href}
+  role="link"
+  class="inline-flex items-center justify-center gap-2 px-3 py-2 space-x-2 group max-w-fit rounded-xl
+    text-base text-md text-[#4D4444] bg-[#D6D5D6]/90 dark:text-[#F1EEEE] dark:bg-[#746D6E]/90  border border-[#4D4444] 
+    focus-visible:ring-yellow-500/80 
+    hover:bg-gray-800 hover:border-gray-900 hover:text-white focus:outline-none focus-visible:outline-none focus-visible:ring focus-visible:ring-white focus-visible:ring-offset-2 active:bg-black"
+>
+  <slot />
+</a>

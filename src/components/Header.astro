@@ -1,0 +1,110 @@
+---
+import ThemeToggle from "./ThemeToggle.astro"
+import { getLangFromUrl, useTranslations } from '../i18n/utils';
+
+type tLang = (str: any) => any;
+
+const lang = getLangFromUrl(Astro.url);
+const t:tLang = useTranslations(lang);
+
+const navItems = [
+  {
+    title: t('nav').home.title,
+    label: t('nav').home.label,
+    url: "/#home",
+  },
+  {
+    title: t('nav').exp.title,
+    label: t('nav').exp.label,
+    url: "/#experience",
+  },
+  {
+    title: t('nav').projects.title,
+    label: t('nav').projects.label,
+    url: "/#projects",
+  },
+  {
+    title: t('nav').about.title,
+    label: t('nav').about.label,
+    url: "/#about",
+  },
+  {
+    title: t('nav').contact.title,
+    label: t('nav').contact.label,
+    url: "/#contact",
+  },
+]
+---
+
+<header
+  class="fixed top-0 z-10 flex items-center justify-center w-full mx-auto mt-2"
+>
+  <nav
+    class="flex px-3 text-sm font-medium rounded-full text-gray-600 bg-gray-200/60 dark:bg-black/60  dark:text-gray-200 justify-center items-center"
+  >
+    {
+      navItems.map((link) => (
+        <a
+          class="relative block px-2 py-2 transition hover:text-[#F800AE] dark:hover:text-[#F800AE]"
+          aria-label={link.label}
+          href={link.url}
+        >
+          {link.title}
+        </a>
+      ))
+    }
+    <ThemeToggle />
+  </nav>
+</header>
+
+<script>
+  document.addEventListener("astro:page-load", () => {
+    const sections = document.querySelectorAll("section")
+    const navItems = document.querySelectorAll("header nav a")
+
+    const callback = (entries: any[]) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          navItems.forEach((item) => {
+            if (item.getAttribute("aria-label") == entry.target.id) {
+              item.classList.add("text-[#F800AE]")
+            } else {
+              item.classList.remove("text-[#F800AE]")
+            }
+          })
+        }
+      })
+    }
+
+    const observer = new IntersectionObserver(callback, {
+      root: null,
+      rootMargin: "0px",
+      threshold: 0.3,
+    })
+
+    sections.forEach((section) => {
+      observer.observe(section)
+    })
+
+    // Cleanup function
+    document.onvisibilitychange = () => {
+      if (document.visibilityState === "hidden") {
+        observer.disconnect()
+      }
+    }
+  })
+</script>
+
+<style>
+  nav {
+    animation: nav-shadown 1s linear both;
+    animation-timeline: scroll();
+    animation-range: 0 100px;
+  }
+
+  @keyframes nav-shadown {
+    to {
+      @apply shadow-lg ring-1 backdrop-blur ring-white/10;
+    }
+  }
+</style>
