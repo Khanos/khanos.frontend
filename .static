@@ -1,1 +1,0 @@
-dokku config:set khanos-frontend NGINX_ROOT=dist NGINX_DEFAULT_REQUEST=index.html
