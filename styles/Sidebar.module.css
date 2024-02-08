@@ -12,6 +12,11 @@
   position: absolute;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
   border: 1px solid rgba(0, 0, 0, 0.2);
+  animation: slideInFromLeft 0.2s ease-out;
+}
+
+.sidebarClosed {
+  animation: slideOutToLeft 0.2s ease-in;
 }
 
 .close {
@@ -59,6 +64,7 @@
   cursor: pointer;
   left: 0.6rem;
   top: 0.6rem;
+  transition: all 0.5s ease-in-out;
 }
 
 .toggle img {
@@ -189,5 +195,27 @@
   }
   .toggle {
     display: block;
+  }
+}
+
+@keyframes slideInFromLeft {
+  0% {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideOutToLeft {
+  0% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(-100%);
+    opacity: 0;
   }
 }

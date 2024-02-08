@@ -63,11 +63,13 @@
 }
 
 .input-label {
-  margin-bottom: 0.5rem;
+  padding-bottom: 0.5rem;
   font-size: 1rem;
   font-weight: 400;
   line-height: 1.5;
   color: #212529;
+  max-width: 30rem;
+  margin: 0 auto;
 }
 
 .input-search {

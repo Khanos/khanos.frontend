@@ -5,19 +5,7 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'avatars.githubusercontent.com',
-        port: '',
-        pathname: '**/**',
-      },
-      {
-        protocol: 'https',
-        hostname: 'www.fillmurray.com',
-        port: '',
-        pathname: '**/**',
-      },
-      {
-        protocol: 'https',
-        hostname: 'oaidalleapiprodscus.blob.core.windows.net',
+        hostname: '*',
         port: '',
         pathname: '**/**',
       },

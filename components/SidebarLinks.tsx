@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
 import styles from '@/styles/Sidebar.module.css'
-import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useAppDispatch } from '@/store/hooks';
 import { hideSidebar } from '@/store/slices/SidebarSlice';
+import Arrow from './Arrow';
 
 
 export default function SidebarLinks() {
@@ -29,36 +29,25 @@ export default function SidebarLinks() {
       <ol className={styles['link-list']}>
         <li className={getLinsClassName('/')}>
           <Link className={styles['text']} href="/" onClick={handleHideSidebar}>Home </Link>
-          <Image src="/img/arrow-right.png" alt="Arrow right" width={20} height={20} />
+          <Arrow />
         </li>
         <li className={getLinsClassName('/what/github')}>
           <Link className={styles['text']} href="/what/github" onClick={handleHideSidebar}>
             <div>What i do </div>
             <div className={styles['text-subtitle']}>github demo</div>
           </Link>
-          <Image src="/img/arrow-right.png" alt="Arrow right" width={20} height={20} />
+          <Arrow />
         </li>
-        <li className={getLinsClassName('/what/chatgpt')}>
-          <Link className={styles['text']} href="/what/chatgpt" onClick={handleHideSidebar}>
-            <div>What i do </div>
-            <div className={styles['text-subtitle']}>chatGPT demo</div>
+        <li className={getLinsClassName('/what/projects')}>
+          <Link className={styles['text']} href="/Exp" onClick={handleHideSidebar}>
+            <div>What i did </div>
+            <div className={styles['text-subtitle']}>experience</div>
           </Link>
-          <Image src="/img/arrow-right.png" alt="Arrow right" width={20} height={20} />
+          <Arrow />
         </li>
-        <li className={getLinsClassName('/what/dalle')}>
-          <Link className={styles['text']} href="/what/dalle" onClick={handleHideSidebar}>
-            <div>What i do </div>
-            <div className={styles['text-subtitle']}>Dall-E 2 demo</div>
-          </Link>
-          <Image src="/img/arrow-right.png" alt="Arrow right" width={20} height={20} />
-        </li>
-        {/* <li className={getLinsClassName('/how')}>
-          <Link className={styles['text']} href="#" onClick={handleHideSidebar}>How i do it </Link>
-          <Image src="/img/arrow-right.png" alt="Arrow right" width={20} height={20} />
-        </li> */}
         <li className={getLinsClassName('/who')}>
           <Link className={styles['text']} href="/who" onClick={handleHideSidebar}>Who am i </Link>
-          <Image src="/img/arrow-right.png" alt="Arrow right" width={20} height={20} />
+          <Arrow />
         </li>
       </ol>
     </div>

@@ -15,36 +15,24 @@ export default function WhoContent(){
       <div className={styles['description-container']}>
         <p>
           {`
-          All human beings have characteristics that make us unique. But
-          contrary to what most people thinks, these features do not come
-          from a gift, but are the product of sustained effort, many
-          mistakes, experience, principles and values. I do not know
-          everything and i never will, but I have always shown interest in
-          acquiring knowledge through experience and self learning.`}
+          Every individual possesses unique traits, shaped not by inherent gifts but by persistent effort, learning from mistakes, experiences, and core principles. While I don't claim to know everything, I embrace a lifelong journey of acquiring knowledge through experience and self-learning.`}
         </p>
 
         <p>
           {`
-          I always tilt toward the challenges, so I decided to study
-          mathematical sciences. I've learned a lot about solving problems
-          and see things from another perspective. This gave me the
-          advantage to enter the world of information technologies.
+          Driven by a fascination for challenges, I pursued mathematical sciences, gaining problem-solving skills and a different perspective. This journey seamlessly led me into the realm of information technologies.
           `}
         </p>
 
         <p>
           {`
-          Programing has a lot to do with the math world, Getting the most
-          harmonious and elegant way to solve a problem. Everyone can
-          program, but there is something very few can dominate and is the
-          power of abstracting the problems to obtain a solution.
+          In programming, akin to the world of math, I find beauty in crafting the most harmonious and elegant solutions to problems. Beyond mere coding, I recognize the power of abstracting problems to unveil solutions—a skill mastered by a select few.
           `}
         </p>
 
         <p>
           {`
-          I am unique because I understand that success is not an accident
-          but the result of a constant and conscious effort.
+          My uniqueness lies in acknowledging that success is a deliberate outcome, forged through continual and conscious efforts.
           `}
         </p>
       </div>

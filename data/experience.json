@@ -1,0 +1,147 @@
+[
+  {
+    "avatar": "https://upload.wikimedia.org/wikipedia/en/thumb/2/20/MercadoLibre.svg/150px-MercadoLibre.svg.png",
+    "avatarAlt": "MercadoLibre Logo",
+    "avatarColor": "#ffe600",
+    "avatarSize": {
+      "width": "100",
+      "height": "60"
+    },
+    "title": "Software Engineer",
+    "company": "Mercado Libre S.L.R.",
+    "location": "Remote - Latam",
+    "description": "As a software developer at MercadoLibre, I contributed to the dynamic and challenging MercadoShops project, enhancing the platform with innovative solutions. Being part of MercadoLibre went beyond contributing to e-commerce success; it meant impacting millions and fostering my professional and technical growth in an innovative and excellent environment.",
+    "tech": ["#Javascript", "#ReacJs", "#Redux", "#Flox", "#NodeJS", "#Express", "#Jest", "#Sass", "#Github", "#Figma", "#Docker", "#Scrum"],
+    "date": "2022-2023",
+    "link": "https://www.mercadolibre.com/"
+  },
+  {
+    "avatar": "https://img1.wsimg.com/isteam/ip/174cfce7-b1ae-476e-81ee-5c8b1c03a8fa/CENNORA_Logo_H.png/:/rs=h:76,cg:true,m/qt=q:95",
+    "avatarAlt": "Cenora Company Logo",
+    "avatarColor": "#000",
+    "avatarSize": {
+      "width": "260",
+      "height": "30"
+    },
+    "title": "Software Engineer",
+    "company": "CENORA LLC.",
+    "location": "Remote - Latam",
+    "description": "At Cenora, a startup revolutionizing content management, I developed a web scraper for a leading company, extracting and organizing data into templates. Additionally, contributed to the Microsites project, overseeing frontend, backend, and database aspects, ensuring effective creation and management of micro sites with advanced tracking capabilities.",
+    "tech": [
+      "#Javascript",
+      "#NodeJS",
+      "#Puppeteer",
+      "#Vuejs",
+      "#quasar",
+      "#ApexCharts",
+      "#Express",
+      "#MongoDB",
+      "#Docker",
+      "#Github"
+    ],
+    "date": "2022",
+    "link": "https://cenora.com/"
+  },
+  {
+    "avatar": "https://derfdice.com/img/derfdice_transparent_no_text.png",
+    "avatarAlt": "DerfDice Logo - a couple of blue dice with a white background",
+    "avatarColor": "#d2e1ff",
+    "avatarSize": {
+      "width": "120",
+      "height": "50"
+    },
+    "title": "Frontend Developer",
+    "company": "ITPex Studio LLC.",
+    "location": "Remote - Latam",
+    "description": "Derfdice: A project I've worked on! 🎲 Simplifying creativity for Game Masters. Generate random items effortlessly, from names to mysterious taverns. With Derfdice, streamline creativity and focus on weaving an amazing story.",
+    "tech": [
+      "#Javascript",
+      "#NodeJS",
+      "#VueJs",
+      "#Vuetify",
+      "#Vuex",
+      "#Vue-Router",
+      "#Express",
+      "#JQuery",
+      "#Bootstrap",
+      "#Stripe"
+    ],
+    "date": "2021 - 2022",
+    "link": "https://derfdice.com/#/Home"
+  },
+  {
+    "avatar": "https://calvaryrobotics.com/wp-content/uploads/2019/09/Calvary_Robotics_Logo_email.png",
+    "avatarAlt": "Calvary Robotics Logo - a green ball with a white robot inside it.",
+    "avatarColor": "#1aba78",
+    "avatarSize": {
+      "width": "220",
+      "height": "40"
+    },
+    "title": "Full-Stack Developer",
+    "company": "Calvary Robotics LLC.",
+    "location": "Remote - Latam",
+    "description": "As a Software Engineer, I've played a key role in various projects, focusing on automating internal business processes. Leveraging Microsoft's ASP.Net for robust Backend development, I integrated it seamlessly with a dynamic JavaScript Frontend, all supported by a structured Microsoft SQL database. This holistic approach ensures efficient and streamlined solutions.",
+    "tech": [
+      "Javascript", "DotNet", "ActiveDirectory", "JQuery", "Bootstrap", "SailsJs", "NodeJS", "Express", "MicrosoftSQL"
+    ],
+    "date": "2020-2021",
+    "link": "https://calvaryrobotics.com/"
+  },
+  {
+    "avatar": "https://www.lookatme-ventures.com/wp-content/uploads/2020/08/lp-logo.png",
+    "avatarAlt": "LookAtMe Ventures Logo - a light blue and black letters, with the 'A' in 'At' being a camera lens.",
+    "avatarColor": "#ebffff",
+    "avatarSize": {
+      "width": "180",
+      "height": "40"
+    },
+    "title": "Full-Stack Engineer",
+    "company": "Look At Me Ventures LLC.",
+    "location": "Remote - Latam",
+    "description": "As a Full-Stack Web Developer at LookAtMe Ventures, I led the development of vital apps: Data-Collector, a NodeJs/Express server employing Test-Driven development for data aggregation from major marketing services, and I-BOARDS, tracking KPIs for digital marketing campaigns across diverse channels.",
+    "tech": [
+      "#GoogleAPI",
+      "#FacebookAPI",
+      "#TwitterAPI",
+      "#LinkedinAPI",
+      "#SailsJs",
+      "#NodeJS",
+      "#Express",
+      "#MicrosoftSQL"
+    ],
+    "date": "2017 - 2021",
+    "link": "https://www.lookatme-ventures.com/"
+  },
+  {
+    "avatar": "",
+    "avatarAlt": "",
+    "avatarColor": "",
+    "avatarSize": {
+      "width": "120",
+      "height": "90"
+    },
+    "title": "",
+    "company": "",
+    "location": "",
+    "description": "",
+    "tech": [],
+    "date": "",
+    "link": ""
+  },
+  {
+    "avatar": "",
+    "avatarAlt": "",
+    "avatarColor": "",
+    "avatarSize": {
+      "width": "120",
+      "height": "90"
+    },
+    "title": "",
+    "company": "",
+    "location": "",
+    "description": "",
+    "tech": [],
+    "date": "",
+    "link": ""
+  }
+]

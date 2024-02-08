@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useCallback } from 'react';
 import Image from 'next/image'
 import Link from 'next/link'
 import styles from '@/styles/What.module.css'
@@ -9,6 +9,7 @@ import { setCommitList, setGithubSearchWord } from '@/store/slices/GithubSlice';
 export default function GithubSearch() {
   const dispatch = useAppDispatch();
   const github = useAppSelector((state) => state.github.github);
+  const commits = useAppSelector((state) => state.github.github.commits);
   const handleSubmit = (e: React.SyntheticEvent) => {
     e.preventDefault();
     const target = e.target as typeof e.target & {
@@ -20,7 +21,7 @@ export default function GithubSearch() {
     getCommitsData(target.search.value);
   };
 
-  const getCommitsData = (searchWord: string ) => {
+  const getCommitsData = useCallback((searchWord: string ) => {
     if(searchWord.length < 4) return;
     dispatch(setLoading(true));
     dispatch(setGithubSearchWord(searchWord));
@@ -35,12 +36,11 @@ export default function GithubSearch() {
       }).finally(() => {
         dispatch(setLoading(false));
       });
-  };
+  }, [dispatch]);
 
   useEffect(() => {
-    if(github.commits.length === 0) getCommitsData('cheese');
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    if(commits.length === 0) getCommitsData('cheese');
+  }, [commits, getCommitsData]);
 
   return (
     <> 
@@ -59,7 +59,7 @@ export default function GithubSearch() {
       <div className={styles['what-form']}>
         <form onSubmit={handleSubmit}>
           <div className={styles['input-label']}>
-            {`Lets search some FUN words for the most recent commits for public repos on GitHub.`}
+            {`Let's search for some FUN words in the most recent commits for public repositories on GitHub`}
           </div>
           <input
             className={styles['input-search']}
@@ -71,7 +71,7 @@ export default function GithubSearch() {
             }}
           ></input>
           <div className={styles['input-description']}>
-            {`The use of bad words is on your own discretion, it's pretty fun, though.`}
+            {`The use of Inappropriate language is at your own discretion; it's pretty fun, though.`}
           </div>
           <button className={styles['main-button']} type="submit">
             SEARCH
@@ -80,10 +80,10 @@ export default function GithubSearch() {
       </div>
       <div className={`${styles['explanation']}`}>
         <p>
-          This would make a http request to the backend server where all the magic happens, then returns a json response.
+          This will initiate an HTTP request to the backend server, where all the magic happens, and then return a JSON response.
         </p>
-        <p>Which would render those cards on the right.</p>
-        <p>Check Out:</p>
+        <p>This will render those cards on the right side.</p>
+        <p>Check it Out:</p>
         <ol>
           <li>
             BackEnd api.

@@ -48,3 +48,28 @@ export type dalleImageType = {
   text: string;
   image: string;
 };
+
+// experience types
+export type experienceType = {
+  name: string;
+  error: boolean;
+  message: string;
+  data?: any;
+};
+
+export type expItemType = {
+  avatar: string,
+  avatarAlt: string,
+  avatarColor: string,
+  avatarSize: {
+    width: number,
+    height: number,
+  },
+  title: string,
+  company: string,
+  location: string,
+  description: string,
+  tech: string[],
+  date: string,
+  link: string,
+};
