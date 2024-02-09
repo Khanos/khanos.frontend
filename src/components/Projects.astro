@@ -25,7 +25,7 @@ const lang = getLangFromUrl(Astro.url);
 const t:tLang = useTranslations(lang);
 
 const PROJECTS:ProjectType[] = t('sections').projects.projectsList;
-const images = import.meta.glob<{ default: ImageMetadata }>('/src/assets/images/**/**.{jpeg,jpg,png,gif}');
+const images = import.meta.glob<{ default: ImageMetadata }>('/src/assets/images/projects/**.{jpeg,jpg,png,gif}');
 ---
 
 <div class="flex flex-col gap-y-16">
