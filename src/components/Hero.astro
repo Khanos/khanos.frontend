@@ -1,4 +1,5 @@
 ---
+import { Image } from 'astro:assets';
 import LinkedInIcon from "@/components/icons/LinkedIn.astro"
 import MailIcon from "@/components/icons/Mail.astro"
 import SocialPill from "@/components/SocialPill.astro"
@@ -6,7 +7,7 @@ import GithubIcon from "./icons/GitHub.astro"
 import Instagram from "./icons/Instagram.astro"
 import Hackerrank from "./icons/Hackerrank.astro"
 import { getLangFromUrl, useTranslations } from '../i18n/utils';
-
+import localProfileImage from '../assets/images/hero.jpg';
 type tLang = (str: any) => any;
 
 const lang = getLangFromUrl(Astro.url);
@@ -15,10 +16,12 @@ const t:tLang = useTranslations(lang);
 
 <div class="max-w-l">
   <div class="flex justify-center mb-4">
-    <img
+    <Image
       class="rounded-full shadow-lg size-16 md:size-20 lg:size-24 xl:size-28"
-      src="/hero.jpg"
+      src={localProfileImage}
       alt={t('hero').profileAlt}
+      width={112}
+      height={112}
     />
   </div>
   <h1
