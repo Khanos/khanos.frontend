@@ -15,6 +15,10 @@ export const ui = {
         title: `Khanos && Chill 🤓`,
         description: `Epilef Rodriguez's personal website. Here you can find information about my experience, projects, and contact details.`,
       },
+      blog: {
+        title: `BlogTime 🤓`,
+        description: `Epilef Rodriguez's personal blog. Here you can find articles about technology, programming, and other interesting topics.`,
+      },
     },
     nav: {
       home: {
@@ -33,9 +37,9 @@ export const ui = {
         title: 'About',
         label: 'about',
       },
-      contact: {
-        title: 'Contact',
-        label: 'contact',
+      blog: {
+        title: 'Blog',
+        label: 'blog',
       },
     },
     sections: {
@@ -90,6 +94,10 @@ export const ui = {
       home: {
         title: `Khanos && Chill 🤓`,
         description: `Sitio web personal de Epilef Rodriguez. Aquí puedes encontrar información sobre mi experiencia, proyectos y detalles de contacto.`,
+      },
+      blog: {
+        title: `BlogTime 🤓`,
+        description: `Blog personal de Epilef Rodriguez. Aquí puedes encontrar artículos sobre tecnología, programación y otros temas interesantes.`,
       },
     },
     nav: {

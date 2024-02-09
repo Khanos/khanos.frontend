@@ -1,0 +1,24 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import SectionContainer from "@/components/SectionContainer.astro";
+import BlogList from "@/components/BlogList.astro";
+import { getCollection } from "astro:content";
+import { getLangFromUrl, useTranslations } from '../i18n/utils';
+
+type tLang = (str: any) => any;
+
+const lang = getLangFromUrl(Astro.url);
+const t:tLang = useTranslations(lang);
+const posts = await getCollection("posts");
+---
+
+<Layout
+  title={t('layouts').blog.title}
+  description={t('layouts').blog.description}
+>
+  <main class="px-4">
+    <SectionContainer id="blog" class="py-16 md:py-36">
+      <BlogList posts={posts} />
+    </SectionContainer>
+  </main>
+</Layout>
