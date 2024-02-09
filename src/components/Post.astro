@@ -1,0 +1,41 @@
+---
+import { type CollectionEntry } from "astro:content";
+import { Image } from "astro:assets";
+import LinkInline from "./LinkInline.astro";
+
+type Props = {
+  post: CollectionEntry<"posts">;
+};
+
+const { post } = Astro.props;
+---
+
+<article>
+  <a
+    href={`/blog/${post.slug}`}
+    aria-label={`Read more about ${post.data.title}`}
+  >
+    <Image
+      src={post.data.image}
+      alt={post.data.title}
+      width={600}
+      height={600 / 1.5}
+      format="webp"
+      class="rounded-2xl shadow-xl mb-4 aspect-thumbnail object-cover"
+    />
+  </a>
+  <div
+    class="text-2xl text-black/80 dark:text-white mb-4 font-semibold inline-block"
+  >
+    {post.data.title}
+  </div>
+  <p class="text-gray-600 dark:text-gray-400 mb-9 line-clamp-3">
+    {post.body}
+  </p>
+  <a href={`/blog/${post.slug}`}>
+    
+  </a>
+  <LinkInline href={`/blog/${post.slug}`} aria-label={`Read more about ${post.data.title}`}>
+    Read more
+  </LinkInline>
+</article>

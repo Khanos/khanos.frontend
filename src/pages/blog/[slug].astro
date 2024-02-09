@@ -1,0 +1,62 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import SectionContainer from "@/components/SectionContainer.astro";
+import { Image } from "astro:assets";
+import { getCollection } from "astro:content";
+import type { CollectionEntry } from "astro:content";
+import LinkInline from "@/components/LinkInline.astro";
+
+export const getStaticPaths = async () => {
+  const posts = await getCollection("posts");
+  const paths = posts.map(post => {
+    return {
+      params: {
+        slug: post.slug
+      },
+      props: {
+        post
+      }
+    };
+  });
+  return paths;
+};
+
+type Props = {
+  post: CollectionEntry<"posts">;
+};
+
+const { post } = Astro.props;
+const { Content } = await post.render();
+---
+
+<Layout
+  title={post.data.title}
+  description={post.data.description || ""}
+>
+  <main class="px-4">
+    <SectionContainer id="post" class="flex flex-col justify-center items-center py-16 md:py-36">
+      <div class="text-3xl text-black/80 dark:text-white mb-4 font-semibold inline-block">
+        {post.data.title}
+      </div>
+      <Image
+        src={post.data.image}
+        alt={post.data.title}
+        width={900}
+        height={900 / 1.5}
+        format="webp"
+        class="rounded-2xl shadow-xl mb-6 aspect-thumbnail object-cover"
+      />
+      <div class="prose dark:prose-invert">
+        <Content />
+      </div>
+      <div class="mt-10">
+        <LinkInline 
+          href="/blog" 
+          aria-label="Go back to the entries list"
+        >
+          Go back
+        </LinkInline>
+      </div>
+    </SectionContainer>
+  </main>
+</Layout>
