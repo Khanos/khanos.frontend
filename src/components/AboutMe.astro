@@ -1,7 +1,6 @@
 ---
 import { Image } from 'astro:assets';
 import { getLangFromUrl, useTranslations } from '../i18n/utils';
-import myAboutImage from '../assets/images/about-me.webp';
 
 type tLang = (str: any) => any;
 
@@ -19,7 +18,7 @@ const t: tLang = useTranslations(lang);
   <Image 
     width="400" 
     height="400" 
-    src={myAboutImage}
+    src="/img/about-me.webp"
     alt={t('sections').about.personalImageAlt} 
     class="order-1 object-cover w-80 h-100 p-1 bg-white md:order-2 rotate-3 lg:p-2 rounded-2xl dark:bg-yellow-500/5 ring-1 ring-white/20" style="object-position: 50% 50%"
   />

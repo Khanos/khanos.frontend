@@ -6,7 +6,6 @@ import LinkButton from "./LinkButton.astro"
 import { getLangFromUrl, useTranslations } from '../i18n/utils';
 import { TAGS } from '../data/tags.astro';
 
-import type { ImageMetadata } from 'astro';
 import type { ProjectType } from '../data/projects';
 type TagType = {
   name: string;
@@ -25,7 +24,6 @@ const lang = getLangFromUrl(Astro.url);
 const t:tLang = useTranslations(lang);
 
 const PROJECTS:ProjectType[] = t('sections').projects.projectsList;
-const images = import.meta.glob<{ default: ImageMetadata }>('/src/assets/images/projects/**.{jpeg,jpg,png,gif}');
 ---
 
 <div class="flex flex-col gap-y-16">
@@ -37,7 +35,7 @@ const images = import.meta.glob<{ default: ImageMetadata }>('/src/assets/images/
             <Image 
               alt={imageAlt} 
               class="object-cover object-top w-full h-56 transition duration-500 sm:h-full md:scale-110 md:group-hover:scale-105" 
-              src={images[image]()}
+              src={image}
               width={500}
               height={500}
             />
