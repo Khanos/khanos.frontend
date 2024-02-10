@@ -31,7 +31,7 @@ const { Content } = await post.render();
 
 <Layout
   title={post.data.title}
-  description={post.data.description || ""}
+  description={post.data.author || ""}
 >
   <main class="px-4">
     <SectionContainer id="post" class="flex flex-col justify-center items-center py-16 md:py-36">
