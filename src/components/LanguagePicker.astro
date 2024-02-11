@@ -1,0 +1,17 @@
+---
+import { setDefaultLang } from '../i18n/ui';
+const { lang } = Astro.props;
+// setDefaultLang(lang);
+const handleClick: () => void = () => {
+  console.log('click');
+}
+---
+<!-- <ul class="flex flex-wrap items-center mt-3 text-sm font-medium dark:text-white/90 sm:mt-0">
+  {Object.entries(languages).map(([lang, label], index) => (
+    <li class="ml-4">
+      <div class="langs cursor-pointer" data-lang={lang}>{label}</div>
+    </li>
+  ))}
+</ul> -->
+<!-- <div onclick={handleClick} class="cursor-pointer">{lang === 'en' ? 'English' : 'Spanish'}</div> -->
+<a href="/redirect">change language</a>
