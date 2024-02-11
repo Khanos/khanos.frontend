@@ -22,10 +22,7 @@ const currentYear = new Date().getFullYear()
       class="flex flex-wrap items-center mt-3 text-sm font-medium dark:text-white/90 sm:mt-0"
     >
       <li>
-        <a href="/#about" class="hover:underline me-4 md:me-6">{t('footer').about}</a>
-      </li>
-      <li>
-        <a href={`mailto:${t('footer').mail}`} class="hover:underline">{t('footer').contact}</a>
+        <a href={t('footer').altLangUrl} class="hover:underline">{t('footer').altLang}</a>
       </li>
     </ul>
   </div>

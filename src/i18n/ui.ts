@@ -6,7 +6,11 @@ export const languages = {
   es: 'Español',
 };
 
-export const defaultLang = 'en';
+export let defaultLang: "en" | "es" = 'en';
+
+export function setDefaultLang(lang: "en" | "es") {
+  defaultLang = lang;
+};
 
 export const ui = {
   en: {
@@ -86,6 +90,8 @@ export const ui = {
       terms: 'Terms',
       contact: 'Contact',
       mail: 'epilef.rodriguez@gmail.com',
+      altLang: "🇪🇸 Español",
+      altLangUrl: "/change/es",
     },
     experience: expEng,
   },
@@ -120,6 +126,10 @@ export const ui = {
       contact: {
         title: 'Contacto',
         label: 'contact',
+      },
+      blog: {
+        title: 'Blog',
+        label: 'blog',
       },
     },
     sections: {
@@ -166,6 +176,8 @@ export const ui = {
       terms: 'Términos',
       contact: 'Contacto',
       mail: 'epilef.rodriguez@gmail.com',
+      altLang: "🇺🇸 English",
+      altLangUrl: "/change/en",
     },
     experience: expEsp,
   },
