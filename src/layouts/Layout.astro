@@ -4,6 +4,10 @@ import "@fontsource-variable/onest"
 import Header from "../components/Header.astro"
 import Footer from "../components/Footer.astro"
 import { ViewTransitions } from "astro:transitions"
+import { setDefaultLang } from '../i18n/ui';
+
+const lang: any = Astro.url.searchParams.get('lang')! || 'en';
+setDefaultLang(lang);
 
 interface Props {
   title: string
@@ -13,7 +17,7 @@ interface Props {
 const { description, title } = Astro.props;
 ---
 <!doctype html>
-<html lang="en">
+<html lang={lang}>
   <head>
     <meta charset="UTF-8" />
     <meta name="description" content={description} />
