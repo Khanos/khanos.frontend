@@ -1,5 +1,6 @@
 ---
 import ThemeToggle from "./ThemeToggle.astro"
+import LabDropdown from "./LabDropdown.astro"
 import { getLangFromUrl, useTranslations } from '../i18n/utils';
 
 type tLang = (str: any) => any;
@@ -41,11 +42,12 @@ const navItems = [
 >
   <nav
     class="flex px-3 text-sm font-medium rounded-full text-gray-600 bg-gray-200/60 dark:bg-black/60  dark:text-gray-200 justify-center items-center"
+    id="nav-menu"
   >
     {
       navItems.map((link) => (
         <a
-          class="relative block px-2 py-2 transition hover:text-[#F800AE] dark:hover:text-[#F800AE]"
+          class="relative block px-2 py-2 hover:scale-105 transition hover:text-[#F800AE] dark:hover:text-[#F800AE]"
           aria-label={link.label}
           href={link.url}
         >
@@ -53,6 +55,7 @@ const navItems = [
         </a>
       ))
     }
+    <LabDropdown />
     <ThemeToggle />
   </nav>
 </header>
