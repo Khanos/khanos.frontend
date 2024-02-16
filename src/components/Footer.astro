@@ -1,5 +1,6 @@
 ---
 import { getLangFromUrl, useTranslations } from '../i18n/utils';
+import ChangeLanguage from './ChangeLanguage';
 
 type tLang = (str: any) => any;
 
@@ -14,7 +15,7 @@ const currentYear = new Date().getFullYear()
   <div
     class="w-full max-w-screen-xl mx-auto md:flex md:items-center md:justify-between"
   >
-    <span class="text-sm sm:text-center text-zinc-800/90 dark:text-zinc-200/90"
+    <span class="text-sm sm:text-center text-zinc-800/90 dark:text-zinc-200/90 ml-3"
       >© {currentYear}
       <a href="https://epilef.org/" class="hover:underline">khanos</a>. {t('footer').copy}.
     </span>
@@ -22,8 +23,9 @@ const currentYear = new Date().getFullYear()
       class="flex flex-wrap items-center mt-3 text-sm font-medium dark:text-white/90 sm:mt-0"
     >
       <li>
-        <a href={t('footer').altLangUrl} class="hover:underline">{t('footer').altLang}</a>
+        <ChangeLanguage lang={lang} client:only=”react”/>
       </li>
     </ul>
   </div>
 </footer>
+./ChangeLanguage.tsx

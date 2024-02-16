@@ -1,11 +1,11 @@
 ---
-import Layout from "@/layouts/Layout.astro";
-import SectionContainer from "@/components/SectionContainer.astro";
+import Layout from "../../layouts/Layout.astro";
+import SectionContainer from "../../components/SectionContainer.astro";
 import { Image } from "astro:assets";
 import { getCollection } from "astro:content";
 import type { CollectionEntry } from "astro:content";
-import LinkInline from "@/components/LinkInline.astro";
-
+import LinkInline from "../../components/LinkInline.astro";
+export const prerender = true;
 export const getStaticPaths = async () => {
   const posts = await getCollection("posts");
   const paths = posts.map(post => {
