@@ -1,5 +1,3 @@
-import React from 'react';
-
 const ChangeLanguage = (props) => {
   const { lang } = props;
 
