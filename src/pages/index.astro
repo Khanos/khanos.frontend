@@ -8,11 +8,11 @@ import ProfileCheck from "../components/icons/ProfileCheck.astro"
 import Projects from "../components/Projects.astro"
 import SectionContainer from "../components/SectionContainer.astro"
 import Hero from "../components/Hero.astro"
-import { getLangFromUrl, useTranslations } from '../i18n/utils';
+import { getLang, useTranslations } from '../i18n/utils';
 
 type tLang = (str: any) => any;
 
-const lang = getLangFromUrl(Astro.url);
+const lang = getLang();
 const t:tLang = useTranslations(lang);
 ---
 

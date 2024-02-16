@@ -5,8 +5,9 @@ import Header from "../components/Header.astro"
 import Footer from "../components/Footer.astro"
 import { ViewTransitions } from "astro:transitions"
 import { setDefaultLang } from '../i18n/ui';
+import { getLang } from '../i18n/utils';
 
-const lang: any = Astro.url.searchParams.get('lang')! || 'en';
+const lang: any = Astro.url.searchParams.get('lang') || getLang();
 setDefaultLang(lang);
 
 interface Props {

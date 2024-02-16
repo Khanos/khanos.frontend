@@ -7,14 +7,13 @@ const LABS = ['Github', 'ChatGpt', 'Url Shortener'];
     id="sortbox"
     class="appearance-none border-none flex hover:scale-105 transition"
   >
-    Label
+    Lab
   </button>
-  <div id="sortboxmenu" class="absolute opacity-0 scale-80 top-8 right-0 text-sm p-1 min-w-[10rem] rounded-md border border-gray-100 bg-white/90 dark:bg-gray-900/90 dark:border-gray-500/20 shadow-[0_3px_10px_rgb(0,0,0,0.2)] backdrop-blur-md">
+  <div id="sortboxmenu" class="absolute opacity-0 scale-80 top-8 right-0 text-sm p-1 min-w-[8rem] rounded-md border border-gray-100 bg-white/90 dark:bg-gray-900/90 dark:border-gray-500/20 shadow-[0_3px_10px_rgb(0,0,0,0.2)] backdrop-blur-md">
     <ul>
-        <li class="px-2 py-1.5 cursor-default hover:bg-neutral-400/40 dark:hover:bg-gray-500/50 rounded-sm"><a href="#">Featured</a></li>
-        <li class="px-2 py-1.5 cursor-default hover:bg-neutral-400/40 dark:hover:bg-gray-500/50 rounded-sm"><a href="#">Newest</a></li>
-        <li class="px-2 py-1.5 cursor-default hover:bg-neutral-400/40 dark:hover:bg-gray-500/50 rounded-sm"><a href="#">Price: Low to High</a></li>
-        <li class="px-2 py-1.5 cursor-default hover:bg-neutral-400/40 dark:hover:bg-gray-500/50 rounded-sm"><a href="#">Price: High to Low</a></li>
+        <li class="px-2 py-1.5 cursor-default hover:bg-neutral-400/40 dark:hover:bg-gray-500/50 rounded-sm"><a href="/github">Github</a></li>
+        <li class="px-2 py-1.5 cursor-default rounded-sm"><hr /></li>
+        <li class="px-2 py-1.5 rounded-sm"><span>WIP ...</span></li>
     </ul>
   </div>
 </div>
@@ -22,6 +21,10 @@ const LABS = ['Github', 'ChatGpt', 'Url Shortener'];
 <style>
   #sortboxmenu.open {
     animation: scale-up-center 0.15s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+    display: block !important;
+  }
+  #sortboxmenu {
+    display: none !important;
   }
 
   @keyframes scale-up-center {

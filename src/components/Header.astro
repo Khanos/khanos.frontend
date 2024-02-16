@@ -1,11 +1,11 @@
 ---
 import ThemeToggle from "./ThemeToggle.astro"
 import LabDropdown from "./LabDropdown.astro"
-import { getLangFromUrl, useTranslations } from '../i18n/utils';
+import { getLang, useTranslations } from '../i18n/utils';
 
 type tLang = (str: any) => any;
 
-const lang = getLangFromUrl(Astro.url);
+const lang = getLang();
 const t:tLang = useTranslations(lang);
 
 const navItems = [
@@ -34,6 +34,11 @@ const navItems = [
     label: t('nav').blog.label,
     url: "/blog",
   },
+  {
+    title: t('nav').github.title,
+    label: t('nav').github.label,
+    url: "/github",
+  },
 ]
 ---
 
@@ -55,15 +60,18 @@ const navItems = [
         </a>
       ))
     }
-    <LabDropdown />
     <ThemeToggle />
   </nav>
 </header>
 
 <script>
   document.addEventListener("astro:page-load", () => {
-    const sections = document.querySelectorAll("section")
+    const mainSections = document.querySelectorAll("section")
+    const blogSection = document.querySelector("#blog");
+    const githubSection = document.querySelector("#github");
+    const sections = [...mainSections, blogSection, githubSection];
     const navItems = document.querySelectorAll("header nav a")
+    console.log(navItems)
 
     const callback = (entries: any[]) => {
       entries.forEach((entry) => {

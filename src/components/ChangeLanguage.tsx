@@ -19,7 +19,7 @@ const ChangeLanguage = (props: ChangeLanguageProps) => {
     <div style={{
       padding: '1rem'
     }}>
-      <a href={ `${lang === 'en' ? '/?lang=es' : '/'}` } className="hover:underline">{ getLangTitle() }</a>
+      <a href={ `${lang === 'en' ? '/?lang=es' : '/?lang=en'}` } className="hover:underline">{ getLangTitle() }</a>
     </div>
   );
 };

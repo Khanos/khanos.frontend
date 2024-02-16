@@ -6,11 +6,11 @@ import SocialPill from "./SocialPill.astro"
 import GithubIcon from "./icons/GitHub.astro"
 import Instagram from "./icons/Instagram.astro"
 import Hackerrank from "./icons/Hackerrank.astro"
-import { getLangFromUrl, useTranslations } from '../i18n/utils';
+import { getLang, useTranslations } from '../i18n/utils';
 import myHeroImage from '../assets/img/hero.png';
 type tLang = (str: any) => any;
 
-const lang = getLangFromUrl(Astro.url);
+const lang = getLang();
 const t:tLang = useTranslations(lang);
 ---
 

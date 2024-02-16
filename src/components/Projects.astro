@@ -3,7 +3,7 @@ import { Image } from 'astro:assets';
 import GitHub from "./icons/GitHub.astro"
 import Link from "./icons/Link.astro"
 import LinkButton from "./LinkButton.astro"
-import { getLangFromUrl, useTranslations } from '../i18n/utils';
+import { getLang, useTranslations } from '../i18n/utils';
 import { TAGS } from '../data/tags.astro';
 
 import type { ProjectType } from '../data/projects';
@@ -20,7 +20,7 @@ const TagsObj:TagsType = TAGS;
 
 type tLang = (str: any) => any;
 
-const lang = getLangFromUrl(Astro.url);
+const lang = getLang();
 const t:tLang = useTranslations(lang);
 
 const PROJECTS:ProjectType[] = t('sections').projects.projectsList;

@@ -1,17 +1,12 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import SectionContainer from "../components/SectionContainer.astro";
-import BlogList from "../components/BlogList.astro";
-import { getCollection } from "astro:content";
 import { getLang, useTranslations } from '../i18n/utils';
 
 type tLang = (str: any) => any;
 
 const lang = getLang();
 const t:tLang = useTranslations(lang);
-const posts = await getCollection("posts");
-
-const postsFilteredByLang = posts.filter((post) => post.id.includes(lang));
 ---
 
 <Layout
@@ -19,8 +14,8 @@ const postsFilteredByLang = posts.filter((post) => post.id.includes(lang));
   description={t('layouts').blog.description}
 >
   <main class="px-4">
-    <SectionContainer id="blog" class="py-16 md:py-36">
-      <BlogList posts={postsFilteredByLang} />
+    <SectionContainer id="github" class="py-16 md:py-36">
+      <h1 class="flex justify-center">Work in progress</h1>
     </SectionContainer>
   </main>
 </Layout>

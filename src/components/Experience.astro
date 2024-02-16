@@ -1,10 +1,10 @@
 ---
 import ExperienceItem from "./ExperienceItem.astro"
-import { getLangFromUrl, useTranslations } from '../i18n/utils';
+import { getLang, useTranslations } from '../i18n/utils';
 
 type tLang = (str: any) => any;
 
-const lang = getLangFromUrl(Astro.url);
+const lang = getLang();
 const t:tLang = useTranslations(lang);
 
 type Experience = {

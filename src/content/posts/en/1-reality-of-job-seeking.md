@@ -3,7 +3,7 @@ author: Epilef Rodriguez
 categories: ["job interview linkedin tips"]
 date: 16/02/2024
 featured: false
-image: ./images/laptop-workspace-unsplash.jpg
+image: ../images/laptop-workspace-unsplash.jpg
 title: The Frustrating Reality of Job Seeking as a Software Engineer
 ---
 

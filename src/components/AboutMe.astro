@@ -1,11 +1,11 @@
 ---
 import { Image } from 'astro:assets';
-import { getLangFromUrl, useTranslations } from '../i18n/utils';
+import { getLang, useTranslations } from '../i18n/utils';
 import myAboutImage from '../assets/img/about-me.webp';
 
 type tLang = (str: any) => any;
 
-const lang = getLangFromUrl(Astro.url);
+const lang = getLang();
 const t: tLang = useTranslations(lang);
 ---
 

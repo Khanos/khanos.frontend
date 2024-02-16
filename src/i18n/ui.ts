@@ -45,6 +45,10 @@ export const ui = {
         title: 'Blog',
         label: 'blog',
       },
+      github: {
+        title: 'GitHub',
+        label: 'github',
+      },
     },
     sections: {
       exp: {
@@ -130,6 +134,10 @@ export const ui = {
       blog: {
         title: 'Blog',
         label: 'blog',
+      },
+      github: {
+        title: 'GitHub',
+        label: 'github',
       },
     },
     sections: {
