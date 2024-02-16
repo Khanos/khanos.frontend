@@ -126,72 +126,9 @@ declare module 'astro:content' {
 
 	type ContentEntryMap = {
 		"posts": {
-"behind-the-scenes-with-our-artists.md": {
-	id: "behind-the-scenes-with-our-artists.md";
-  slug: "behind-the-scenes-with-our-artists";
-  body: string;
-  collection: "posts";
-  data: InferEntrySchema<"posts">
-} & { render(): Render[".md"] };
-"collaboration-in-music-production.md": {
-	id: "collaboration-in-music-production.md";
-  slug: "collaboration-in-music-production";
-  body: string;
-  collection: "posts";
-  data: InferEntrySchema<"posts">
-} & { render(): Render[".md"] };
-"creating-a-successful-music-brand.md": {
-	id: "creating-a-successful-music-brand.md";
-  slug: "creating-a-successful-music-brand";
-  body: string;
-  collection: "posts";
-  data: InferEntrySchema<"posts">
-} & { render(): Render[".md"] };
-"gear-is-insanely-expensive.md": {
-	id: "gear-is-insanely-expensive.md";
-  slug: "gear-is-insanely-expensive";
-  body: string;
-  collection: "posts";
-  data: InferEntrySchema<"posts">
-} & { render(): Render[".md"] };
-"guitar-solos-are-still-awesome.md": {
-	id: "guitar-solos-are-still-awesome.md";
-  slug: "guitar-solos-are-still-awesome";
-  body: string;
-  collection: "posts";
-  data: InferEntrySchema<"posts">
-} & { render(): Render[".md"] };
-"live-music-is-crucial.md": {
-	id: "live-music-is-crucial.md";
-  slug: "live-music-is-crucial";
-  body: string;
-  collection: "posts";
-  data: InferEntrySchema<"posts">
-} & { render(): Render[".md"] };
-"making-a-home-studio.md": {
-	id: "making-a-home-studio.md";
-  slug: "making-a-home-studio";
-  body: string;
-  collection: "posts";
-  data: InferEntrySchema<"posts">
-} & { render(): Render[".md"] };
-"the-art-of-music-production.md": {
-	id: "the-art-of-music-production.md";
-  slug: "the-art-of-music-production";
-  body: string;
-  collection: "posts";
-  data: InferEntrySchema<"posts">
-} & { render(): Render[".md"] };
-"the-importance-of-audio-quality.md": {
-	id: "the-importance-of-audio-quality.md";
-  slug: "the-importance-of-audio-quality";
-  body: string;
-  collection: "posts";
-  data: InferEntrySchema<"posts">
-} & { render(): Render[".md"] };
-"tune-your-snare-drum.md": {
-	id: "tune-your-snare-drum.md";
-  slug: "tune-your-snare-drum";
+"reality-of-job-seeking.md": {
+	id: "reality-of-job-seeking.md";
+  slug: "reality-of-job-seeking";
   body: string;
   collection: "posts";
   data: InferEntrySchema<"posts">
