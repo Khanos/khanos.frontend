@@ -1,6 +1,5 @@
 ---
 import ThemeToggle from "./ThemeToggle.astro"
-import LabDropdown from "./LabDropdown.astro"
 import { getLang, useTranslations } from '../i18n/utils';
 
 type tLang = (str: any) => any;
@@ -93,7 +92,7 @@ const navItems = [
       threshold: 0.3,
     })
 
-    sections.forEach((section) => {
+    sections.forEach((section: any) => {
       observer.observe(section)
     })
 

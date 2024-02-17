@@ -21,9 +21,7 @@ export async function getStaticPaths() {
 type Props = {
   post: CollectionEntry<"posts">;
 };
-const { lang, slug } = Astro.params;
 const post: any = Astro.props;
-console.log(post);
 const formattedDate = post.data.date.toLocaleString();
 const { Content } = await post.render();
 ---
