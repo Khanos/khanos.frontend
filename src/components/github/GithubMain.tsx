@@ -11,7 +11,7 @@ export const GithubMain = () => {
   const [loading, setLoading] = useState(false);
   
   return (
-    <div className='flex flex-col items-center'>
+    <>
       <GithubSearch 
         setLoading={setLoading}
         searchQuery={searchQuery} 
@@ -25,7 +25,7 @@ export const GithubMain = () => {
         searchQuery={searchQuery}
       />
       <GithubWorkflow />
-    </div>
+    </>
   )
 }
 

@@ -23,7 +23,7 @@ const GithubCard: React.FC<GithubCardProps> = (props) => {
   }
   return (
     <div
-      className="w-full flex flex-row rounded-lg bg-white shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] dark:bg-neutral-700">
+      className="flex flex-row max-sm:flex-col items-center rounded-lg bg-white shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] dark:bg-neutral-700">
       <img
         className="h-auto w-40 max-sm:w-30 max-xs:w-20 rounded-t-lg object-cover md:h-auto md:!rounded-none md:!rounded-l-lg"
         src={getAvatar()}
@@ -33,10 +33,11 @@ const GithubCard: React.FC<GithubCardProps> = (props) => {
           className="text-xl font-medium text-neutral-800 dark:text-neutral-50">
           Author: {name}
         </h3>
-        <span
-          className="mb-4 text-sm font-medium text-neutral-700 dark:text-neutral-200">
-          Repository: <a target="_blank" rel="noreferrer" className="text-blue-500 dark:text-blue-400 hover:underline" href={repository.html_url}>{repository.name}</a>, {repository.description || 'No description'}
-        </span>
+        <div
+          className="mb-4 text-sm text-ellipsis text-wrap font-medium text-neutral-700 dark:text-neutral-200">
+            Repository: <a target="_blank" rel="noreferrer" className="text-blue-500 dark:text-blue-400 hover:underline" href={repository.html_url}>
+            {repository.name}</a>, {repository.description || 'No description'}
+        </div>
         <p 
           className="mb-4 text-base text-neutral-600 dark:text-neutral-200"
           dangerouslySetInnerHTML={{ __html: formatedMessage}}
