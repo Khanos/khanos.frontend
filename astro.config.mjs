@@ -7,7 +7,11 @@ import vercel from "@astrojs/vercel/serverless";
 
 // https://astro.build/config
 export default defineConfig({
-  integrations: [tailwind(), robotsTxt(), react()],
+  integrations: [
+    tailwind(), 
+    robotsTxt(), 
+    react(),
+  ],
   site: 'https://epilef.org/',
   output: 'server',
   adapter: vercel()

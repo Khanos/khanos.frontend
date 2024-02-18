@@ -1,9 +1,20 @@
-// Sidebar types
-export type sidebarType = {
-  isOpen: boolean;
-};
-
 // Github types
+export type GithubSearchProps = {
+  setLoading: (loading: boolean) => void;
+  searchQuery: string;
+  setSearchQuery: (searchQuery: string) => void;
+  commits: githubCommitType[];
+  setCommits: (commits: githubCommitType[] | []) => void;
+};
+export type GithubCardListProps = {
+  loading: boolean;
+  commits: githubCommitType[];
+  searchQuery: string;
+};
+export type GithubCardProps = {
+  commit: githubCommitType;
+  searchQuery: string;
+};
 export type githubCommitType = {
   id: string;
   queryWord: string;
@@ -15,13 +26,16 @@ export type githubCommitType = {
     message: string;
     author: {
       date: string;
+      name: string;
     };
     url: string;
   };
   repository: {
     name: string;
     description: string;
+    html_url: string;
   };
+  html_url: string;
 };
 export type githubType = {
   commits: githubCommitType[];
