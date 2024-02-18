@@ -2,6 +2,7 @@
 import Layout from "../layouts/Layout.astro";
 import SectionContainer from "../components/SectionContainer.astro";
 import { getLang, useTranslations } from '../i18n/utils';
+import GithubMain from '../components/github/GithubMain'
 
 type tLang = (str: any) => any;
 
@@ -15,7 +16,7 @@ const t:tLang = useTranslations(lang);
 >
   <main class="px-4">
     <SectionContainer id="github" class="py-16 md:py-36">
-      <h1 class="flex justify-center">Work in progress</h1>
+      <GithubMain />
     </SectionContainer>
   </main>
 </Layout>
