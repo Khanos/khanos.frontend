@@ -12,7 +12,7 @@ const GithubCardList: React.FC<GithubCardListProps> = (props) => {
     )
   }
   return (
-    <div className="w-full grid grid-cols-2 gap-x-12 gap-y-12 max-md:grid-cols-1 max-sm:gap-y-14 mb-4">
+    <div className="w-full grid grid-cols-2 max-lg:grid-cols-1 gap-x-12 gap-y-12 max-sm:gap-y-14 mb-4">
       {commits && commits.map((commit, index) => <GithubCard commit={commit} searchQuery={searchQuery} key={index} />)}
     </div>
   )
