@@ -2,6 +2,7 @@
 import Layout from "../layouts/Layout.astro";
 import SectionContainer from "../components/SectionContainer.astro";
 import { getLang, useTranslations } from '../i18n/utils';
+import GithubMain from '../components/github/GithubMain'
 
 type tLang = (str: any) => any;
 
@@ -14,8 +15,8 @@ const t:tLang = useTranslations(lang);
   description={t('layouts').blog.description}
 >
   <main class="px-4">
-    <SectionContainer id="github" class="py-16 md:py-36">
-      <h1 class="flex justify-center">Work in progress</h1>
+    <SectionContainer id="github" class="lg:max-w-6xl md:max-w-4xl py-16 md:py-36">
+      <GithubMain client:only=”react”/>
     </SectionContainer>
   </main>
 </Layout>

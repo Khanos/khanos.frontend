@@ -70,7 +70,6 @@ const navItems = [
     const githubSection = document.querySelector("#github");
     const sections = [...mainSections, blogSection, githubSection];
     const navItems = document.querySelectorAll("header nav a")
-    console.log(navItems)
 
     const callback = (entries: any[]) => {
       entries.forEach((entry) => {
@@ -91,8 +90,8 @@ const navItems = [
       rootMargin: "0px",
       threshold: 0.3,
     })
-
     sections.forEach((section: any) => {
+      if(section === null) return;
       observer.observe(section)
     })
 
