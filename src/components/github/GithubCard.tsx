@@ -34,12 +34,12 @@ const GithubCard: React.FC<GithubCardProps> = (props) => {
           Author: {name}
         </h3>
         <div
-          className="mb-4 text-sm text-ellipsis text-wrap font-medium text-neutral-700 dark:text-neutral-200">
+          className="mb-4 break-words text-sm text-ellipsis text-wrap font-medium text-neutral-700 dark:text-neutral-200">
             Repository: <a target="_blank" rel="noreferrer" className="text-blue-500 dark:text-blue-400 hover:underline" href={repository.html_url}>
             {repository.name}</a>, {repository.description || 'No description'}
         </div>
         <p 
-          className="mb-4 text-base text-neutral-600 dark:text-neutral-200"
+          className="mb-4 break-words text-base text-neutral-600 dark:text-neutral-200"
           dangerouslySetInnerHTML={{ __html: formatedMessage}}
         >
         </p>
