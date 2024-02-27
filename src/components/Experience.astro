@@ -15,12 +15,12 @@ type Experience = {
   link: string;
 }
 
-const EXP: any = t('experience');
+const EXP: Experience[] = t('experience');
 ---
 
 <ol class="relative mt-16">
   {
-    EXP.map((experience: Experience) => (
+    EXP.map((experience) => (
       <li class="">
         <ExperienceItem {...experience} />
       </li>
