@@ -1,4 +1,5 @@
 ---
+import ChangeLanguage from './ChangeLanguage';
 import ThemeToggle from "./ThemeToggle.astro"
 import { getLang, useTranslations } from '../i18n/utils';
 
@@ -28,16 +29,6 @@ const navItems = [
     label: t('nav').about.label,
     url: "/#about",
   },
-  {
-    title: t('nav').blog.title,
-    label: t('nav').blog.label,
-    url: "/blog",
-  },
-  {
-    title: t('nav').github.title,
-    label: t('nav').github.label,
-    url: "/github",
-  },
 ]
 ---
 
@@ -48,6 +39,7 @@ const navItems = [
     class="flex flex-wrap px-3 text-sm font-medium rounded-full text-gray-600 bg-gray-200/60 dark:bg-black/60  dark:text-gray-200 justify-center items-center"
     id="nav-menu"
   >
+    <ChangeLanguage lang={lang} client:only=”react”/>
     {
       navItems.map((link) => (
         <a

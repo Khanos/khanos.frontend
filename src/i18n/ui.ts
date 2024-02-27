@@ -41,16 +41,26 @@ export const ui = {
         title: 'About',
         label: 'about',
       },
-      blog: {
-        title: 'Blog',
-        label: 'blog',
-      },
-      github: {
-        title: 'GitHub',
-        label: 'github',
-      },
     },
     sections: {
+      lab: {
+        title: 'Laboratory',
+        label: 'Personal Lab',
+        blog: {
+          title: 'Blog',
+          imgAlt: 'Blog logo',
+          description: `
+          My personal blog is a space where I share my thoughts, experiences, and knowledge. I write about technology, programming, and other interesting topics. I also share tips and tricks that I've learned along the way. I hope you find it useful!`,
+          linkLabel: 'know more',
+        },
+        github: {
+          title: 'GitHub',
+          imgAlt: 'GitHub logo',
+          description: `
+          I demonstrate a smooth workflow between frontend and backend. The backend interacts with GitHub's API, fetching commits that are displayed as cards on the frontend. Leveraging the Island architecture and powered by #ReactJs, this site is built with the Astro framework, enabling seamless integration and flexibility with various frontend technologies.`,
+          linkLabel: 'know more',
+        }
+      },
       exp: {
         title: 'Experience',
         label: 'experience',
@@ -94,8 +104,6 @@ export const ui = {
       terms: 'Terms',
       contact: 'Contact',
       mail: 'epilef.rodriguez@gmail.com',
-      altLang: "🇪🇸 Español",
-      altLangUrl: "/change/es",
     },
     experience: expEng,
   },
@@ -131,16 +139,26 @@ export const ui = {
         title: 'Contacto',
         label: 'contact',
       },
-      blog: {
-        title: 'Blog',
-        label: 'blog',
-      },
-      github: {
-        title: 'GitHub',
-        label: 'github',
-      },
     },
     sections: {
+      lab: {
+        title: 'Laboratorio',
+        label: 'Laboratorio Personal',
+        blog: {
+          title: 'Blog',
+          imgAlt: 'Logo del blog',
+          description: `
+          Mi blog personal es un espacio donde comparto mis pensamientos, experiencias y conocimientos. Escribo sobre tecnología, programación y otros temas interesantes. También comparto consejos y trucos que he aprendido en el camino. ¡Espero que te resulte útil!`,
+          linkLabel: 'saber más',
+        },
+        github: {
+          title: 'GitHub',
+          imgAlt: 'Logo de GitHub',
+          description: `
+          Demuestro un flujo de trabajo entre frontend y backend. El backend interactúa con la API de GitHub, buscando commits que luego se muestran como tarjetas en el frontend. Aprovechando la arquitectura Island y potenciado por #ReactJs (este sitio está construido con #Astro) permitiendo una integración perfecta y flexibilidad con varias tecnologías frontend.`,
+          linkLabel: 'saber más',
+        }
+      },
       exp: {
         title: 'Experiencia',
         label: 'experiencia',
@@ -184,8 +202,6 @@ export const ui = {
       terms: 'Términos',
       contact: 'Contacto',
       mail: 'epilef.rodriguez@gmail.com',
-      altLang: "🇺🇸 English",
-      altLangUrl: "/change/en",
     },
     experience: expEsp,
   },

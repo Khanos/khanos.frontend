@@ -1,0 +1,112 @@
+---
+import { Image } from 'astro:assets';
+import { getLang, useTranslations } from '../i18n/utils';
+import LinkInline from '../components/LinkInline.astro';
+import LabBlogImage from '../assets/img/lab-blog.png';
+import LabGithubImage from '../assets/img/lab-github.png';
+
+type tLang = (str: any) => any;
+
+const lang = getLang();
+const t:tLang = useTranslations(lang);
+---
+<div class="grid grid-cols-[repeat(auto-fill,minmax(18rem,1fr))] gap-6 min-w-0">
+  <div
+    class="block rounded-lg bg-gray shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] dark:bg-neutral-700">
+    <div
+      class="relative overflow-hidden bg-cover bg-no-repeat flex justify-center"
+      data-te-ripple-init
+      data-te-ripple-color="light">
+      <Image
+        width="400" 
+        height="400"
+        src={LabBlogImage}
+        format="webp"}
+        alt={t('sections').lab.blog.imgAlt}
+        class="min-w-full max-h-auto"
+      />
+      <a href="/blog">
+        <div
+          class="absolute bottom-0 left-0 right-0 top-0 h-full w-full overflow-hidden bg-[hsla(0,0%,98%,0.15)] bg-fixed opacity-0 transition duration-300 ease-in-out hover:opacity-100"></div>
+      </a>
+    </div>
+    <div class="p-6">
+      <h5
+        class="mb-2 text-xl font-medium leading-tight text-neutral-800 dark:text-neutral-50">
+        {t('sections').lab.blog.title}
+      </h5>
+      <p class="mb-4 text-sm text-neutral-600 dark:text-neutral-200">
+        {t('sections').lab.blog.description}
+      </p>
+      <LinkInline class="ml-auto" href="/blog">
+        {t('sections').lab.blog.linkLabel}
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="ml-1 w-5 icon icon-tabler icon-tabler-chevron-right"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          stroke-width="2"
+          stroke="currentColor"
+          fill="none"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <>
+            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+            <path d="M9 6l6 6l-6 6" />
+          </>
+        </svg>
+      </LinkInline>
+    </div>
+  </div>
+  <div
+    class="block rounded-lg bg-gray shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] dark:bg-neutral-700">
+    <div
+      class="relative overflow-hidden bg-white bg-cover bg-no-repeat flex justify-center"
+      data-te-ripple-init
+      data-te-ripple-color="light">
+      <Image
+        width="400" 
+        height="400"
+        src={LabGithubImage}
+        format="webp"}
+        alt={t('sections').lab.github.imgAlt}
+        class="min-w-full max-h-auto"
+      />
+      <a href="/github">
+        <div
+          class="absolute bottom-0 left-0 right-0 top-0 h-full w-full overflow-hidden bg-[hsla(0,0%,98%,0.15)] bg-fixed opacity-0 transition duration-300 ease-in-out hover:opacity-100"></div>
+      </a>
+    </div>
+    <div class="p-6">
+      <h5
+        class="mb-2 text-xl font-medium leading-tight text-neutral-800 dark:text-neutral-50">
+        {t('sections').lab.github.title}
+      </h5>
+      <p class="mb-4 text-sm text-neutral-600 dark:text-neutral-200">
+        {t('sections').lab.github.description}
+      </p>
+      <LinkInline class="ml-auto" href="/github">
+        {t('sections').lab.github.linkLabel}
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="ml-1 w-5 icon icon-tabler icon-tabler-chevron-right"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          stroke-width="2"
+          stroke="currentColor"
+          fill="none"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <>
+            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+            <path d="M9 6l6 6l-6 6" />
+          </>
+        </svg>
+      </LinkInline>
+    </div>
+  </div>
+</div>

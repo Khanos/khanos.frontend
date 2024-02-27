@@ -2,7 +2,9 @@
 import Layout from "../layouts/Layout.astro"
 import AboutMe from "../components/AboutMe.astro"
 import Briefcase from "../components/icons/Briefcase.astro"
+import Lab from "../components/icons/Lab.astro"
 import CodeIcon from "../components/icons/Code.astro"
+import Laboratory from "../components/Laboratory.astro"
 import Experience from "../components/Experience.astro"
 import ProfileCheck from "../components/icons/ProfileCheck.astro"
 import Projects from "../components/Projects.astro"
@@ -27,35 +29,45 @@ const t:tLang = useTranslations(lang);
     </Hero>
     </SectionContainer>
     <div class="space-y-24">
-    <SectionContainer id="experience">
-      <h2
-        class="flex items-center mb-6 text-3xl font-semibold gap-x-3 text-black/80 dark:text-white"
-      >
-        <Briefcase class="size-8" />
-        {t('sections').exp.title}
-      </h2>
-      <Experience />
-    </SectionContainer>
+      <SectionContainer id="mylab">
+        <h2
+          class="flex items-center mb-6 text-3xl font-semibold gap-x-3 text-black/80 dark:text-white"
+        >
+          <Lab class="size-6 dark:fill-white" />
+          {t('sections').lab.title}
+        </h2>
+        <Laboratory />
+      </SectionContainer>
 
-    <SectionContainer id="projects">
-      <h2
-        class="flex items-center mb-6 text-3xl font-semibold gap-x-3 text-black/80 dark:text-white"
-      >
-        <CodeIcon class="size-7" />
-        {t('sections').projects.title}
-      </h2>
-      <Projects />
-    </SectionContainer>
+      <SectionContainer id="experience">
+        <h2
+          class="flex items-center mb-6 text-3xl font-semibold gap-x-3 text-black/80 dark:text-white"
+        >
+          <Briefcase class="size-8" />
+          {t('sections').exp.title}
+        </h2>
+        <Experience />
+      </SectionContainer>
 
-    <SectionContainer id="about">
-      <h2
-        class="flex items-center mb-6 text-3xl font-semibold gap-x-8 text-black/80 dark:text-white"
-      >
-        <ProfileCheck class="size-8" />
-        {t('sections').about.title}
-      </h2>
-      <AboutMe />
-    </SectionContainer>
-  </div>
+      <SectionContainer id="projects">
+        <h2
+          class="flex items-center mb-6 text-3xl font-semibold gap-x-3 text-black/80 dark:text-white"
+        >
+          <CodeIcon class="size-7" />
+          {t('sections').projects.title}
+        </h2>
+        <Projects />
+      </SectionContainer>
+
+      <SectionContainer id="about">
+        <h2
+          class="flex items-center mb-6 text-3xl font-semibold gap-x-8 text-black/80 dark:text-white"
+        >
+          <ProfileCheck class="size-8" />
+          {t('sections').about.title}
+        </h2>
+        <AboutMe />
+      </SectionContainer>
+    </div>
   </main>
 </Layout>
