@@ -1,21 +1,21 @@
 // Github types
-export type GithubSearchProps = {
+export interface GithubSearchProps {
   setLoading: (loading: boolean) => void;
   searchQuery: string;
   setSearchQuery: (searchQuery: string) => void;
   commits: githubCommitType[];
   setCommits: (commits: githubCommitType[] | []) => void;
 };
-export type GithubCardListProps = {
+export interface GithubCardListProps {
   loading: boolean;
   commits: githubCommitType[];
   searchQuery: string;
 };
-export type GithubCardProps = {
+export interface GithubCardProps {
   commit: githubCommitType;
   searchQuery: string;
 };
-export type githubCommitType = {
+export interface githubCommitType {
   id: string;
   queryWord: string;
   author: {
@@ -37,28 +37,38 @@ export type githubCommitType = {
   };
   html_url: string;
 };
-export type githubType = {
+export interface githubType {
   commits: githubCommitType[];
   searchWord: string;
 };
 
 // Chatbot types
-export type chatGptMessageType = {
+export interface chatGptMessageType {
   id: string;
   message: string;
   isUser: boolean;
 };
-export type chatGptType = {
+export interface chatGptType {
   messageList: chatGptMessageType[];
   userMessage: string;
   aiMessage: string;
 }
 
 // dalle types
-export type dalleType = {
+export interface dalleType {
   imageList: dalleImageType[];
 };
-export type dalleImageType = {
+export interface dalleImageType {
   text: string;
   image: string;
 };
+
+export interface ProjectType {
+  image: string;
+  imageAlt: string;
+  title: string;
+  description: string;
+  tags: string[];
+  link?: string;
+  github?: string;
+}

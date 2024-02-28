@@ -1,31 +1,29 @@
-import { useCallback } from 'react';
-import type { GithubSearchProps } from '../../types';
+import { useState, useCallback, useEffect } from 'react';
+import type { GithubSearchProps, githubCommitType } from '../../types';
+import { searchGithubCommits } from '../../services';
+import { useTranslations } from '../../i18n/utils';
 
-const githubEndPoint = "https://khanos-backend.herokuapp.com/api/github/getCommits/";
+type tLang = (str: any) => any;
+
+const t: tLang = useTranslations(document.documentElement.lang as any);
 
 const  GithubSearch: React.FC<GithubSearchProps>  = (props) => {
   const { setLoading, searchQuery, setSearchQuery, setCommits } = props;
+  const [search, setSearch] = useState(searchQuery);
 
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    event.preventDefault();
-    setSearchQuery(event.target.value);
-  }
-
-  const getCommitsData = useCallback((search: string) => {
+  const getCommitsData = useCallback( async (search: string) => {
     if(search.length <= 3) return;
     setLoading(true);
-    fetch(`${githubEndPoint}${search}`)
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.total_count > 0) {
-          setCommits(data.items);
-        }
-      }).catch((error) => {
-        console.log(error);
-      }).finally(() => {
-        setLoading(false);
-      });
+    const data = await searchGithubCommits(search) as { items: githubCommitType[]; total_count: number; };
+    if (data.total_count > 0) {
+      setCommits(data.items);
+    }
+    setLoading(false);
   }, []);
+
+  useEffect(() => {
+    getCommitsData(searchQuery);
+  }, [getCommitsData, searchQuery]);
 
   return (
     <div className="flex flex-col justify-center items-center mb-6"> 
@@ -39,19 +37,20 @@ const  GithubSearch: React.FC<GithubSearchProps>  = (props) => {
         type="text" 
         id="search" 
         aria-describedby="helper-text-explanation" 
-        placeholder="e.g. cheese"
-        onChange={handleInputChange}
+        placeholder={t('github').placeholder}
+        onChange={(e) => setSearch(e.target.value)}
         onKeyDown={(e) => {
+          console.log('e.key: ', search);
           if (e.key === "Enter")
-            getCommitsData(searchQuery)
+            setSearchQuery(search)
           }}
       >
       </input>
       <div className="text-xs text-center mb-6 text-gray-500 dark:text-gray-400">
-        <p>{`Search for fun words in recent GitHub commits.`}</p>
-        <p>{`Inappropriate language is optional but fun.`}</p>
+        <p>{t('github').descriptionpt1}</p>
+        <p>{t('github').descriptionpt2}</p>
       </div>
-      <button onClick={() => getCommitsData(searchQuery)} type="button" className="max-w-60 text-white bg-gradient-to-r from-purple-500 to-pink-500 hover:bg-gradient-to-l focus:ring-4 focus:outline-none focus:ring-purple-200 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-2">Search</button>
+      <button onClick={() => setSearchQuery(search)} type="button" className="max-w-60 text-white bg-gradient-to-r from-purple-500 to-pink-500 hover:bg-gradient-to-l focus:ring-4 focus:outline-none focus:ring-purple-200 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-2">{t('github').button}</button>
     </div>
   )
 }

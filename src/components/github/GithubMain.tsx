@@ -7,7 +7,7 @@ import type { githubCommitType } from '../../types';
 
 export const GithubMain = () => {
   const [commits, setCommits] = useState<githubCommitType[]>([]);
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState('cheese');
   const [loading, setLoading] = useState(false);
   
   return (

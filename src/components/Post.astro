@@ -2,6 +2,12 @@
 import { type CollectionEntry } from "astro:content";
 import { Image } from "astro:assets";
 import LinkInline from "./LinkInline.astro";
+import { getLang, useTranslations } from '../i18n/utils';
+
+type tLang = (str: any) => any;
+
+const lang = getLang();
+const t: tLang = useTranslations(lang);
 
 type Props = {
   post: CollectionEntry<"posts">;
@@ -35,7 +41,7 @@ const { post } = Astro.props;
   <a href={`/blog/${post.slug}`}>
     
   </a>
-  <LinkInline href={`/blog/${post.slug}`} aria-label={`Read more about ${post.data.title}`}>
-    Read more
+  <LinkInline href={`/blog/${post.slug}`} aria-label={t('blog').linkAriaLabel}}>
+    {t('blog').linkLabel}
   </LinkInline>
 </article>
