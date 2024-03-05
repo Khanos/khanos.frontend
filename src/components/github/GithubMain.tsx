@@ -12,6 +12,7 @@ export const GithubMain = () => {
   
   return (
     <>
+      <GithubWorkflow />
       <GithubSearch 
         setLoading={setLoading}
         searchQuery={searchQuery} 
@@ -24,7 +25,6 @@ export const GithubMain = () => {
         commits={commits} 
         searchQuery={searchQuery}
       />
-      <GithubWorkflow />
     </>
   )
 }

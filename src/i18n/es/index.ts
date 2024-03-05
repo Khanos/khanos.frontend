@@ -107,8 +107,8 @@ const es =  {
     button: 'Buscar',
     descriptionpt1: 'Busca palabras divertidas en commits recientes de GitHub.',
     descriptionpt2: 'El lenguaje inapropiado es opcional pero divertido.',
-    workflowpt1: 'Esta sección fue hecha usando React y consultando un endpoint en mi propio backend.',
-    workflowpt2: 'Chequea el código en',
+    workflowpt1: 'Hecho con ⚛️ React y la arquitectura de islas.',
+    workflowpt2: 'El código del backend está disponible en ',
   }
 };
 

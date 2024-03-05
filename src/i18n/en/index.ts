@@ -103,8 +103,8 @@ const en =  {
     button: 'Search',
     descriptionpt1: 'Search for fun words in recent GitHub commits.',
     descriptionpt2: 'Inappropriate language is optional but fun.',
-    workflowpt1: 'This section was made using React and consulting an endpoint on my own backend.',
-    workflowpt2: 'Check the code on',
+    workflowpt1: 'Made using ⚛️ React and the island architecture.',
+    workflowpt2: 'Backend code is available on ',
   }
 };
 
