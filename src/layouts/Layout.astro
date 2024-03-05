@@ -75,7 +75,6 @@ const { description, title } = Astro.props;
     <link rel="icon" sizes="144x144" href="/android-icon-144x144.png">
     <link rel="icon" sizes="192x192" href="/android-icon-192x192.png">
 
-
     <link rel="icon" type="image/svg+xml" href="/favicon.ico" />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
@@ -92,6 +91,20 @@ const { description, title } = Astro.props;
     <Header />
     <slot />
     <Footer />
+    <!-- Google tag (gtag.js) -->
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"
+    ></script>
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+
+      gtag("config", "G-525CEBLYVE");
+    </script>
     <style is:global>
       :root {
         color-scheme: light dark;
