@@ -131,28 +131,42 @@ declare module 'astro:content' {
   slug: "en/1-reality-of-job-seeking";
   body: string;
   collection: "posts";
-  data: InferEntrySchema<"posts">
+  data: any
 } & { render(): Render[".md"] };
 "en/2-remote-work-tools.md": {
 	id: "en/2-remote-work-tools.md";
   slug: "en/2-remote-work-tools";
   body: string;
   collection: "posts";
-  data: InferEntrySchema<"posts">
+  data: any
+} & { render(): Render[".md"] };
+"en/3-rethinking-object-creation.md": {
+	id: "en/3-rethinking-object-creation.md";
+  slug: "en/3-rethinking-object-creation";
+  body: string;
+  collection: "posts";
+  data: any
 } & { render(): Render[".md"] };
 "es/1-reality-of-job-seeking.md": {
 	id: "es/1-reality-of-job-seeking.md";
   slug: "es/1-reality-of-job-seeking";
   body: string;
   collection: "posts";
-  data: InferEntrySchema<"posts">
+  data: any
 } & { render(): Render[".md"] };
 "es/2-remote-work-tools.md": {
 	id: "es/2-remote-work-tools.md";
   slug: "es/2-remote-work-tools";
   body: string;
   collection: "posts";
-  data: InferEntrySchema<"posts">
+  data: any
+} & { render(): Render[".md"] };
+"es/3-rethinking-object-creation.md": {
+	id: "es/3-rethinking-object-creation.md";
+  slug: "es/3-rethinking-object-creation";
+  body: string;
+  collection: "posts";
+  data: any
 } & { render(): Render[".md"] };
 };
 
@@ -164,5 +178,5 @@ declare module 'astro:content' {
 
 	type AnyEntryMap = ContentEntryMap & DataEntryMap;
 
-	export type ContentConfig = typeof import("../src/content/config.js");
+	export type ContentConfig = never;
 }
