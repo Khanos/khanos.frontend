@@ -17,6 +17,10 @@ const es =  {
       title: 'Inicio',
       label: 'home',
     },
+    lab: {
+      title: 'Lab',
+      label: 'lab',
+    },
     exp: {
       title: 'Experiencia',
       label: 'experience',

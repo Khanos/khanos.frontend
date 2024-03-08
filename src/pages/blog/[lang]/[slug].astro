@@ -31,7 +31,7 @@ const { Content } = await post.render();
   description={`${post.data.author} . ${formattedDate}` || ""}
 >
   <main class="px-4">
-    <SectionContainer id="post" class="py-16 md:py-36">
+    <SectionContainer id={post.data.title.trim()} class="py-16 md:py-36">
       <div class="text-3xl text-black/80 dark:text-white mb-4 font-semibold inline-block">
         {post.data.title}
       </div>

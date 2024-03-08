@@ -17,6 +17,10 @@ const en =  {
       title: 'Home',
       label: 'home',
     },
+    lab: {
+      title: 'Lab',
+      label: 'lab',
+    },
     exp: {
       title: 'Experience',
       label: 'experience',
