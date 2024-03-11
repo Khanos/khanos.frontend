@@ -11,6 +11,14 @@ const es =  {
       title: `BlogTime 🤓`,
       description: `Blog personal de Epilef Rodriguez. Aquí puedes encontrar artículos sobre tecnología, programación y otros temas interesantes.`,
     },
+    github: {
+      title: `GitHub Search 🤓`,
+      description: `Búsqueda personal de GitHub de Epilef Rodriguez. Aquí puedes encontrar commits recientes con palabras divertidas.`,
+    },
+    url: {
+      title: `URL Shortener 🤓`,
+      description: `Acortador de URL personal de Epilef Rodriguez. Aquí puedes acortar tus URLs.`,
+    },
   },
   nav: {
     home: {
@@ -55,7 +63,14 @@ const es =  {
         description: `
         Demuestro un flujo de trabajo entre frontend y backend. El backend interactúa con la API de GitHub, buscando commits que luego se muestran como tarjetas en el frontend. Aprovechando la arquitectura Island y potenciado por #ReactJs (este sitio está construido con #Astro) permitiendo una integración perfecta y flexibilidad con varias tecnologías frontend.`,
         linkLabel: 'saber más',
-      }
+      },
+      url: {
+        title: 'Acortador de URL',
+        imgAlt: 'Logo del acortador de URL',
+        description: `
+        Acorta tus URLs con un solo clic. ¡Es fácil y rápido!`,
+        linkLabel: 'saber más',
+      },
     },
     exp: {
       title: 'Experiencia',
@@ -113,7 +128,28 @@ const es =  {
     descriptionpt2: 'El lenguaje inapropiado es opcional pero divertido.',
     workflowpt1: 'Hecho con ⚛️ React y la arquitectura de islas.',
     workflowpt2: 'El código del backend está disponible en ',
-  }
+  },
+  url: {
+    placeholder: 'ej. https://www.epilef.rocks/',
+    button: 'Acortar',
+    description: 'Acorta tus URLs con un click.',
+    loading: 'Cargando...',
+    invalid: 'URL inválida',
+    alreadyInList: 'Esta URL ya está en la lista',
+    fetchError: 'Error al obtener la lista de URL',
+    table: {
+      header: {
+        number: '#',
+        short: 'Corto',
+        original: 'Original',
+        action: 'Acción',
+      },
+      noData: 'No hay datos',
+      visit: 'Visitar',
+      copy: 'Copiar',
+      delete: 'Eliminar',
+    }
+  },
 };
 
 export default es;

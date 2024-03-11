@@ -11,6 +11,14 @@ const en =  {
       title: `BlogTime 🤓`,
       description: `Epilef Rodriguez's personal blog. Here you can find articles about technology, programming, and other interesting topics.`,
     },
+    github: {
+      title: `GitHub Search 🤓`,
+      description: `Epilef Rodriguez's personal GitHub search. Here you can find recent commits with fun words.`,
+    },
+    url: {
+      title: `URL Shortener 🤓`,
+      description: `Epilef Rodriguez's personal URL shortener. Here you can shorten your URLs.`,
+    },
   },
   nav: {
     home: {
@@ -51,7 +59,14 @@ const en =  {
         description: `
         I demonstrate a smooth workflow between frontend and backend. The backend interacts with GitHub's API, fetching commits that are displayed as cards on the frontend. Leveraging the Island architecture and powered by #ReactJs, this site is built with the Astro framework, enabling seamless integration and flexibility with various frontend technologies.`,
         linkLabel: 'know more',
-      }
+      },
+      url: {
+        title: 'URL Shortener',
+        imgAlt: 'URL Shortener logo',
+        description: `
+        My personal URL shortener is a space where you can shorten your URLs and share them with your friends. It's a simple tool that I built to practice my skills and have some fun. I hope you enjoy it!`,
+        linkLabel: 'know more',
+      },
     },
     exp: {
       title: 'Experience',
@@ -109,7 +124,28 @@ const en =  {
     descriptionpt2: 'Inappropriate language is optional but fun.',
     workflowpt1: 'Made using ⚛️ React and the island architecture.',
     workflowpt2: 'Backend code is available on ',
-  }
+  },
+  url: {
+    placeholder: 'e.g. https://www.epilef.rocks/',
+    button: 'Shorten',
+    description: 'Shorten your URLs and share them with your friends.',
+    loading: 'Loading...',
+    invalid: 'Invalid URL',
+    alreadyInList: 'This URL is already in the list',
+    fetchError: 'Error fetching URL list',
+    table: {
+      header: {
+        number: '#',
+        short: 'Short',
+        original: 'Original',
+        action: 'Action',
+      },
+      noData: 'No data',
+      visit: 'Visit',
+      copy: 'Copy',
+      delete: 'Delete',
+    }
+  },
 };
 
 export default en;
