@@ -1,0 +1,18 @@
+---
+import { getUrlData } from '../services'
+
+type UrlId = Record<string, string | undefined>;
+
+const { urlid } : UrlId = Astro.params;
+
+if (!urlid || !/^\d{4}$/.test(urlid)) {
+  return Astro.redirect("/");
+} else {
+  const urlData = await getUrlData(urlid);
+  if(urlData && urlData.error) {
+    return Astro.redirect("/");
+  } else {
+    return Astro.redirect(urlData.original_url);
+  }
+}
+---

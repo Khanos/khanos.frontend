@@ -40,7 +40,6 @@ const  GithubSearch: React.FC<GithubSearchProps>  = (props) => {
         placeholder={t('github').placeholder}
         onChange={(e) => setSearch(e.target.value)}
         onKeyDown={(e) => {
-          console.log('e.key: ', search);
           if (e.key === "Enter")
             setSearchQuery(search)
           }}

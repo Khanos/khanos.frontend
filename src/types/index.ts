@@ -72,3 +72,22 @@ export interface ProjectType {
   link?: string;
   github?: string;
 }
+
+// Url Shortener types
+export interface urlShortenerListProps {
+  urlList: urlShortenerType[];
+  setUrlList: (urlList: urlShortenerType[]) => void;
+};
+
+export interface urlShortenerType {
+  original_url: string;
+  short_url: number;
+  creation_date: string;
+  error: string;
+};
+
+export interface urlListType {
+  message: string;
+  data: urlShortenerType[];
+  error: string;
+};
