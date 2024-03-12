@@ -1,6 +1,7 @@
 {
   "extends": "astro/tsconfigs/strict",
   "compilerOptions": {
+    "lib": ["ES6", "DOM"],
     "baseUrl": "/Users/khanos/workspace/khanos/frontend",
     "paths": {
       "@/*": [

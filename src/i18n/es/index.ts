@@ -48,7 +48,7 @@ const es =  {
   },
   sections: {
     lab: {
-      title: 'Laboratorio',
+      title: 'Herramientas y Juguetes',
       label: 'Laboratorio Personal',
       blog: {
         title: 'Blog',

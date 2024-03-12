@@ -44,7 +44,7 @@ const en =  {
   },
   sections: {
     lab: {
-      title: 'Laboratory',
+      title: 'Tools && Toys',
       label: 'Personal Lab',
       blog: {
         title: 'Blog',

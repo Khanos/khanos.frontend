@@ -81,7 +81,7 @@ export interface urlShortenerListProps {
 
 export interface urlShortenerType {
   original_url: string;
-  short_url: number;
+  short_url: string;
   creation_date: string;
   error: string;
 };

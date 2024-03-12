@@ -46,16 +46,14 @@ export const addShortUrl = (url: string) => {
   })
     .then((response) => response.json() as Promise<urlShortenerType>)
     .then((data) => {
-      console.log('data: ', data);
       return data;
     }).catch((error) => {
       console.log(error);
     });
 };
 
-export const deleteShortUrl = (urlId: number) => {
+export const deleteShortUrl = (urlId: string) => {
   const apiUrl = new URL(urlShortenerEndPoint + `delete/${urlId}`);
-  console.log('apiUrl: ', apiUrl);
   return fetch(apiUrl, {
     method: 'DELETE',
     headers: {
@@ -64,7 +62,6 @@ export const deleteShortUrl = (urlId: number) => {
   })
     .then((response) => response.json() as Promise<urlShortenerType>)
     .then((data) => {
-      console.log('data: ', data);
       return data;
     }).catch((error) => {
       console.log(error);

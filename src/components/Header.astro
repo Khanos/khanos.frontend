@@ -62,7 +62,7 @@ const navItems = [
 
 <script>
   document.addEventListener("astro:page-load", () => {
-    const mainSections = document.querySelectorAll("section")
+    const mainSections = Array.from(document.querySelectorAll("section"));
     const blogSection = document.querySelector("#blog");
     const githubSection = document.querySelector("#github");
     const sections = [...mainSections, blogSection, githubSection];

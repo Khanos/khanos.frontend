@@ -11,7 +11,7 @@ const UrlList: React.FC<urlShortenerListProps> = (props) => {
   const { urlList, setUrlList } = props;
   const [count, setCount] = useState<number>(0);
 
-  const handleDeleteShortUrl = useCallback(async (urlId: number) => {
+  const handleDeleteShortUrl = useCallback(async (urlId: string) => {
     const response: any = await deleteShortUrl(urlId);
     if(response === undefined) return;
     if(response.error) {

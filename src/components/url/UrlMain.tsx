@@ -1,6 +1,6 @@
 import { useState, useCallback, useEffect } from 'react';
 import { gerUrlList, addShortUrl } from '../../services';
-import type { urlShortenerType } from '../../types';
+import type { urlShortenerType, urlListType } from '../../types';
 import { useTranslations } from '../../i18n/utils';
 import UrlList from './UrlList';
 
@@ -25,7 +25,7 @@ export const UrlMain = () => {
       setWarning(t('url').alreadyInList);
       return;
     }
-    const response: any = await addShortUrl(url);
+    const response = await addShortUrl(url) as urlShortenerType;
     if(response.original_url === url) {
       setUrlList([...urlList, response]);
       setUrl('');
@@ -37,7 +37,7 @@ export const UrlMain = () => {
   const fetchUrlList = useCallback(async () => {
     setLoading(true);
     if(urlList.length > 0) return;
-    const response = await gerUrlList() as any;
+    const response = await gerUrlList() as urlListType;
     setLoading(false);
     if(response === undefined) return;
     setUrlList(response.data);
