@@ -147,6 +147,13 @@ declare module 'astro:content' {
   collection: "posts";
   data: InferEntrySchema<"posts">
 } & { render(): Render[".md"] };
+"en/4-debunking-devin.md": {
+	id: "en/4-debunking-devin.md";
+  slug: "en/4-debunking-devin";
+  body: string;
+  collection: "posts";
+  data: InferEntrySchema<"posts">
+} & { render(): Render[".md"] };
 "es/1-reality-of-job-seeking.md": {
 	id: "es/1-reality-of-job-seeking.md";
   slug: "es/1-reality-of-job-seeking";
@@ -164,6 +171,13 @@ declare module 'astro:content' {
 "es/3-rethinking-object-creation.md": {
 	id: "es/3-rethinking-object-creation.md";
   slug: "es/3-rethinking-object-creation";
+  body: string;
+  collection: "posts";
+  data: InferEntrySchema<"posts">
+} & { render(): Render[".md"] };
+"es/4-debunking-devin.md": {
+	id: "es/4-debunking-devin.md";
+  slug: "es/4-debunking-devin";
   body: string;
   collection: "posts";
   data: InferEntrySchema<"posts">
