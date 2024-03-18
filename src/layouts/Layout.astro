@@ -123,6 +123,10 @@ const { description, title } = Astro.props;
         overscroll-behavior: none;
       }
 
+      .dropdown:hover .dropdown-menu {
+          display: block;
+        }
+
       @media (prefers-reduced-motion: reduce) {
         html {
           scroll-behavior: auto;

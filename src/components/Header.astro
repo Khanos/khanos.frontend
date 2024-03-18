@@ -1,6 +1,5 @@
 ---
-import ChangeLanguage from './ChangeLanguage';
-import ThemeToggle from "./ThemeToggle.astro"
+import ConfigMenu from "./configMenu/ConfigMenu"
 import { getLang, useTranslations } from '../i18n/utils';
 
 type tLang = (str: any) => any;
@@ -44,19 +43,18 @@ const navItems = [
     class="flex flex-wrap px-3 text-sm font-medium rounded-full text-gray-600 bg-gray-200/60 dark:bg-black/60  dark:text-gray-200 justify-center items-center"
     id="nav-menu"
   >
-    <ChangeLanguage lang={lang} client:only=”react”/>
-    {
-      navItems.map((link) => (
-        <a
-          class="relative block px-2 py-2 hover:scale-105 transition hover:text-[#F800AE] dark:hover:text-[#F800AE]"
-          aria-label={link.label}
-          href={link.url}
-        >
-          {link.title}
-        </a>
+  {
+    navItems.map((link) => (
+      <a
+      class="relative block px-2 py-2 hover:scale-105 transition hover:text-[#F800AE] dark:hover:text-[#F800AE]"
+      aria-label={link.label}
+      href={link.url}
+      >
+      {link.title}
+      </a>
       ))
     }
-    <ThemeToggle />
+    <ConfigMenu lang={lang} client:only=”react” />
   </nav>
 </header>
 

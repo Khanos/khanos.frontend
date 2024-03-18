@@ -150,6 +150,14 @@ const es =  {
       delete: 'Eliminar',
     }
   },
+  configs: {
+    theme: 'Tema',
+    language: 'Idioma',
+    light: 'Claro',
+    dark: 'Oscuro',
+    en: 'Inglés',
+    es: 'Español',
+  },
 };
 
 export default es;

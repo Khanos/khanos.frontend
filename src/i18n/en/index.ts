@@ -146,6 +146,14 @@ const en =  {
       delete: 'Delete',
     }
   },
+  configs: {
+    theme: 'Theme',
+    language: 'Language',
+    light: 'Light',
+    dark: 'Dark',
+    en: 'English',
+    es: 'Spanish',
+  }
 };
 
 export default en;
