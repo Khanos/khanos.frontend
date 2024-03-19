@@ -29,9 +29,16 @@ const ConfigMenu = (props: ConfigMenuProps) => {
 
   const toggleLanguage = (e: any) => {
     const lang = language === 'en' ? 'es' : 'en';
+    const currentUrl = window.location.href;
+    const url = new URL(currentUrl);
+    if(url.searchParams.get('lang')) {
+      url.searchParams.set('lang', lang);
+    } else {
+      url.searchParams.append('lang', lang);
+    }
     setLanguage(lang);
     localStorage.setItem('lang', lang);
-    window.location.href = `/?lang=${lang}`;
+    window.location.href = url.toString();
   }
 
   useEffect(() => {
@@ -56,9 +63,9 @@ const ConfigMenu = (props: ConfigMenuProps) => {
       <ul className="dropdown-menu absolute hidden right-0 md:left-0 text-gray-700 pt-1
         text-sm p-1 min-w-[10rem] rounded-md border border-gray-100 bg-white/90 dark:bg-gray-900/90 dark:border-gray-500/20 shadow-[0_3px_10px_rgb(0,0,0,0.2)] backdrop-blur-md
       ">
-        <li className="px-2 py-1.5 cursor-default hover:bg-neutral-400/40 dark:hover:bg-gray-500/50 rounded-sm">
+        <li className="px-2 py-1.5 mb-2 cursor-default hover:bg-neutral-400/40 dark:hover:bg-gray-500/50 rounded-sm">
           <label className="flex justify-between cursor-pointer">
-            <input type="checkbox" value={theme} onClick={toggleTheme} checked={theme === 'dark' ? true : false} className="sr-only peer"></input>
+            <input type="checkbox" value={theme} onChange={toggleTheme} checked={theme === 'dark' ? true : false} className="sr-only peer"></input>
             <span className="flex items-center text-sm font-medium text-gray-900 dark:text-gray-300">
             {theme === 'dark' ? (
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-2" viewBox="0 0 20 20" fill="currentColor">
@@ -82,7 +89,7 @@ const ConfigMenu = (props: ConfigMenuProps) => {
         </li>
         <li className="px-2 py-1.5 cursor-default hover:bg-neutral-400/40 dark:hover:bg-gray-500/50 rounded-sm">
           <label className="flex justify-between cursor-pointer">
-            <input type="checkbox" value={language} onClick={toggleLanguage} checked={language === 'en' ? true : false} className="sr-only peer"></input>
+            <input type="checkbox" value={language} onChange={toggleLanguage} checked={language === 'en' ? true : false} className="sr-only peer"></input>
             <span className="flex items-center text-sm font-medium text-gray-900 dark:text-gray-300">
               {language === 'en' ? (
                 <EnFlag className="h-4 w-4 mr-2" />

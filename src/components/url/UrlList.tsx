@@ -31,7 +31,7 @@ const UrlList: React.FC<urlShortenerListProps> = (props) => {
               className="w-full flex flex-row text-left text-sm font-light text-surface dark:text-white overflow-hidden">
               <thead
                 className="border-b border-neutral-200 font-medium dark:border-white/10">
-                <tr className="flex flex-col flex-no wrap sm:table-row">
+                <tr className="hidden sm:table-row">
                   <th scope="col" className="px-6 py-4">{t('url').table.header.number}</th>
                   <th scope="col" className="px-6 py-4">{t('url').table.header.original}</th>
                   <th scope="col" className="px-6 py-4">{t('url').table.header.short}</th>
@@ -42,9 +42,9 @@ const UrlList: React.FC<urlShortenerListProps> = (props) => {
                 { urlList.length === 0 && <tr><td colSpan={4} className="text-center">{t('url').table.noData}</td></tr> }
                 { urlList.map((url, index) => {
                   return (
-                    <tr key={index} className="flex flex-col flex-no wrap sm:table-row border-b border-neutral-200 dark:border-white/10">
+                    <tr key={index} className="flex flex-col sm:table-row border-b border-neutral-200 dark:border-white/10">
                       <td className="px-6 py-4 font-medium">{index + 1}</td>
-                      <td className="px-6 py-4 text-ellipsis overflow-hidden hover:text-clip">{url.original_url.substring(0, 80)+'...'}</td>
+                      <td className="px-6 py-4 text-ellipsis break-all overflow-hidden hover:text-clip">{url.original_url}</td>
                       <td className="px-6 py-4">{`https://epilef.org/${url.short_url}`}</td>
                       <td className="px-6 py-4 flex flex-row gap-2">
                         <a href={url.original_url} target="_blank" rel="noreferrer" className="text-white bg-gray-600 hover:bg-gray-500 focus:ring-4 focus:outline-none focus:ring-purple-200 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-2.5 py-2.5 text-center">{t('url').table.visit}</a>
