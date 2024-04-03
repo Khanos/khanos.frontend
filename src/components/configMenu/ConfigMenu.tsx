@@ -29,16 +29,24 @@ const ConfigMenu = (props: ConfigMenuProps) => {
 
   const toggleLanguage = (e: any) => {
     const lang = language === 'en' ? 'es' : 'en';
-    const currentUrl = window.location.href;
-    const url = new URL(currentUrl);
-    if(url.searchParams.get('lang')) {
-      url.searchParams.set('lang', lang);
+    let currentUrl = window.location.href;
+    let nextUrl = new URL(currentUrl);
+    if(currentUrl.match(/\/en\/|\/es\//)) {
+      if(currentUrl.includes('/en/')) {
+        currentUrl = currentUrl.replace(/\/en\//, `/${lang}/`);
+      } else {
+        currentUrl = currentUrl.replace(/\/es\//, `/${lang}/`);
+      }
+      nextUrl = new URL(currentUrl);
+    }
+    if(nextUrl.searchParams.get('lang')) {
+      nextUrl.searchParams.set('lang', lang);
     } else {
-      url.searchParams.append('lang', lang);
+      nextUrl.searchParams.append('lang', lang);
     }
     setLanguage(lang);
     localStorage.setItem('lang', lang);
-    window.location.href = url.toString();
+    window.location.href = nextUrl.toString();
   }
 
   useEffect(() => {
