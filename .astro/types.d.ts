@@ -154,6 +154,13 @@ declare module 'astro:content' {
   collection: "posts";
   data: InferEntrySchema<"posts">
 } & { render(): Render[".md"] };
+"en/5-from-panic-to-production.md": {
+	id: "en/5-from-panic-to-production.md";
+  slug: "en/5-from-panic-to-production";
+  body: string;
+  collection: "posts";
+  data: InferEntrySchema<"posts">
+} & { render(): Render[".md"] };
 "es/1-reality-of-job-seeking.md": {
 	id: "es/1-reality-of-job-seeking.md";
   slug: "es/1-reality-of-job-seeking";
@@ -178,6 +185,13 @@ declare module 'astro:content' {
 "es/4-debunking-devin.md": {
 	id: "es/4-debunking-devin.md";
   slug: "es/4-debunking-devin";
+  body: string;
+  collection: "posts";
+  data: InferEntrySchema<"posts">
+} & { render(): Render[".md"] };
+"es/5-from-panic-to-production.md": {
+	id: "es/5-from-panic-to-production.md";
+  slug: "es/5-from-panic-to-production";
   body: string;
   collection: "posts";
   data: InferEntrySchema<"posts">
