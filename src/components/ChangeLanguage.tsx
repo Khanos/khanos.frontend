@@ -1,3 +1,5 @@
+import { useEffect } from "react";
+
 type ChangeLanguageProps = {
   lang: string;
 };
@@ -20,6 +22,10 @@ const ChangeLanguage = (props: ChangeLanguageProps) => {
       return 'Change to English';
     }
   };
+
+  useEffect(() => {
+    document.documentElement.lang = lang;
+  }, [lang]);
 
   return (
     <div style={{

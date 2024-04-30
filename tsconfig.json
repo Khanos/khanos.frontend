@@ -10,5 +10,6 @@
     },
     "jsx": "react-jsx",
     "jsxImportSource": "react"
-  }
+  },
+  "exclude": ["astro.config.mjs"]
 }

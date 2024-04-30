@@ -48,8 +48,8 @@ const es =  {
   },
   sections: {
     lab: {
-      title: 'Herramientas y Juguetes',
-      label: 'Laboratorio Personal',
+      title: 'Cosas de código',
+      label: 'Proyectos personales y experimentos', 
       blog: {
         title: 'Blog',
         imgAlt: 'Logo del blog',

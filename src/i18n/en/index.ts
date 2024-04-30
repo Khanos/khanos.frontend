@@ -44,8 +44,8 @@ const en =  {
   },
   sections: {
     lab: {
-      title: 'Tools && Toys',
-      label: 'Personal Lab',
+      title: 'Code Stuff',
+      label: 'Personal projects and experiments',
       blog: {
         title: 'Blog',
         imgAlt: 'Blog logo',

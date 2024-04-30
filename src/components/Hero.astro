@@ -15,26 +15,30 @@ const t:tLang = useTranslations(lang);
 ---
 
 <div class="max-w-l">
-  <div class="flex justify-center mb-4">
-    <Image
-      width="400"
-      height="400"
-      src={myHeroImage}
-      format="webp"
-      alt={t('hero').profileAlt}
-      class="rounded-full shadow-lg size-16 md:size-20 lg:size-24 xl:size-28"
-    />
+  <div class="flex flex-col sm:flex-row sm:gap-4 justify-between items-center">
+    <div class="min-w-40 mb-4 sm:mb-0">
+      <Image
+        width="400"
+        height="400"
+        src={myHeroImage}
+        format="webp"
+        alt={t('hero').profileAlt}
+        class="rounded-xl shadow-lg size-44"
+      />
+    </div>
+    <div class="flex flex-col justify-center px-4">
+      <h1
+        class="text-2xl font-bold tracking-tight text-gray-800 sm:text-4xl dark:text-white mb-4"
+      >
+        {t('hero').title}
+      </h1>
+      <p
+        class="text-lg sm:text-xl text-gray-800 dark:[&>strong]:text-[#F800AE] [&>strong]:text-[#F800AE] [&>strong]:font-semibold dark:text-gray-300"
+        set:html={t('hero').bio}
+      >
+      </p>
+    </div>
   </div>
-  <h1
-    class="text-4xl font-bold tracking-tight text-gray-800 sm:text-5xl dark:text-white"
-  >
-    {t('hero').title}
-  </h1>
-  <p
-    class="mt-6 text-xl text-gray-800 dark:[&>strong]:text-[#F800AE] [&>strong]:text-[#F800AE] [&>strong]:font-semibold dark:text-gray-300"
-    set:html={t('hero').bio}
-  >
-  </p>
   <nav class="flex flex-row flex-wrap justify-center gap-4 mt-8">
     <SocialPill href={`mailto:${t('footer').mail}`}>
       <MailIcon class="size-4" />
