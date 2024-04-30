@@ -95,7 +95,7 @@ const en =  {
     title: 'Hello, I\'m Epilef Rodriguez',
     profileAlt: 'Epilef Rodriguez',
     badge: 'Software Engineer',
-    bio: '<strong>Full-Stack Engineer</strong> with a robust command of diverse cutting-edge technologies and tools. Passionate about technology, hungry for knowledge, and a devoted aficionado of great coffee. My focus lies in <strong>sharing knowledge</strong>, <strong>continual growth</strong>, and embracing <strong>challenges</strong> while relishing the journey.',
+    bio: 'Experienced <strong>Engineer</strong> proficient in diverse modern technologies. Enthusiastic about <strong>technology</strong>, committed to continuous <strong>learning</strong>, and passionate about great <strong>coffee</strong>. Dedicated to sharing knowledge, embracing challenges, and enjoying the journey of growth.',
     pills: {
       mail: 'Email',
       linkedin: 'LinkedIn',

@@ -68,7 +68,7 @@ export const UrlMain = () => {
             }}
         >
         </input>
-        <button onClick={() => addUrl(url)} type="button" className="absolute end-2 bottom-4 max-w-60 text-white bg-gradient-to-r from-purple-500 to-pink-500 hover:bg-gradient-to-l focus:ring-4 focus:outline-none focus:ring-purple-200 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center">{t('url').button}</button>
+        <button onClick={() => addUrl(url)} type="button" className="absolute end-2 bottom-4 max-w-60 text-white bg-gradient-to-r from-purple-500 to-pink-500 hover:bg-gradient-to-l focus:ring-4 focus:outline-none focus:ring-purple-200 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center" aria-label={t('url').button}>{t('url').button}</button>
         { warning && <p className="text-red-500 text-sm absolute bottom-[-1.5rem]">{warning}</p> }
       </div>
       { loading ?

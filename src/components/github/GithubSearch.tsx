@@ -49,7 +49,7 @@ const  GithubSearch: React.FC<GithubSearchProps>  = (props) => {
         <p>{t('github').descriptionpt1}</p>
         <p>{t('github').descriptionpt2}</p>
       </div>
-      <button onClick={() => setSearchQuery(search)} type="button" className="max-w-60 text-white bg-gradient-to-r from-purple-500 to-pink-500 hover:bg-gradient-to-l focus:ring-4 focus:outline-none focus:ring-purple-200 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-2">{t('github').button}</button>
+      <button onClick={() => setSearchQuery(search)} aria-label={t('github').placeholder} type="button" className="max-w-60 text-white bg-gradient-to-r from-purple-500 to-pink-500 hover:bg-gradient-to-l focus:ring-4 focus:outline-none focus:ring-purple-200 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-2">{t('github').button}</button>
     </div>
   )
 }

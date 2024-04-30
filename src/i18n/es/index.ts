@@ -99,7 +99,7 @@ const es =  {
     title: 'Hola, soy Epilef Rodriguez',
     profileAlt: 'Epilef Rodriguez',
     badge: 'Ingeniero Full-Stack',
-    bio: '<strong>Ingeniero Full-Stack</strong> con un sólido dominio de diversas tecnologías y herramientas de vanguardia. Apasionado por la tecnología, hambriento de conocimiento y un devoto aficionado del buen café. Mi enfoque radica en <strong>compartir conocimientos</strong>, <strong>crecimiento continuo</strong> y abrazar <strong>desafíos</strong> mientras disfruto del viaje.',
+    bio: '<strong>Ingeniero</strong> experimentado en diversas tecnologías modernas. Entusiasta de la <strong>tecnología</strong>, comprometido con el <strong>aprendizaje</strong> continuo y apasionado por un excelente <strong>café</strong>. Dedicado a compartir conocimientos, enfrentar desafíos y disfrutar del viaje del crecimiento.',
     pills: {
       mail: 'Correo',
       linkedin: 'LinkedIn',

@@ -49,7 +49,7 @@ const UrlList: React.FC<urlShortenerListProps> = (props) => {
                       <td className="px-6 py-4">{`https://epilef.org/${padNumber(url.short_url)}`}</td>
                       <td className="px-6 py-4 flex flex-row gap-2">
                         <a href={url.original_url} target="_blank" rel="noreferrer" className="text-white bg-gray-600 hover:bg-gray-500 focus:ring-4 focus:outline-none focus:ring-purple-200 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-2.5 py-2.5 text-center">{t('url').table.visit}</a>
-                        <button className="text-white bg-gray-600 hover:bg-gray-500 focus:ring-4 focus:outline-none focus:ring-purple-200 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-2.5 py-2.5 text-center" onClick={() => navigator.clipboard.writeText(`https://epilef.org/${padNumber(url.short_url)}`)}>{t('url').table.copy}</button>
+                        <button className="text-white bg-gray-600 hover:bg-gray-500 focus:ring-4 focus:outline-none focus:ring-purple-200 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-2.5 py-2.5 text-center" onClick={() => navigator.clipboard.writeText(`https://epilef.org/${padNumber(url.short_url)}`)} aria-label={t('url').table.copy}>{t('url').table.copy}</button>
                         {count > 10 && <button onClick={ () => handleDeleteShortUrl(url.short_url) } className="text-white bg-red-600 hover:bg-red-500 focus:ring-4 focus:outline-none focus:ring-purple-200 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-2.5 py-2.5 text-center">{t('url').table.delete}</button>}
                       </td>
                     </tr>

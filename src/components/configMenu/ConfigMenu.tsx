@@ -62,7 +62,7 @@ const ConfigMenu = (props: ConfigMenuProps) => {
 
   return (
     <div className="dropdown inline-block relative">
-      <button onClick={toggleMenu} className="py-2 px-2 rounded appearance-none border-none flex transition hover:scale-125">
+      <button onClick={toggleMenu} aria-label={t('configs')[theme]} className="py-2 px-2 rounded appearance-none border-none flex transition hover:scale-125">
         <CogIcon 
           id="light" 
           className="theme-toggle-icon size-5 transition-all fill:text-gray-600 dark:fill-gray-200" 

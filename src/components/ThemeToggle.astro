@@ -9,9 +9,11 @@ const THEMES = ["Light", "Dark", "System"]
 <div class="relative mx-1">
   <button
     id="theme-toggle-btn"
+    aria-label="Elige el tema"
+    aria-labelledby="labeldiv"
     class="appearance-none border-none flex hover:scale-125 transition"
   >
-    <span class="sr-only">Elige el tema</span>
+    <span id="labeldiv" class="sr-only">Elige el tema</span>
     <SunIcon 
       id="light" 
       class="theme-toggle-icon size-5 transition-all" 
