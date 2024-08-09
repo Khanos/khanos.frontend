@@ -1,5 +1,13 @@
 const exp = [
   {
+    date: "2024",
+    title: "Tech Lead",
+    company: "© 2024 Achieve.com.",
+    description:
+      "As a Tech Lead, I optimized the team's workflow, proactively solving challenges with strategic foresight to ensure our tech stack consistently met and exceeded standards. I led the development of the company’s top three landing pages, pivotal for driving CTAs, and enforced SOLID principles to maintain robust, high-quality code, complete with comprehensive unit testing and strong code coverage.",
+    link: "https://www.achieve.com/",
+  },
+  {
     date: "2022 - 2023",
     title: "Software Engineer",
     company: "Mercado Libre S.L.R.",

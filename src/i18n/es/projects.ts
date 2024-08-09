@@ -2,6 +2,15 @@ import type { ProjectType } from '../../types';
 
 const projects:ProjectType[] = [
   {
+    title: "www.freedomdebtrelief.com",
+    description:
+      "Freedom Debt Relief es una empresa de liquidación de deudas que ayuda a los clientes a resolver sus deudas a través de la negociación y liquidación de deudas. El sitio web se construyó utilizando Nextjs, TailwindCss, Node.js, Express y jest, y se aloja en Cloudflare.",
+    link: "https://www.freedomdebtrelief.com/",
+    image: "../assets/img/projects/freedomdebtrelief.png",
+    imageAlt: "Freedom Debt Relief",
+    tags: ["react",  "nextJs", "nodejs", "express", "Tailwind", "jest", "bitbucket"]
+  },
+  {
     title: "MercadoShops",
     description:
       "MercadoShops es la plataforma de comercio electrónico de MercadoLibre que permite a los vendedores crear sus propias tiendas en línea, ofreciendo herramientas para personalización, procesamiento de pagos, gestión de inventario y marketing.",
