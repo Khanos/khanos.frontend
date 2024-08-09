@@ -2,6 +2,15 @@ import type { ProjectType } from '../../types';
 
 const projects:ProjectType[] = [
   {
+    title: "www.freedomdebtrelief.com",
+    description:
+      "Freedom Debt Relief is a debt settlement company that helps clients resolve their debt through debt negotiation and settlement. The website was built using Nextjs, TailwindCss, Node.js, Express, and jest, and is hosted on Cloudflare.",
+    link: "https://www.freedomdebtrelief.com/",
+    image: "../assets/img/projects/freedomdebtrelief.png",
+    imageAlt: "Freedom Debt Relief",
+    tags: ["react",  "nextjs", "nodejs", "express", "tailwindcss", "jest", "bitbucket"]
+  },
+  {
     title: "MercadoShops",
     description:
       "MercadoShops is MercadoLibre's e-commerce platform that empowers sellers to create their own online stores, offering tools for customization, payment processing, inventory management, and marketing.",

@@ -1,5 +1,13 @@
 const exp = [
   {
+    date: "2024",
+    title: "Líder Técnico",
+    company: "© 2024 Achieve.com.",
+    description:
+      "Como Líder Técnico, optimicé el flujo de trabajo del equipo, resolviendo proactivamente desafíos con previsión estratégica para garantizar que nuestra pila tecnológica cumpliera y superara consistentemente los estándares. Lideré el desarrollo de las tres principales páginas de destino de la empresa, fundamentales para impulsar las llamadas a la acción, y apliqué los principios SOLID para mantener un código robusto y de alta calidad, completo con pruebas unitarias exhaustivas y una sólida cobertura de código.",
+    link: "https://www.achieve.com/",
+  },
+  {
     date: "2022 - 2023",
     title: "Ingeniero de Software",
     company: "Mercado Libre S.L.R.",
