@@ -67,6 +67,13 @@ const en =  {
         My personal URL shortener is a space where you can shorten your URLs and share them with your friends. It's a simple tool that I built to practice my skills and have some fun. I hope you enjoy it!`,
         linkLabel: 'know more',
       },
+      svgToComponent: {
+        title: 'SVG to Component',
+        imgAlt: 'SVG to Component logo',
+        description: `
+        My personal SVG to Component tool is a space where you can convert your SVGs to React/Vue/Angular/Svelt components. It's a simple tool that helps me convert SVGs to components quickly. I hope you find it useful!`,
+        linkLabel: 'know more',
+      },
     },
     exp: {
       title: 'Experience',
@@ -124,6 +131,22 @@ const en =  {
     descriptionpt2: 'Inappropriate language is optional but fun.',
     workflowpt1: 'Made using ⚛️ React and the island architecture.',
     workflowpt2: 'Backend code is available on ',
+  },
+  svgToComponent: {
+    title: 'SVG to Component Converter',
+    description: 'Easily convert your SVG code into your SVGs to React/Vue/Angular/Svelte components.',
+    svgInputLabel: 'Paste your SVG code here',
+    svgText: {
+      placeholder: 'e.g. <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M0 0h24v24H0z" fill="none"/></svg>',
+    },
+    framework: {
+      react: 'React',
+      vue: 'Vue',
+      angular: 'Angular',
+      svelte: 'Svelte',
+    },
+    button: 'Convert',
+    copy: 'Copy to clipboard',
   },
   url: {
     placeholder: 'e.g. https://www.epilef.rocks/',
