@@ -67,6 +67,13 @@ const en =  {
         My personal URL shortener is a space where you can shorten your URLs and share them with your friends. It's a simple tool that I built to practice my skills and have some fun. I hope you enjoy it!`,
         linkLabel: 'know more',
       },
+      svgToComponent: {
+        title: 'SVG to Component',
+        imgAlt: 'SVG to Component logo',
+        description: `
+        My personal SVG to Component tool is a space where you can convert your SVGs to React/Vue/Angular/Svelt components. It's a simple tool that helps me convert SVGs to components quickly. I hope you find it useful!`,
+        linkLabel: 'know more',
+      },
     },
     exp: {
       title: 'Experience',
