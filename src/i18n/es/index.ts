@@ -71,6 +71,13 @@ const es =  {
         Acorta tus URLs con un solo clic. ¡Es fácil y rápido!`,
         linkLabel: 'saber más',
       },
+      svgToComponent: {
+        title: 'SVG a Componente',
+        imgAlt: 'Logo de SVG a Componente',
+        description: `
+        Mi herramienta personal SVG a Componente es un espacio donde puedes convertir tus SVGs a componentes React/Vue/Angular/Svelt. Es una herramienta simple que me ayuda a convertir SVGs en componentes rápidamente. ¡Espero que te resulte útil!`,
+        linkLabel: 'saber más',
+      },
     },
     exp: {
       title: 'Experiencia',
@@ -128,6 +135,22 @@ const es =  {
     descriptionpt2: 'El lenguaje inapropiado es opcional pero divertido.',
     workflowpt1: 'Hecho con ⚛️ React y la arquitectura de islas.',
     workflowpt2: 'El código del backend está disponible en ',
+  },
+  svgToComponent: {
+    title: 'Convertidor de SVG a Componente',
+    description: 'Convierte fácilmente tu código SVG en componentes React, Vue, Angular o Svelte.',
+    svgInputLabel: 'Pega tu código SVG aquí',
+    svgText: {
+      placeholder: 'ej. <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M0 0h24v24H0z" fill="none"/></svg>',
+    },
+    framework: {
+      react: 'React',
+      vue: 'Vue',
+      angular: 'Angular',
+      svelte: 'Svelte',
+    },
+    button: 'Convertir',
+    copy: 'Copiar al portapapeles',
   },
   url: {
     placeholder: 'ej. https://www.epilef.rocks/',
