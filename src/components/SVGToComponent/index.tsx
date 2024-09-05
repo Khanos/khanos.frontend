@@ -46,7 +46,7 @@ const SvgToComponentConverter = () => {
   };
 
   return (
-    <div className="min-h-screen p-10 flex flex-col items-center">
+    <div className="min-h-screen p-0 md:p-10 flex flex-col items-center">
       <div className="text-center mb-8">
         <h1 className="text-4xl font-extrabold text-gray-900 dark:text-gray-100 mb-2">
           {t('svgToComponent').title}
@@ -69,8 +69,8 @@ const SvgToComponentConverter = () => {
           />
         </div>
         <div className="container max-w-sm mx-auto mb-10">
-          <div className="flex justify-around mb-4">
-            <label className="flex items-center">
+          <div className="flex justify-around flex-wrap md:flex-nowrap mb-4 p-2">
+            <label className="flex items-center p-2 md:p-0">
               <input
                 type="radio"
                 value="react"
@@ -81,7 +81,7 @@ const SvgToComponentConverter = () => {
               <FaReact className="text-blue-500 mr-1" />
               {t('svgToComponent').framework.react}
             </label>
-            <label className="flex items-center">
+            <label className="flex items-center p-2 md:p-0">
               <input
                 type="radio"
                 value="vue"
@@ -92,7 +92,7 @@ const SvgToComponentConverter = () => {
               <FaVuejs className="text-green-500 mr-1" />
               {t('svgToComponent').framework.vue}
             </label>
-            <label className="flex items-center">
+            <label className="flex items-center p-2 md:p-0">
               <input
                 type="radio"
                 value="angular"
@@ -103,7 +103,7 @@ const SvgToComponentConverter = () => {
               <FaAngular className="text-red-500 mr-1" />
               {t('svgToComponent').framework.angular}
             </label>
-            <label className="flex items-center">
+            <label className="flex items-center p-2 md:p-0">
               <input
                 type="radio"
                 value="svelte"
