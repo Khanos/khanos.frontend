@@ -64,7 +64,7 @@ const SvgToComponentConverter = () => {
             value={svgText}
             onChange={(e) => setSvgText(e.target.value)}
             placeholder={t('svgToComponent').svgText.placeholder}
-            className="w-full p-2 border rounded text-gray-100 dark:bg-[#272822]"
+            className="w-full p-2 border rounded text-gray-600 dark:text-gray-100 dark:bg-[#272822]"
             rows={6}
           />
         </div>

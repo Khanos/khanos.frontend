@@ -54,7 +54,7 @@ const en =  {
         linkLabel: 'know more',
       },
       github: {
-        title: 'GitHub',
+        title: 'GitHub Api Demo',
         imgAlt: 'GitHub logo',
         description: `
         I demonstrate a smooth workflow between frontend and backend. The backend interacts with GitHub's API, fetching commits that are displayed as cards on the frontend. Leveraging the Island architecture and powered by #ReactJs, this site is built with the Astro framework, enabling seamless integration and flexibility with various frontend technologies.`,

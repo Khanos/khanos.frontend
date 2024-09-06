@@ -58,7 +58,7 @@ const es =  {
         linkLabel: 'saber más',
       },
       github: {
-        title: 'GitHub',
+        title: 'GitHub Api Demo',
         imgAlt: 'Logo de GitHub',
         description: `
         Demuestro un flujo de trabajo entre frontend y backend. El backend interactúa con la API de GitHub, buscando commits que luego se muestran como tarjetas en el frontend. Aprovechando la arquitectura Island y potenciado por #ReactJs (este sitio está construido con #Astro) permitiendo una integración perfecta y flexibilidad con varias tecnologías frontend.`,
