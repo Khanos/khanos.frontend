@@ -1,0 +1,22 @@
+---
+import Layout from "../layouts/Layout.astro";
+import SectionContainer from "../components/SectionContainer.astro";
+import { getLang, useTranslations } from '../i18n/utils';
+import MercadoEpiComponent from '../components/MercadoEpi'
+
+type tLang = (str: any) => any;
+
+const lang = getLang();
+const t:tLang = useTranslations(lang);
+---
+
+<Layout
+  title={t('layouts').github.title}
+  description={t('layouts').github.description}
+>
+  <main class="px-4">
+    <SectionContainer id="github" class="lg:max-w-6xl md:max-w-4xl py-16 md:py-36">
+      <MercadoEpiComponent client:only=”react” />
+    </SectionContainer>
+  </main>
+</Layout>
