@@ -1,6 +1,15 @@
-# Portfolio Project
+# khanos.frontend
 
-This website serves as a portfolio highlighting my experience, skills, and projects. Originally developed with Angular, Vue.js, Vanilla JavaScript, and React with Next.js, it's now built with Astro, Tailwind CSS, and TypeScript. Hosted on Heroku.
+My portfolio: experience, skills and projects. Live at
+**[khanos-frontend.vercel.app](https://khanos-frontend.vercel.app)**.
+
+Built with Astro, TypeScript and Tailwind CSS, with React used for the interactive islands and
+deployed to Vercel through `@astrojs/vercel`. The build handles image optimization (`sharp`), HTML
+compression, a generated sitemap and `robots.txt`.
+
+It has been through Angular, Vue, vanilla JavaScript and Next.js before landing here. Roughly the
+same content each time — rebuilding it is how I get a feel for a framework's edges rather than its
+tutorial.
 
 ## Project Structure
 
