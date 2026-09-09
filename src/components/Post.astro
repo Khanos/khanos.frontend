@@ -18,7 +18,7 @@ const { post } = Astro.props;
 
 <article>
   <a
-    href={`/blog/${post.slug}`}
+    href={`/blog/${post.id}`}
     aria-label={`Read more about ${post.data.title}`}
   >
     <Image
@@ -38,10 +38,10 @@ const { post } = Astro.props;
   <p class="text-gray-600 dark:text-gray-400 mb-9 line-clamp-3">
     {post.body}
   </p>
-  <a href={`/blog/${post.slug}`}>
-    
+  <a href={`/blog/${post.id}`}>
+  
   </a>
-  <LinkInline href={`/blog/${post.slug}`} aria-label={t('blog').linkAriaLabel}}>
+  <LinkInline href={`/blog/${post.id}`} aria-label={t('blog').linkAriaLabel}>
     {t('blog').linkLabel}
   </LinkInline>
 </article>

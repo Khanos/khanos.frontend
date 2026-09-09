@@ -2,16 +2,17 @@
 import Layout from "../../../layouts/Layout.astro";
 import SectionContainer from "../../../components/SectionContainer.astro";
 import { Image } from "astro:assets";
-import { getCollection } from "astro:content";
+import { getCollection, render } from "astro:content";
 import type { CollectionEntry } from "astro:content";
 import LinkInline from "../../../components/LinkInline.astro";
+
 export const prerender = true;
 
 export async function getStaticPaths() {
   const pages = await getCollection('posts');
 
-  const paths = pages.map(page => {
-    const [lang, ...slug] = page.slug.split('/');
+  const paths = pages.map((page) => {
+    const [lang, ...slug] = page.id.split('/');
     return { params: { lang, slug: slug.join('/') || undefined }, props: page };
   });
 
@@ -23,7 +24,7 @@ type Props = {
 };
 const post: any = Astro.props;
 const formattedDate = post.data.date.toLocaleString();
-const { Content } = await post.render();
+const { Content } = await render(post);
 ---
 
 <Layout
