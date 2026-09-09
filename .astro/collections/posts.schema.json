@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "author": {
+      "type": "string"
+    },
+    "date": {
+      "type": "string"
+    },
+    "image": {
+      "type": "string"
+    },
+    "title": {
+      "type": "string"
+    },
+    "$schema": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "author",
+    "date",
+    "image",
+    "title"
+  ]
+}
