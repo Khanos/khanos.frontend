@@ -36,7 +36,7 @@
     "@types/react-syntax-highlighter": "^15.5.13"
   },
   "engines": {
-    "node": "^18.0.0 || ^20.0.0 || >=21.0.0"
+    "node": "24.x"
   },
   "overrides": {
     "prismjs": ">=1.30.0"

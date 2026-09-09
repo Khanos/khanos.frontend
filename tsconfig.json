@@ -11,5 +11,5 @@
     "jsx": "react-jsx",
     "jsxImportSource": "react"
   },
-  "exclude": ["astro.config.mjs"]
+  "exclude": ["astro.config.mjs", "dist", ".astro", "node_modules"]
 }

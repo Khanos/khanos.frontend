@@ -26,7 +26,7 @@ const GithubMain = () => {
         searchQuery={searchQuery}
       />
     </>
-  )
+  );
 }
 
 export default GithubMain;
