@@ -36,7 +36,7 @@ const { post } = Astro.props;
     {post.data.title}
   </div>
   <p class="text-gray-600 dark:text-gray-400 mb-9 line-clamp-3">
-    {post.body}
+    {post.data.description ?? post.body}
   </p>
   <a href={`/blog/${post.id}`}>
   
