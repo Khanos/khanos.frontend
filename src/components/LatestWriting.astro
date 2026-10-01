@@ -1,0 +1,41 @@
+---
+import { getCollection } from 'astro:content';
+import WritingIcon from './icons/Writing.astro';
+import SectionContainer from './SectionContainer.astro';
+import WritingPostCard from './WritingPostCard.astro';
+import { latestPublishedPosts } from '../utils/writing';
+import { ui } from '../i18n/ui';
+interface Props { lang: 'en' | 'es' }
+const { lang } = Astro.props;
+const labels = ui[lang].sections.writing;
+const [featured, ...secondary] = latestPublishedPosts(await getCollection('posts'), lang);
+---
+<SectionContainer id="writing">
+  <div class="writing-header">
+    <div>
+      <h2 class="flex items-center gap-x-3 text-3xl font-semibold text-black/80 dark:text-white">
+        <WritingIcon class="size-7 shrink-0" aria-hidden="true" />
+        {labels.title}
+      </h2>
+      <p class="mt-3 text-gray-600 dark:text-gray-400">{labels.subtitle}</p>
+    </div>
+    <a class="all-posts" href={`/blog?lang=${lang}`}>{labels.viewAll} <span aria-hidden="true">→</span></a>
+  </div>
+  {featured ? <div class="writing-grid">
+    <WritingPostCard post={featured} lang={lang} featured />
+    {secondary.length > 0 && <div class="secondary-posts">
+      {secondary.map(post => <WritingPostCard post={post} lang={lang} />)}
+    </div>}
+  </div> : <p class="text-gray-600 dark:text-gray-400">{labels.empty}</p>}
+</SectionContainer>
+<style>
+  .writing-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 1.5rem; margin-bottom: 1.5rem; }
+  .writing-header p { max-width: 38rem; line-height: 1.6; }
+  .all-posts { flex-shrink: 0; color: #a60075; font-size: .875rem; font-weight: 600; padding-top: .5rem; }
+  :global(.dark) .all-posts { color: #ff70d4; }
+  .all-posts:hover { text-decoration: underline; text-underline-offset: 4px; }
+  .all-posts:focus-visible { outline: 2px solid #F800AE; outline-offset: 5px; border-radius: 2px; }
+  .writing-grid, .secondary-posts { display: grid; gap: 1rem; min-width: 0; }
+  @media (min-width: 1024px) { .writing-grid { grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); align-items: stretch; } .secondary-posts { grid-template-rows: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 639px) { .writing-header { flex-direction: column; gap: .5rem; } }
+</style>
