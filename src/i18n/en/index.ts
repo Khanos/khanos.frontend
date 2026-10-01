@@ -25,6 +25,10 @@ const en =  {
       title: 'Home',
       label: 'home',
     },
+    writing: {
+      title: 'Writing',
+      label: 'writing',
+    },
     lab: {
       title: 'Lab',
       label: 'lab',
@@ -43,36 +47,34 @@ const en =  {
     },
   },
   sections: {
+    writing: {
+      title: 'Latest Writing',
+      subtitle: 'Thoughts, tutorials, and lessons learned about software engineering, AI, and the developer journey.',
+      viewAll: 'View all posts',
+      readArticle: 'Read article',
+      readingTime: 'min read',
+      empty: 'New articles are on the way.',
+    },
     lab: {
-      title: 'Code Stuff',
-      label: 'Personal projects and experiments',
-      blog: {
-        title: 'Blog',
-        imgAlt: 'Blog logo',
-        description: `
-        My personal blog is a space where I share my thoughts, experiences, and knowledge. I write about technology, programming, and other interesting topics. I also share tips and tricks that I've learned along the way. I hope you find it useful!`,
-        linkLabel: 'know more',
-      },
+      title: 'Lab',
+      label: 'Experiments, prototypes, and things I build to learn.',
       github: {
         title: 'GitHub Api Demo',
         imgAlt: 'GitHub logo',
-        description: `
-        I demonstrate a smooth workflow between frontend and backend. The backend interacts with GitHub's API, fetching commits that are displayed as cards on the frontend. Leveraging the Island architecture and powered by #ReactJs, this site is built with the Astro framework, enabling seamless integration and flexibility with various frontend technologies.`,
-        linkLabel: 'know more',
+        description: 'Search recent GitHub commits and explore a React island backed by the GitHub API.',
+        linkLabel: 'Open experiment',
       },
       url: {
         title: 'URL Shortener',
         imgAlt: 'URL Shortener logo',
-        description: `
-        My personal URL shortener is a space where you can shorten your URLs and share them with your friends. It's a simple tool that I built to practice my skills and have some fun. I hope you enjoy it!`,
-        linkLabel: 'know more',
+        description: 'A small full-stack playground for shortening, saving, and sharing links.',
+        linkLabel: 'Shorten a link',
       },
       svgToComponent: {
         title: 'SVG to Component',
         imgAlt: 'SVG to Component logo',
-        description: `
-        My personal SVG to Component tool is a space where you can convert your SVGs to React/Vue/Angular/Svelt components. It's a simple tool that helps me convert SVGs to components quickly. I hope you find it useful!`,
-        linkLabel: 'know more',
+        description: 'Turn SVGs into React, Vue, Angular, or Svelte components in a few steps.',
+        linkLabel: 'Convert an SVG',
       },
     },
     exp: {

@@ -25,6 +25,10 @@ const es =  {
       title: 'Inicio',
       label: 'home',
     },
+    writing: {
+      title: 'Artículos',
+      label: 'writing',
+    },
     lab: {
       title: 'Lab',
       label: 'lab',
@@ -47,36 +51,34 @@ const es =  {
     },
   },
   sections: {
+    writing: {
+      title: 'Últimos artículos',
+      subtitle: 'Reflexiones, tutoriales y lecciones aprendidas sobre ingeniería de software, IA y el camino del desarrollador.',
+      viewAll: 'Ver todos los artículos',
+      readArticle: 'Leer artículo',
+      readingTime: 'min de lectura',
+      empty: 'Pronto habrá nuevos artículos.',
+    },
     lab: {
-      title: 'Cosas de código',
-      label: 'Proyectos personales y experimentos', 
-      blog: {
-        title: 'Blog',
-        imgAlt: 'Logo del blog',
-        description: `
-        Mi blog personal es un espacio donde comparto mis pensamientos, experiencias y conocimientos. Escribo sobre tecnología, programación y otros temas interesantes. También comparto consejos y trucos que he aprendido en el camino. ¡Espero que te resulte útil!`,
-        linkLabel: 'saber más',
-      },
+      title: 'Lab',
+      label: 'Experimentos, prototipos y cosas que construyo para aprender.',
       github: {
         title: 'GitHub Api Demo',
         imgAlt: 'Logo de GitHub',
-        description: `
-        Demuestro un flujo de trabajo entre frontend y backend. El backend interactúa con la API de GitHub, buscando commits que luego se muestran como tarjetas en el frontend. Aprovechando la arquitectura Island y potenciado por #ReactJs (este sitio está construido con #Astro) permitiendo una integración perfecta y flexibilidad con varias tecnologías frontend.`,
-        linkLabel: 'saber más',
+        description: 'Busca commits recientes de GitHub y explora una isla React conectada a su API.',
+        linkLabel: 'Abrir experimento',
       },
       url: {
         title: 'Acortador de URL',
         imgAlt: 'Logo del acortador de URL',
-        description: `
-        Acorta tus URLs con un solo clic. ¡Es fácil y rápido!`,
-        linkLabel: 'saber más',
+        description: 'Un pequeño laboratorio full-stack para acortar, guardar y compartir enlaces.',
+        linkLabel: 'Acortar un enlace',
       },
       svgToComponent: {
         title: 'SVG a Componente',
         imgAlt: 'Logo de SVG a Componente',
-        description: `
-        Mi herramienta personal SVG a Componente es un espacio donde puedes convertir tus SVGs a componentes React/Vue/Angular/Svelt. Es una herramienta simple que me ayuda a convertir SVGs en componentes rápidamente. ¡Espero que te resulte útil!`,
-        linkLabel: 'saber más',
+        description: 'Convierte SVGs en componentes React, Vue, Angular o Svelte en pocos pasos.',
+        linkLabel: 'Convertir un SVG',
       },
     },
     exp: {

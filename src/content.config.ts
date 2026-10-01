@@ -10,6 +10,8 @@ const postCollection = defineCollection({
       image: image(),
       title: z.string(),
       description: z.string().optional(),
+      categories: z.array(z.string()).optional(),
+      draft: z.boolean().default(false),
       anonymous: z.boolean().optional(),
     }),
 });

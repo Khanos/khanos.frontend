@@ -1,0 +1,61 @@
+---
+import { Image } from 'astro:assets';
+import type { CollectionEntry } from 'astro:content';
+import { articleText, publicationDate } from '../utils/writing';
+import { ui } from '../i18n/ui';
+interface Props {
+  post: CollectionEntry<'posts'>;
+  lang: 'en' | 'es';
+  featured?: boolean;
+}
+const { post, lang, featured = false } = Astro.props;
+const labels = ui[lang].sections.writing;
+const date = publicationDate(post.data.date);
+const text = articleText(post.body);
+const excerpt = post.data.description || text;
+const minutes = text ? Math.max(1, Math.ceil(text.split(/\s+/).length / 200)) : undefined;
+const category = post.data.categories?.[0];
+---
+<article class:list={['writing-card', { featured }]}>
+  <a class="post-link" href={`/blog/${post.id}`}>
+    <div class="post-image">
+      <Image src={post.data.image} alt={post.data.title} width={featured ? 720 : 320}
+        height={featured ? 405 : 240} format="webp" loading="lazy" />
+    </div>
+    <div class="post-copy">
+      <div class="metadata">
+        {category && <span class="category">{category.replace(/-/g, ' ')}</span>}
+        <time datetime={date.toISOString()}>{new Intl.DateTimeFormat(lang, { month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC' }).format(date)}</time>
+        {minutes && <span>· {minutes} {labels.readingTime}</span>}
+      </div>
+      <h3>{post.data.title}</h3>
+      <p>{excerpt}</p>
+      <span class="read-link">{labels.readArticle} <span aria-hidden="true">→</span></span>
+    </div>
+  </a>
+</article>
+<style>
+  .writing-card { min-width: 0; border: 1px solid rgb(120 120 130 / .2); border-radius: 1rem; background: rgb(120 120 130 / .04); overflow: hidden; transition: border-color 180ms, transform 180ms, box-shadow 180ms; }
+  .writing-card:hover { border-color: rgb(248 0 174 / .4); transform: translateY(-2px); box-shadow: 0 8px 24px rgb(248 0 174 / .04); }
+  .post-link { display: grid; grid-template-columns: minmax(0, .7fr) minmax(0, 1.3fr); height: 100%; }
+  .post-image { overflow: hidden; min-width: 0; }
+  .post-image img { width: 100%; height: 100%; object-fit: cover; transition: transform 180ms; }
+  .writing-card:hover img { transform: scale(1.02); }
+  .post-copy { padding: 1.1rem; min-width: 0; display: flex; flex-direction: column; align-items: flex-start; }
+  .metadata { display: flex; flex-wrap: wrap; align-items: center; gap: .35rem .5rem; font-size: .7rem; color: #62626e; }
+  .category { font-weight: 600; color: #a60075; }
+  h3 { font-size: 1rem; font-weight: 650; line-height: 1.4; margin: .7rem 0 .5rem; overflow-wrap: anywhere; }
+  p { color: #62626e; font-size: .85rem; line-height: 1.6; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  .read-link { display: flex; gap: .65rem; padding-top: 1rem; margin-top: auto; font-size: .85rem; font-weight: 600; color: #a60075; }
+  .featured .post-link { display: flex; flex-direction: column; }
+  .featured .post-image { aspect-ratio: 16 / 9; }
+  .featured .post-copy { padding: 1.4rem; flex: 1; }
+  .featured h3 { font-size: clamp(1.25rem, 2vw, 1.5rem); }
+  .featured p { -webkit-line-clamp: 3; font-size: .95rem; }
+  :global(.dark) .metadata, :global(.dark) p { color: #acacb8; }
+  :global(.dark) .read-link, :global(.dark) .category { color: #ff70d4; }
+  .post-link:focus-visible { outline: 2px solid #F800AE; outline-offset: -4px; border-radius: 1rem; }
+  @media (min-width: 1024px) { .post-link { grid-template-columns: minmax(0, .6fr) minmax(0, 1.4fr); } }
+  @media (max-width: 420px) { .post-link { grid-template-columns: 5.5rem minmax(0, 1fr); } .post-copy { padding: .85rem; } h3 { font-size: .9rem; } }
+  @media (prefers-reduced-motion: reduce) { .writing-card, .post-image img { transition: none; } .writing-card:hover, .writing-card:hover img { transform: none; } }
+</style>

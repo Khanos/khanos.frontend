@@ -14,6 +14,11 @@ const navItems = [
     url: "/#home",
   },
   {
+    title: t('nav').writing.title,
+    label: t('nav').writing.label,
+    url: "/#writing",
+  },
+  {
     title: t('nav').lab.title,
     label: t('nav').lab.label,
     url: "/#lab",
@@ -47,59 +52,55 @@ const navItems = [
     navItems.map((link) => (
       <a
       class="relative block px-2 py-2 hover:scale-110 transition"
-      aria-label={link.label}
-      href={link.url}
+      aria-label={link.title}
+      data-section-link={link.label}
+      href={lang === "es" ? link.url.replace("/#", "/?lang=es#") : link.url}
       >
       {link.title}
       </a>
       ))
     }
-    <ConfigMenu lang={lang} client:only=”react” />
+    <ConfigMenu lang={lang} client:only="react" />
   </nav>
 </header>
 
 <script>
   document.addEventListener("astro:page-load", () => {
-    const mainSections = Array.from(document.querySelectorAll("section"));
-    const blogSection = document.querySelector("#blog");
-    const githubSection = document.querySelector("#github");
-    const sections = [...mainSections, blogSection, githubSection];
-    const navItems = document.querySelectorAll("header nav a")
-
-    const callback = (entries: any[]) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          navItems.forEach((item) => {
-            if (item.getAttribute("aria-label") == entry.target.id) {
-              item.classList.add("text-[#F800AE]")
-            } else {
-              item.classList.remove("text-[#F800AE]")
-            }
-          })
-        }
-      })
-    }
-
-    const observer = new IntersectionObserver(callback, {
-      root: null,
-      rootMargin: "0px",
-      threshold: 0.3,
-    })
-    sections.forEach((section: any) => {
-      if(section === null) return;
-      observer.observe(section)
-    })
-
-    // Cleanup function
-    document.onvisibilitychange = () => {
-      if (document.visibilityState === "hidden") {
-        observer.disconnect()
-      }
-    }
-  })
+    const links = Array.from(document.querySelectorAll<HTMLAnchorElement>("[data-section-link]"));
+    const sections = links.map(link => document.getElementById(link.dataset.sectionLink!))
+      .filter((section): section is HTMLElement => section !== null);
+    const updateActive = () => {
+      const reached = sections.filter(section => section.getBoundingClientRect().top <= window.innerHeight * .35);
+      const active = reached[reached.length - 1] || sections[0];
+      links.forEach(link => {
+        const selected = link.dataset.sectionLink === active?.id;
+        link.classList.toggle("text-[#F800AE]", selected);
+        if (selected) link.setAttribute("aria-current", "location");
+        else link.removeAttribute("aria-current");
+      });
+    };
+    let scheduled = false;
+    const onScroll = () => {
+      if (scheduled) return;
+      scheduled = true;
+      requestAnimationFrame(() => { updateActive(); scheduled = false; });
+    };
+    updateActive();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+    document.addEventListener("astro:before-swap", () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+    }, { once: true });
+  });
 </script>
 
 <style>
+  nav { max-width: calc(100% - 1rem); backdrop-filter: blur(12px); }
+  nav a:focus-visible { outline: 2px solid #F800AE; outline-offset: -2px; border-radius: 9999px; }
+  nav a[aria-current] { background: rgb(248 0 174 / .1); border-radius: 9999px; }
+  @media (max-width: 639px) { nav { padding: .25rem; font-size: .75rem; } nav a { padding: .5rem; } }
+  @media (prefers-reduced-motion: reduce) { nav { animation: none !important; } nav a { transition: none; } nav a:hover { transform: none; } }
   nav {
     animation: nav-shadown 1s linear both;
     animation-timeline: scroll();

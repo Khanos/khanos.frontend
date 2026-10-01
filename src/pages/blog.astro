@@ -3,11 +3,11 @@ import Layout from "../layouts/Layout.astro";
 import SectionContainer from "../components/SectionContainer.astro";
 import BlogList from "../components/BlogList.astro";
 import { getCollection } from "astro:content";
-import { getLang, useTranslations } from '../i18n/utils';
+import { useTranslations } from '../i18n/utils';
 
 type tLang = (str: any) => any;
 
-const lang = getLang();
+const lang = Astro.url.searchParams.get("lang") === "es" ? "es" : "en";
 const t:tLang = useTranslations(lang);
 const posts = await getCollection("posts");
 

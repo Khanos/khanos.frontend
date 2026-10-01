@@ -9,12 +9,13 @@ import Experience from "../components/Experience.astro"
 import ProfileCheck from "../components/icons/ProfileCheck.astro"
 import Projects from "../components/Projects.astro"
 import SectionContainer from "../components/SectionContainer.astro"
+import LatestWriting from "../components/LatestWriting.astro"
 import Hero from "../components/Hero.astro"
-import { getLang, useTranslations } from '../i18n/utils';
+import { useTranslations } from '../i18n/utils';
 
 type tLang = (str: any) => any;
 
-const lang = getLang();
+const lang = Astro.url.searchParams.get("lang") === "es" ? "es" : "en";
 const t:tLang = useTranslations(lang);
 ---
 
@@ -23,17 +24,19 @@ const t:tLang = useTranslations(lang);
   description={t('layouts').home.description}
 >
   <main class="px-4">
-    <SectionContainer id="home" class="py-16 md:py-36">
+    <SectionContainer id="home" class="pt-28 pb-16 md:pt-36 md:pb-24">
       <Hero />
     </SectionContainer>
-    <div class="space-y-24">
+    <div class="space-y-16 md:space-y-24">
+      <LatestWriting lang={lang} />
       <SectionContainer id="lab">
         <h2
-          class="flex items-center mb-6 text-3xl font-semibold gap-x-3 text-black/80 dark:text-white"
+          class="flex items-center mb-3 text-3xl font-semibold gap-x-3 text-black/80 dark:text-white"
         >
-          <Lab class="size-6 dark:fill-white" />
+          <Lab class="size-7 shrink-0 dark:fill-white" aria-hidden="true" />
           {t('sections').lab.title}
         </h2>
+        <p class="mb-6 text-gray-600 dark:text-gray-400">{t('sections').lab.label}</p>
         <Laboratory />
       </SectionContainer>
 
@@ -41,7 +44,7 @@ const t:tLang = useTranslations(lang);
         <h2
           class="flex items-center mb-6 text-3xl font-semibold gap-x-3 text-black/80 dark:text-white"
         >
-          <Briefcase class="size-8" />
+          <Briefcase class="size-7 shrink-0" aria-hidden="true" />
           {t('sections').exp.title}
         </h2>
         <Experience />
@@ -51,7 +54,7 @@ const t:tLang = useTranslations(lang);
         <h2
           class="flex items-center mb-6 text-3xl font-semibold gap-x-3 text-black/80 dark:text-white"
         >
-          <CodeIcon class="size-7" />
+          <CodeIcon class="size-7 shrink-0" aria-hidden="true" />
           {t('sections').projects.title}
         </h2>
         <Projects />
@@ -59,9 +62,9 @@ const t:tLang = useTranslations(lang);
 
       <SectionContainer id="about">
         <h2
-          class="flex items-center mb-6 text-3xl font-semibold gap-x-8 text-black/80 dark:text-white"
+          class="flex items-center mb-6 text-3xl font-semibold gap-x-3 text-black/80 dark:text-white"
         >
-          <ProfileCheck class="size-8" />
+          <ProfileCheck class="size-7 shrink-0" aria-hidden="true" />
           {t('sections').about.title}
         </h2>
         <AboutMe />
