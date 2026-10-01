@@ -31,7 +31,35 @@ const es =  {
     },
     lab: {
       title: 'Lab',
-      label: 'lab',
+      label: 'Experimentos, prototipos y aventuras de ingeniería que vale la pena compartir.',
+      ovitals: {
+        title: 'oVitals',
+        imgAlt: 'Portada del monitor de hardware nativo para Linux oVitals',
+        status: 'Herramienta Linux',
+        description: 'Un monitor GTK 4 para Omarchy que lee sensores de Linux directamente y adopta la paleta activa del escritorio.',
+        linkLabel: 'Ver repositorio',
+      },
+      wallapibara: {
+        title: 'Wallapibara',
+        imgAlt: 'Portada del generador venezolano de fondos Wallapibara',
+        status: 'UI generativa',
+        description: 'Un generador de fondos venezolanos con layouts por semilla, balance visual, distribución tileable y exportación en el navegador.',
+        linkLabel: 'Ver repositorio',
+      },
+      pngToSvg: {
+        title: 'PNG to SVG',
+        imgAlt: 'Portada de la utilidad para desarrolladores PNG to SVG',
+        status: 'Utilidad dev',
+        description: 'Una CLI en Python para envolver PNGs en contenedores SVG y optimizarlos para flujos de assets web.',
+        linkLabel: 'Ver repositorio',
+      },
+      localImageStudio: {
+        title: 'Local Image Studio',
+        imgAlt: 'Portada del proyecto de IA local Local Image Studio',
+        status: 'IA local',
+        description: 'Un workspace local sobre ComfyUI con descubrimiento de modelos, adaptadores de workflows, controles de generación e historial.',
+        linkLabel: 'Ver repositorio',
+      },
     },
     exp: {
       title: 'Experiencia',
