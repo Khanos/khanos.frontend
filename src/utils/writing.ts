@@ -44,3 +44,10 @@ export function articleText(body = ""): string {
     .replace(/\s+/g, " ")
     .trim();
 }
+
+export function readingMinutes(body = ""): number | undefined {
+  const text = articleText(body);
+  return text
+    ? Math.max(1, Math.ceil(text.split(/\s+/).length / 200))
+    : undefined;
+}
