@@ -13,9 +13,10 @@ setDefaultLang(lang);
 interface Props {
   title: string
   description: string
+  anonymous?: boolean
 }
 
-const { description, title } = Astro.props;
+const { description, title, anonymous = false } = Astro.props;
 ---
 <!doctype html>
 <html lang={lang}>
@@ -25,23 +26,23 @@ const { description, title } = Astro.props;
     <meta name="viewport" content="width=device-width" />
 
     <!-- Primary Meta Tags -->
-    <title>Software Engineer - Ready for the next adventure.</title>
-    <meta name="description" content="Full-Stack Developer with experience in various tools and technologies, passionate about coding, learning, and good coffee. Ready to face challenges.">
+    <title>{anonymous ? title : "Software Engineer - Ready for the next adventure."}</title>
+    {!anonymous && <meta name="description" content="Full-Stack Developer with experience in various tools and technologies, passionate about coding, learning, and good coffee. Ready to face challenges." />}
     <meta name="keywords" content="Full-Stack Developer, JavaScript, TypeScript, Node.js, React, Vue, Angular, HTML, CSS, SQL, NoSQL, Web Development, Software Engineer">
-    <meta name="author" content="Epilef Rodriguez">
+    {!anonymous && <meta name="author" content="Epilef Rodriguez" />}
 
     <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://www.epilef.org/">
-    <meta property="og:title" content="Full-Stack Developer Portfolio">
-    <meta property="og:description" content="Full-Stack Developer with experience in various tools and technologies, passionate about coding, learning, and good coffee. Ready to face challenges.">
+    <meta property="og:type" content={anonymous ? "article" : "website"}>
+    {!anonymous && <meta property="og:url" content="https://www.epilef.org/" />}
+    <meta property="og:title" content={anonymous ? title : "Full-Stack Developer Portfolio"}>
+    <meta property="og:description" content={anonymous ? description : "Full-Stack Developer with experience in various tools and technologies, passionate about coding, learning, and good coffee. Ready to face challenges."}>
     <meta property="og:image" content="/img/logo-v2.png">
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="https://www.epilef.org/">
-    <meta property="twitter:title" content="Full-Stack Developer Portfolio">
-    <meta property="twitter:description" content="Full-Stack Developer with experience in various tools and technologies, passionate about coding, learning, and good coffee. Ready to face challenges.">
+    {!anonymous && <meta property="twitter:url" content="https://www.epilef.org/" />}
+    <meta property="twitter:title" content={anonymous ? title : "Full-Stack Developer Portfolio"}>
+    <meta property="twitter:description" content={anonymous ? description : "Full-Stack Developer with experience in various tools and technologies, passionate about coding, learning, and good coffee. Ready to face challenges."}>
     <meta property="twitter:image" content="/img/logo-v2.png">
 
     <!-- Apple -->
@@ -77,7 +78,7 @@ const { description, title } = Astro.props;
 
     <link rel="icon" type="image/svg+xml" href="/favicon.ico" />
     <meta name="generator" content={Astro.generator} />
-    <title>{title}</title>
+    {!anonymous && <title>{title}</title>}
     <ClientRouter />
     <!-- Google Tag Manager -->
     <script>

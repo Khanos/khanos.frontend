@@ -24,12 +24,14 @@ type Props = {
 };
 const post: any = Astro.props;
 const formattedDate = post.data.date.toLocaleString();
+const byline = post.data.anonymous ? formattedDate : `${post.data.author} . ${formattedDate}`;
 const { Content } = await render(post);
 ---
 
 <Layout
   title={post.data.title}
-  description={`${post.data.author} . ${formattedDate}` || ""}
+  description={post.data.description ?? byline}
+  anonymous={post.data.anonymous}
 >
   <main class="px-4">
     <SectionContainer id={post.data.title.trim()} class="py-16 md:py-36">
@@ -37,7 +39,7 @@ const { Content } = await render(post);
         {post.data.title}
       </div>
       <div class="text-medium text-black/80 dark:text-white mb-4 font-semibold inline-block">
-        {`${post.data.author} . ${formattedDate}` || ""}
+        {byline}
       </div>
       <Image
         src={post.data.image}

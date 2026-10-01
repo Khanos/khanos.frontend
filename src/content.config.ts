@@ -9,6 +9,8 @@ const postCollection = defineCollection({
       date: z.string(),
       image: image(),
       title: z.string(),
+      description: z.string().optional(),
+      anonymous: z.boolean().optional(),
     }),
 });
 

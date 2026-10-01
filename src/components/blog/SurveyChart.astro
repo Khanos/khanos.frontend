@@ -1,0 +1,41 @@
+---
+import HorizontalBarChart from "./HorizontalBarChart.astro";
+import { getSurveyCharts } from "../../data/state-of-devs-charts";
+interface Props {
+  kind: "code" | "work" | "risks" | "workplace" | "remote";
+  lang?: "en" | "es";
+}
+const { kind, lang = "en" } = Astro.props;
+const charts = getSurveyCharts(lang);
+---
+
+{kind === "workplace" ? (
+  <div class="workplace-charts not-prose" data-survey-visual="workplace">
+    <HorizontalBarChart chart={charts.problems} lang={lang} />
+    <HorizontalBarChart chart={charts.burnout} lang={lang} compact />
+  </div>
+) : (
+  <div data-survey-visual={kind}>
+    <HorizontalBarChart chart={charts[kind]} lang={lang} />
+  </div>
+)}
+
+<style>
+  .workplace-charts {
+    margin: 2rem 0;
+    border: 1px solid #d6d3d1;
+    border-radius: 1rem;
+    padding: clamp(1rem, 3vw, 1.5rem);
+    background: #ffffffb8;
+  }
+  :global(html.dark) .workplace-charts {
+    border-color: #454545;
+    background: #191919c9;
+  }
+  .workplace-charts :global(.survey-chart:not(.compact)) {
+    border: 0;
+    background: transparent;
+    padding: 0;
+    margin: 0;
+  }
+</style>
