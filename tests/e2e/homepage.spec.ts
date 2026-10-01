@@ -28,7 +28,7 @@ test("homepage separates writing from experiments and preserves article links", 
       times.map((time) => Date.parse(time.getAttribute("datetime")!)),
     );
   expect(dates).toEqual([...dates].sort((a, b) => b - a));
-  await expect(page.locator("#lab article")).toHaveCount(3);
+  await expect(page.locator("#lab article")).toHaveCount(4);
   await expect(page.locator('#lab a[href*="/blog"]')).toHaveCount(0);
   for (const href of await writing
     .locator("article a")
@@ -81,7 +81,7 @@ test("navigation reaches sections and updates the active state", async ({
   }
 });
 
-for (const width of [1440, 768, 375]) {
+for (const width of [1440, 1024, 768, 375]) {
   test(`homepage fits the ${width}px viewport`, async ({ page }) => {
     await page.setViewportSize({ width, height: 900 });
     await page.goto("/?lang=en");
@@ -108,4 +108,59 @@ for (const width of [1440, 768, 375]) {
     await writingLink.click();
     await expect(writingLink).toHaveAttribute("aria-current", "location");
   });
+}
+
+for (const lang of ["en", "es"]) {
+  for (const width of [375, 768, 1024, 1440]) {
+    test(`Lab case studies: ${lang}, ${width}px, light and dark`, async ({ page }) => {
+      await page.setViewportSize({ width, height: 900 });
+      await page.emulateMedia({ reducedMotion: "reduce" });
+      await page.goto(`/?lang=${lang}`);
+      const lab = page.locator("#lab");
+      const cards = lab.locator("article");
+      await expect(cards).toHaveCount(4);
+      await expect(lab.locator("h3")).toHaveText([
+        "oVitals", "Wallapibara", "PNG to SVG", "Local Image Studio",
+      ]);
+      const repos = ["ovitals", "wallapibara", "png-to-svg", "local-image-studio"];
+      for (let i = 0; i < repos.length; i++) {
+        const card = cards.nth(i);
+        const link = card.getByRole("link");
+        await expect(link).toHaveAttribute("href", `https://github.com/Khanos/${repos[i]}`);
+        await expect(link).toHaveAttribute("target", "_blank");
+        await expect(link).toHaveAttribute("rel", /noopener/);
+        await expect(link).toHaveAccessibleName(new RegExp(lang === "en" ? "View repository" : "Ver repositorio"));
+        await expect(card.locator(".tags li")).toHaveCount(4);
+        await card.scrollIntoViewIfNeeded();
+        await expect.poll(() => card.locator("img").evaluate((img: HTMLImageElement) => img.complete && img.naturalWidth > 0)).toBe(true);
+        await expect(card.locator("img")).not.toHaveAttribute("alt", "");
+      }
+      for (const dark of [false, true]) {
+        await page.evaluate((dark) => document.documentElement.classList.toggle("dark", dark), dark);
+        expect(await page.evaluate(() => getComputedStyle(document.documentElement).colorScheme)).toBe(dark ? "dark" : "light");
+        expect(await page.evaluate(() => document.documentElement.scrollWidth - innerWidth)).toBeLessThanOrEqual(1);
+        const sizes = await cards.evaluateAll((cards) => cards.map((card) => {
+          const { x, y, height } = card.getBoundingClientRect();
+          const tags = card.querySelector(".tags")!;
+          return { x, y, height, tagsFit: tags.scrollWidth <= tags.clientWidth };
+        }));
+        expect(sizes.every((card) => card.tagsFit)).toBe(true);
+        if (width >= 640) {
+          expect(sizes[1].x).toBeGreaterThan(sizes[0].x);
+          expect(Math.abs(sizes[0].height - sizes[1].height)).toBeLessThan(2);
+          expect(Math.abs(sizes[2].height - sizes[3].height)).toBeLessThan(2);
+        } else {
+          expect(sizes[1].y).toBeGreaterThan(sizes[0].y);
+          expect(sizes.every((card) => card.height < 570)).toBe(true);
+        }
+        const first = cards.first().getByRole("link");
+        await first.focus();
+        await page.keyboard.press("Tab");
+        await expect(cards.nth(1).getByRole("link")).toBeFocused();
+        expect(await cards.nth(1).getByRole("link").evaluate((link) => getComputedStyle(link).outlineStyle)).toBe("solid");
+        expect(await cards.nth(1).evaluate((card) => getComputedStyle(card).transform)).toBe("none");
+        await lab.screenshot({ path: `test-results/lab-${lang}-${width}-${dark ? "dark" : "light"}.png` });
+      }
+    });
+  }
 }

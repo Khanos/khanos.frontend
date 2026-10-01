@@ -61,24 +61,35 @@ const es =  {
     },
     lab: {
       title: 'Lab',
-      label: 'Experimentos, prototipos y cosas que construyo para aprender.',
-      github: {
-        title: 'GitHub Api Demo',
-        imgAlt: 'Logo de GitHub',
-        description: 'Busca commits recientes de GitHub y explora una isla React conectada a su API.',
-        linkLabel: 'Abrir experimento',
+      label: 'Experimentos, prototipos y aventuras de ingeniería que vale la pena compartir.',
+      opensInNewTab: 'se abre en una pestaña nueva',
+      ovitals: {
+        title: 'oVitals',
+        imgAlt: 'Ilustración de sensores Linux conectados a un gráfico de carga de CPU',
+        status: 'Herramienta Linux',
+        description: 'Un monitor GTK 4 para Omarchy que lee sensores de Linux directamente y adopta la paleta activa del escritorio.',
+        linkLabel: 'Ver repositorio',
       },
-      url: {
-        title: 'Acortador de URL',
-        imgAlt: 'Logo del acortador de URL',
-        description: 'Un pequeño laboratorio full-stack para acortar, guardar y compartir enlaces.',
-        linkLabel: 'Acortar un enlace',
+      wallapibara: {
+        title: 'Wallapibara',
+        imgAlt: 'Ilustración de un patrón de fondo con formas equilibradas',
+        status: 'UI generativa',
+        description: 'Un generador de fondos venezolanos con distribución por semilla, equilibrio visual, colocación en mosaicos y exportación desde el navegador.',
+        linkLabel: 'Ver repositorio',
       },
-      svgToComponent: {
-        title: 'SVG a Componente',
-        imgAlt: 'Logo de SVG a Componente',
-        description: 'Convierte SVGs en componentes React, Vue, Angular o Svelte en pocos pasos.',
-        linkLabel: 'Convertir un SVG',
+      pngToSvg: {
+        title: 'PNG to SVG',
+        imgAlt: 'Diagrama de píxeles PNG dentro de un contenedor SVG',
+        status: 'Utilidad dev',
+        description: 'Una CLI en Python para envolver PNGs en contenedores SVG y optimizarlos para flujos de assets web.',
+        linkLabel: 'Ver repositorio',
+      },
+      localImageStudio: {
+        title: 'Local Image Studio',
+        imgAlt: 'Diagrama de controles locales conectados a ComfyUI y al historial SQLite',
+        status: 'IA local',
+        description: 'Un workspace local sobre ComfyUI con descubrimiento de modelos, adaptadores de workflows, controles de generación e historial en SQLite.',
+        linkLabel: 'Ver repositorio',
       },
     },
     exp: {

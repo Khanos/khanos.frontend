@@ -57,24 +57,35 @@ const en =  {
     },
     lab: {
       title: 'Lab',
-      label: 'Experiments, prototypes, and things I build to learn.',
-      github: {
-        title: 'GitHub Api Demo',
-        imgAlt: 'GitHub logo',
-        description: 'Search recent GitHub commits and explore a React island backed by the GitHub API.',
-        linkLabel: 'Open experiment',
+      label: 'Experiments, prototypes, and engineering rabbit holes worth sharing.',
+      opensInNewTab: 'opens in a new tab',
+      ovitals: {
+        title: 'oVitals',
+        imgAlt: 'Illustrated Linux sensor signal feeding a CPU load chart',
+        status: 'Native Linux tool',
+        description: 'A GTK 4 hardware monitor for Omarchy that reads Linux sensors directly and follows the active desktop palette.',
+        linkLabel: 'View repository',
       },
-      url: {
-        title: 'URL Shortener',
-        imgAlt: 'URL Shortener logo',
-        description: 'A small full-stack playground for shortening, saving, and sharing links.',
-        linkLabel: 'Shorten a link',
+      wallapibara: {
+        title: 'Wallapibara',
+        imgAlt: 'Illustrated repeating wallpaper layout with balanced shapes',
+        status: 'Generative UI',
+        description: 'A Venezuelan-themed wallpaper generator with seeded layouts, visual balancing, tile-aware placement, and browser export.',
+        linkLabel: 'View repository',
       },
-      svgToComponent: {
-        title: 'SVG to Component',
-        imgAlt: 'SVG to Component logo',
-        description: 'Turn SVGs into React, Vue, Angular, or Svelte components in a few steps.',
-        linkLabel: 'Convert an SVG',
+      pngToSvg: {
+        title: 'PNG to SVG',
+        imgAlt: 'Diagram of PNG pixels embedded inside an SVG wrapper',
+        status: 'Developer utility',
+        description: 'A focused Python CLI for wrapping PNG assets in SVG containers and optimizing those wrappers for web pipelines.',
+        linkLabel: 'View repository',
+      },
+      localImageStudio: {
+        title: 'Local Image Studio',
+        imgAlt: 'Diagram connecting local generation controls, ComfyUI, and SQLite history',
+        status: 'Local AI',
+        description: 'A local-first image workspace on top of ComfyUI with model discovery, workflow adapters, generation controls, and SQLite history.',
+        linkLabel: 'View repository',
       },
     },
     exp: {

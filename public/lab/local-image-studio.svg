@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img" aria-labelledby="title desc">
+  <title id="title">Local Image Studio: technical illustration</title>
+  <desc id="desc">Controls connected to ComfyUI and SQLite history. Concept illustration, not a product screenshot.</desc>
+  <defs>
+    <linearGradient id="bg" x2="1" y2="1"><stop stop-color="#0d1119"/><stop offset="1" stop-color="#1c2030"/></linearGradient>
+    <pattern id="grid" width="64" height="64" patternUnits="userSpaceOnUse"><path d="M64 0H0V64" fill="none" stroke="#ffffff" stroke-opacity=".04"/></pattern>
+  </defs>
+  <rect width="1280" height="720" fill="url(#bg)"/>
+  <rect width="1280" height="720" fill="url(#grid)"/>
+  <g font-family="system-ui, sans-serif">
+    <path d="M72 92h48" stroke="#f472b6" stroke-width="8" stroke-linecap="round"/>
+    <text x="72" y="188" fill="#f6f8fc" font-size="64" font-weight="750">Local Image Studio</text>
+    <text x="72" y="252" fill="#f472b6" font-size="38">Local generation</text>
+    <path d="M358 458h96m372 0h96" fill="none" stroke="#94a3b8" stroke-width="7"/><rect x="72" y="352" width="286" height="214" rx="24" fill="#151c29" stroke="#f472b6" stroke-width="3"/><text x="215.0" y="476" text-anchor="middle" fill="#f6f8fc" font-size="42">Controls</text><rect x="454" y="352" width="372" height="214" rx="24" fill="#151c29" stroke="#f472b6" stroke-width="3"/><text x="640.0" y="476" text-anchor="middle" fill="#f6f8fc" font-size="42">ComfyUI</text><rect x="922" y="352" width="286" height="214" rx="24" fill="#151c29" stroke="#f472b6" stroke-width="3"/><text x="1065.0" y="476" text-anchor="middle" fill="#f6f8fc" font-size="42">SQLite</text>
+  </g>
+</svg>

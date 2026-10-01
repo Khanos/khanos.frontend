@@ -36,8 +36,8 @@ const t:tLang = useTranslations(lang);
           <Lab class="size-7 shrink-0 dark:fill-white" aria-hidden="true" />
           {t('sections').lab.title}
         </h2>
-        <p class="mb-6 text-gray-600 dark:text-gray-400">{t('sections').lab.label}</p>
-        <Laboratory />
+        <p class="mb-6 max-w-2xl leading-relaxed text-gray-600 dark:text-gray-400">{t('sections').lab.label}</p>
+        <Laboratory lang={lang} />
       </SectionContainer>
 
       <SectionContainer id="experience">
