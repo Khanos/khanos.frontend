@@ -1,5 +1,9 @@
 ---
+import { Image } from 'astro:assets';
 import { ui } from '../i18n/ui';
+import LabGithubImage from '../assets/img/lab-github.png';
+import LabSvgToComponentImage from '../assets/img/lab-svg-to-component.png';
+import LabUrlImage from '../assets/img/lab-url.png';
 
 interface Props { lang: 'en' | 'es' }
 const { lang } = Astro.props;
@@ -29,49 +33,206 @@ const experiments = [
     href: 'https://github.com/Khanos/local-image-studio',
     tags: ['Next.js', 'ComfyUI', 'Local AI', 'SQLite'],
   },
+  {
+    ...lab.svgToComponent,
+    image: LabSvgToComponentImage,
+    href: `/svgToComponent?lang=${lang}`,
+    tags: ['SVG', 'React', 'Vue', 'Svelte'],
+  },
+  {
+    ...lab.github,
+    image: LabGithubImage,
+    href: `/github?lang=${lang}`,
+    tags: ['React', 'GitHub API', 'REST'],
+  },
+  {
+    ...lab.url,
+    image: LabUrlImage,
+    href: `/url?lang=${lang}`,
+    tags: ['React', 'API', 'Full-stack'],
+  },
 ];
 ---
 
-<div class="lab-grid">
-  {experiments.map((experiment) => (
-    <article class="experiment">
-      <a href={experiment.href} target="_blank" rel="noopener noreferrer" aria-label={`${experiment.title}: ${experiment.linkLabel} (${lab.opensInNewTab})`}>
-        <div class="preview">
-          <img src={experiment.image} alt={experiment.imgAlt} loading="lazy" decoding="async" width="1280" height="720" />
-        </div>
-
-        <div class="experiment-copy">
-          <div class="meta-row">
-            <span class="status">{experiment.status}</span>
-            <span class="source">GitHub</span>
+<lab-carousel role="region" aria-roledescription={lab.carouselRole} aria-label={lab.carouselLabel} data-range-template={lab.range}>
+  <p id="lab-carousel-help" class="sr-only">{lab.carouselHelp}</p>
+  <div id="lab-track" class="lab-track" role="group" tabindex="0" aria-label={lab.carouselLabel} aria-describedby="lab-carousel-help">
+    {experiments.map((experiment) => (
+      <article class="experiment">
+        <a
+          href={experiment.href}
+          target={experiment.href.startsWith('https://') ? '_blank' : undefined}
+          rel={experiment.href.startsWith('https://') ? 'noopener noreferrer' : undefined}
+          aria-label={`${experiment.title}: ${experiment.linkLabel}${experiment.href.startsWith('https://') ? ` (${lab.opensInNewTab})` : ''}`}
+        >
+          <div class="preview">
+            {typeof experiment.image === 'string' ? (
+              <img src={experiment.image} alt={experiment.imgAlt} loading="lazy" decoding="async" width="1280" height="720" />
+            ) : (
+              <Image class="tool-cover" src={experiment.image} width={640} format="webp" alt={experiment.imgAlt} loading="lazy" decoding="async" />
+            )}
           </div>
 
-          <h3>{experiment.title}</h3>
-          <p>{experiment.description}</p>
+          <div class="experiment-copy">
+            <div class="meta-row">
+              <span class="status">{experiment.status}</span>
+              <span class="source">{experiment.href.startsWith('https://') ? 'GitHub' : lab.openTool}</span>
+            </div>
 
-          <ul class="tags">
-            {experiment.tags.map((tag) => <li>{tag}</li>)}
-          </ul>
+            <h3>{experiment.title}</h3>
+            <p>{experiment.description}</p>
 
-          <span class="action">
-            {experiment.linkLabel}
-            <span aria-hidden="true">↗</span>
-          </span>
-        </div>
-      </a>
-    </article>
-  ))}
-</div>
+            <ul class="tags">
+              {experiment.tags.map((tag) => <li>{tag}</li>)}
+            </ul>
+
+            <span class="action">
+              {experiment.linkLabel}
+              <span aria-hidden="true">{experiment.href.startsWith('https://') ? '↗' : '→'}</span>
+            </span>
+          </div>
+        </a>
+      </article>
+    ))}
+  </div>
+  <div class="carousel-controls" hidden>
+    <p class="range" aria-live="polite" aria-atomic="true"></p>
+    <div class="carousel-buttons">
+      <button type="button" data-direction="previous" aria-label={lab.previous} aria-controls="lab-track">
+        <span aria-hidden="true">←</span>
+      </button>
+      <button type="button" data-direction="next" aria-label={lab.next} aria-controls="lab-track">
+        <span aria-hidden="true">→</span>
+      </button>
+    </div>
+  </div>
+</lab-carousel>
+
+<script>
+  class LabCarousel extends HTMLElement {
+    private cleanup?: () => void;
+
+    connectedCallback() {
+      const track = this.querySelector<HTMLElement>('.lab-track');
+      const cards = Array.from(this.querySelectorAll<HTMLElement>('.experiment'));
+      const controls = this.querySelector<HTMLElement>('.carousel-controls');
+      const range = this.querySelector<HTMLElement>('.range');
+      if (!track || !controls || !range || cards.length < 2) return;
+
+      const controller = new AbortController();
+      const { signal } = controller;
+      let index = 0;
+      let scrollTimer: ReturnType<typeof setTimeout>;
+      const geometry = () => {
+        const step = cards[1].offsetLeft - cards[0].offsetLeft;
+        const maxScroll = track.scrollWidth - track.clientWidth;
+        return { step, maxScroll, lastStart: Math.round(maxScroll / step) };
+      };
+      const updateRange = () => {
+        const { step, lastStart } = geometry();
+        index = Math.min(lastStart, Math.round(track.scrollLeft / step));
+        const visible = Math.max(1, Math.floor((track.clientWidth + parseFloat(getComputedStyle(track).columnGap)) / step));
+        range.textContent = (this.dataset.rangeTemplate ?? '')
+          .replace('{first}', String(index + 1))
+          .replace('{last}', String(Math.min(cards.length, index + visible)))
+          .replace('{total}', String(cards.length));
+      };
+      const goTo = (nextIndex: number) => {
+        const { step, lastStart, maxScroll } = geometry();
+        index = Math.max(0, Math.min(lastStart, nextIndex));
+        track.scrollTo({
+          left: Math.min(maxScroll, index * step),
+          behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth',
+        });
+      };
+      const move = (direction: number) => {
+        const { lastStart } = geometry();
+        goTo(index + direction < 0 ? lastStart : index + direction > lastStart ? 0 : index + direction);
+      };
+
+      this.querySelector('[data-direction="previous"]')?.addEventListener('click', () => move(-1), { signal });
+      this.querySelector('[data-direction="next"]')?.addEventListener('click', () => move(1), { signal });
+      track.addEventListener('keydown', (event) => {
+        if (event.altKey || event.ctrlKey || event.metaKey || event.shiftKey) return;
+        if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return;
+        event.preventDefault();
+        if (event.key === 'Home') goTo(0);
+        else if (event.key === 'End') goTo(geometry().lastStart);
+        else move(event.key === 'ArrowRight' ? 1 : -1);
+      }, { signal });
+      // Keep native touch/trackpad scrolling and keyboard-focused cards in sync.
+      track.addEventListener('scroll', () => {
+        clearTimeout(scrollTimer);
+        scrollTimer = setTimeout(updateRange, 120);
+      }, { signal, passive: true });
+      track.addEventListener('scrollend', updateRange, { signal });
+      track.addEventListener('focusin', (event) => {
+        const card = (event.target as HTMLElement).closest<HTMLElement>('.experiment');
+        if (!card) return;
+        const left = card.offsetLeft;
+        if (left < track.scrollLeft - 1 || left + card.offsetWidth > track.scrollLeft + track.clientWidth + 1) {
+          goTo(Math.round(left / geometry().step));
+        }
+      }, { signal });
+      const resizeObserver = new ResizeObserver(updateRange);
+      resizeObserver.observe(track);
+      controls.hidden = false;
+      this.classList.add('is-enhanced');
+      updateRange();
+      this.cleanup = () => {
+        controller.abort();
+        resizeObserver.disconnect();
+        clearTimeout(scrollTimer);
+      };
+    }
+
+    disconnectedCallback() {
+      this.cleanup?.();
+    }
+  }
+
+  if (!customElements.get('lab-carousel')) customElements.define('lab-carousel', LabCarousel);
+</script>
 
 <style>
-  .lab-grid {
+  lab-carousel { display: block; min-width: 0; }
+
+  .lab-track {
+    --gap: 1rem;
     display: grid;
-    grid-template-columns: minmax(0, 1fr);
-    gap: 1.25rem;
+    grid-auto-flow: column;
+    grid-auto-columns: calc(100% - 1.75rem);
+    gap: var(--gap);
+    position: relative;
+    overflow-x: auto;
+    padding: .25rem 0 .75rem;
+    scroll-snap-type: x mandatory;
+    overscroll-behavior-x: contain;
+    scrollbar-width: thin;
   }
+
+  .is-enhanced .lab-track { scrollbar-width: none; }
+  .is-enhanced .lab-track::-webkit-scrollbar { display: none; }
+
+  .lab-track:focus-visible,
+  button:focus-visible {
+    outline: 2px solid #F800AE;
+    outline-offset: 3px;
+    border-radius: .5rem;
+  }
+
+  .carousel-controls { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-top: .5rem; }
+  .carousel-controls[hidden] { display: none; }
+  .range { margin: 0; font-size: .8rem; }
+  .carousel-buttons { display: flex; gap: .5rem; }
+  button { display: grid; place-items: center; width: 2.75rem; height: 2.75rem; border: 1px solid rgb(120 120 130 / .3); border-radius: 50%; color: #a60075; background: rgb(120 120 130 / .055); font-size: 1.25rem; }
+  button:hover { border-color: #a60075; background: rgb(248 0 174 / .06); }
+  :global(.dark) button { color: #ff70d4; }
+  :global(.dark) button:hover { border-color: #ff70d4; }
 
   .experiment {
     min-width: 0;
+    scroll-snap-align: start;
     border: 1px solid rgb(120 120 130 / .2);
     border-radius: 1.15rem;
     background: rgb(120 120 130 / .055);
@@ -116,8 +277,10 @@ const experiments = [
     transform: scale(1.015);
   }
 
+  .tool-cover { object-fit: cover; object-position: top; }
+
   .experiment-copy {
-    padding: 1.25rem;
+    padding: 1rem;
     flex: 1;
     display: flex;
     flex-direction: column;
@@ -125,6 +288,7 @@ const experiments = [
 
   .meta-row {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
     gap: .75rem;
@@ -133,7 +297,7 @@ const experiments = [
 
   .status,
   .source {
-    font-size: .75rem;
+    font-size: .65rem;
     font-weight: 700;
     letter-spacing: .08em;
     text-transform: uppercase;
@@ -204,9 +368,11 @@ const experiments = [
   }
 
   @media (min-width: 640px) {
-    .lab-grid {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
+    .lab-track { grid-auto-columns: calc((100% - var(--gap)) / 2); }
+  }
+
+  @media (min-width: 1024px) {
+    .lab-track { grid-auto-columns: calc((100% - 2 * var(--gap)) / 3); }
   }
 
   @media (prefers-reduced-motion: reduce) {
