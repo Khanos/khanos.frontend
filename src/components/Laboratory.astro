@@ -10,42 +10,49 @@ const { lang } = Astro.props;
 const lab = ui[lang].sections.lab;
 const experiments = [
   {
+    liveHref: undefined,
     ...lab.ovitals,
     image: '/lab/ovitals.svg',
     href: 'https://github.com/Khanos/ovitals',
     tags: ['Python', 'GTK 4', 'Linux', 'Omarchy'],
   },
   {
+    liveHref: 'https://wallapibara.epilef.app/',
     ...lab.wallapibara,
     image: '/lab/wallapibara.svg',
     href: 'https://github.com/Khanos/wallapibara',
     tags: ['Next.js', 'TypeScript', 'Generative UI', 'Algorithms'],
   },
   {
+    liveHref: undefined,
     ...lab.pngToSvg,
     image: '/lab/png-to-svg.svg',
     href: 'https://github.com/Khanos/png-to-svg',
     tags: ['Python', 'CLI', 'SVG', 'Asset tooling'],
   },
   {
+    liveHref: undefined,
     ...lab.localImageStudio,
     image: '/lab/local-image-studio.svg',
     href: 'https://github.com/Khanos/local-image-studio',
     tags: ['Next.js', 'ComfyUI', 'Local AI', 'SQLite'],
   },
   {
+    liveHref: undefined,
     ...lab.svgToComponent,
     image: LabSvgToComponentImage,
     href: `/svgToComponent?lang=${lang}`,
     tags: ['SVG', 'React', 'Vue', 'Svelte'],
   },
   {
+    liveHref: undefined,
     ...lab.github,
     image: LabGithubImage,
     href: `/github?lang=${lang}`,
     tags: ['React', 'GitHub API', 'REST'],
   },
   {
+    liveHref: undefined,
     ...lab.url,
     image: LabUrlImage,
     href: `/url?lang=${lang}`,
@@ -60,6 +67,7 @@ const experiments = [
     {experiments.map((experiment) => (
       <article class="experiment">
         <a
+          class="project-link"
           href={experiment.href}
           target={experiment.href.startsWith('https://') ? '_blank' : undefined}
           rel={experiment.href.startsWith('https://') ? 'noopener noreferrer' : undefined}
@@ -92,6 +100,12 @@ const experiments = [
             </span>
           </div>
         </a>
+        {experiment.liveHref && (
+          <a class="live-link" href={experiment.liveHref} target="_blank" rel="noopener noreferrer"
+            aria-label={`${experiment.title}: ${lab.liveSite} (${lab.opensInNewTab})`}>
+            {lab.liveSite} <span aria-hidden="true">↗</span>
+          </a>
+        )}
       </article>
     ))}
   </div>
@@ -231,6 +245,7 @@ const experiments = [
   :global(.dark) button:hover { border-color: #ff70d4; }
 
   .experiment {
+    position: relative;
     min-width: 0;
     scroll-snap-align: start;
     border: 1px solid rgb(120 120 130 / .2);
@@ -247,7 +262,7 @@ const experiments = [
     box-shadow: 0 16px 38px rgb(20 20 30 / .10);
   }
 
-  a {
+  .project-link {
     display: flex;
     height: 100%;
     flex-direction: column;
@@ -258,6 +273,22 @@ const experiments = [
     outline-offset: -4px;
     border-radius: 1rem;
   }
+
+  .live-link {
+    position: absolute;
+    right: 1rem;
+    bottom: 1rem;
+    display: inline-flex;
+    align-items: center;
+    gap: .3rem;
+    color: #a60075;
+    font-size: .875rem;
+    font-weight: 650;
+  }
+
+  .live-link:hover { text-decoration: underline; text-underline-offset: 3px; }
+  .live-link:focus-visible { outline-offset: 4px; border-radius: 2px; }
+  :global(.dark) .live-link { color: #ff70d4; }
 
   .preview {
     aspect-ratio: 16 / 9;
@@ -343,6 +374,7 @@ const experiments = [
   }
 
   .action {
+    align-self: flex-start;
     display: inline-flex;
     align-items: center;
     gap: .3rem;

@@ -58,6 +58,7 @@ const en =  {
     lab: {
       title: 'Lab',
       label: 'Experiments, prototypes, and engineering rabbit holes worth sharing.',
+      liveSite: 'Live site',
       opensInNewTab: 'opens in a new tab',
       carouselLabel: 'Lab projects',
       carouselRole: 'carousel',

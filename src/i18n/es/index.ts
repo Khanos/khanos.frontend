@@ -62,6 +62,7 @@ const es =  {
     lab: {
       title: 'Lab',
       label: 'Experimentos, prototipos y aventuras de ingeniería que vale la pena compartir.',
+      liveSite: 'Ver sitio',
       opensInNewTab: 'se abre en una pestaña nueva',
       carouselLabel: 'Proyectos del Lab',
       carouselRole: 'carrusel',

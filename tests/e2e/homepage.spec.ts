@@ -136,17 +136,22 @@ for (const lang of ["en", "es"]) {
       await expect(range).toHaveText(expectedRange(1, visibleCount));
       const repos = ["ovitals", "wallapibara", "png-to-svg", "local-image-studio"];
       for (let i = 0; i < repos.length; i++) {
-        const link = cards.nth(i).getByRole("link");
+        const link = cards.nth(i).locator(".project-link");
         await expect(link).toHaveAttribute("href", `https://github.com/Khanos/${repos[i]}`);
         await expect(link).toHaveAttribute("target", "_blank");
         await expect(link).toHaveAttribute("rel", /noopener/);
         await expect(link).toHaveAccessibleName(new RegExp(lang === "en" ? "View repository" : "Ver repositorio"));
       }
       for (const [index, path] of ["svgToComponent", "github", "url"].entries()) {
-        const link = cards.nth(index + 4).getByRole("link");
+        const link = cards.nth(index + 4).locator(".project-link");
         await expect(link).toHaveAttribute("href", `/${path}?lang=${lang}`);
         await expect(link).not.toHaveAttribute("target", "_blank");
       }
+      const live = cards.nth(1).getByRole("link", { name: new RegExp(lang === "en" ? "Live site" : "Ver sitio") });
+      await expect(live).toHaveAttribute("href", "https://wallapibara.epilef.app/");
+      await expect(live).toHaveAttribute("target", "_blank");
+      await expect(live).toHaveAttribute("rel", /noopener/);
+      await expect(live.locator("a")).toHaveCount(0);
       for (const card of await cards.all()) {
         await card.scrollIntoViewIfNeeded();
         await expect.poll(() => card.locator("img").evaluate((img: HTMLImageElement) => img.complete && img.naturalWidth > 0)).toBe(true);
@@ -188,14 +193,24 @@ for (const lang of ["en", "es"]) {
         await expect(range).toHaveText(expectedRange(1, visibleCount));
         for (const card of await cards.all()) {
           await page.keyboard.press("Tab");
-          await expect(card.getByRole("link")).toBeFocused();
+          await expect(card.locator(".project-link")).toBeFocused();
           await expect.poll(() => card.evaluate((card) => {
             const bounds = card.parentElement!.getBoundingClientRect();
             const own = card.getBoundingClientRect();
             return own.x >= bounds.x - 1 && own.right <= bounds.right + 1;
           })).toBe(true);
-          expect(await card.getByRole("link").evaluate((link) => getComputedStyle(link).outlineStyle)).toBe("solid");
+          expect(await card.locator(".project-link").evaluate((link) => getComputedStyle(link).outlineStyle)).toBe("solid");
           expect(await card.evaluate((card) => getComputedStyle(card).transform)).toBe("none");
+          if (await card.locator(".live-link").count()) {
+            await page.keyboard.press("Tab");
+            await expect(card.locator(".live-link")).toBeFocused();
+            const overlap = await card.evaluate((card) => {
+              const repository = card.querySelector(".action")!.getBoundingClientRect();
+              const site = card.querySelector(".live-link")!.getBoundingClientRect();
+              return repository.right > site.left;
+            });
+            expect(overlap).toBe(false);
+          }
         }
         await track.focus();
         await page.keyboard.press("Home");
