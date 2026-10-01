@@ -31,7 +31,35 @@ const en =  {
     },
     lab: {
       title: 'Lab',
-      label: 'lab',
+      label: 'Experiments, prototypes, and engineering rabbit holes worth sharing.',
+      ovitals: {
+        title: 'oVitals',
+        imgAlt: 'oVitals native Linux hardware monitor project cover',
+        status: 'Native Linux tool',
+        description: 'A GTK 4 hardware monitor for Omarchy that reads Linux sensors directly and follows the active desktop palette.',
+        linkLabel: 'View repository',
+      },
+      wallapibara: {
+        title: 'Wallapibara',
+        imgAlt: 'Wallapibara Venezuelan wallpaper generator project cover',
+        status: 'Generative UI',
+        description: 'A Venezuelan-themed wallpaper generator with seeded layouts, visual balancing, tile-aware placement, and browser export.',
+        linkLabel: 'View repository',
+      },
+      pngToSvg: {
+        title: 'PNG to SVG',
+        imgAlt: 'PNG to SVG developer utility project cover',
+        status: 'Developer utility',
+        description: 'A focused Python CLI for wrapping PNG assets in SVG containers and optimizing those wrappers for web pipelines.',
+        linkLabel: 'View repository',
+      },
+      localImageStudio: {
+        title: 'Local Image Studio',
+        imgAlt: 'Local Image Studio local AI project cover',
+        status: 'Local AI',
+        description: 'A local-first image workspace on top of ComfyUI with model discovery, workflow adapters, generation controls, and history.',
+        linkLabel: 'View repository',
+      },
     },
     exp: {
       title: 'Experience',
