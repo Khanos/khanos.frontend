@@ -1,7 +1,7 @@
 ---
 import { Image } from 'astro:assets';
 import type { CollectionEntry } from 'astro:content';
-import { articleText, publicationDate } from '../utils/writing';
+import { articleText, publicationDate, readingMinutes } from '../utils/writing';
 import { ui } from '../i18n/ui';
 interface Props {
   post: CollectionEntry<'posts'>;
@@ -13,7 +13,7 @@ const labels = ui[lang].sections.writing;
 const date = publicationDate(post.data.date);
 const text = articleText(post.body);
 const excerpt = post.data.description || text;
-const minutes = text ? Math.max(1, Math.ceil(text.split(/\s+/).length / 200)) : undefined;
+const minutes = readingMinutes(post.body);
 const category = post.data.categories?.[0];
 ---
 <article class:list={['writing-card', { featured }]}>

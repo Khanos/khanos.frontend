@@ -20,6 +20,9 @@ Use `rg` for literals, configuration, documentation, and source fallbacks.
 - Node.js `24.x`; package manager pinned to `pnpm@9.15.9` in `package.json`.
 - `pnpm install`: install dependencies.
 - `pnpm dev`: start the development server.
+- `pnpm test`: run Vitest unit tests; `pnpm test:watch`: watch unit tests.
+- `pnpm test:e2e`: run Playwright homepage checks. Install Chromium once with
+  `pnpm exec playwright install chromium`; tests manage an isolated server on port 4335.
 - `pnpm exec astro check`: run Astro/TypeScript checks.
 - `pnpm build`: run `astro check` followed by `astro build`.
 - `pnpm preview`: invoke the configured Astro preview command; check adapter
@@ -82,6 +85,13 @@ Preserve existing URLs and paired translations when editing content.
   `dist`, or `.vercel`. Keep personal article content unchanged unless requested.
 
 ## Verification
+
+Tests live in `tests/unit/` and `tests/e2e/`. Keep Vitest discovery scoped to unit
+tests so it does not collect Playwright specs. Playwright uses `tests/server.mjs`
+to avoid Astro CLI agent auto-detachment and Vercel preview limitations. Do not
+reuse or stop the developer's server for tests. Browser checks block external
+requests; they do not prove backend or deployed Vercel availability.
+
 
 For application changes, run `pnpm build` when dependencies are available.
 Use targeted runtime/browser checks for changed interactions or rendering;
