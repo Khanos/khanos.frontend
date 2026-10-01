@@ -1,55 +1,16 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img" aria-labelledby="title desc">
-  <title id="title">oVitals project cover</title>
-  <desc id="desc">Hardware monitoring that feels at home in Omarchy.</desc>
+  <title id="title">oVitals: technical illustration</title>
+  <desc id="desc">Linux sensors feeding a CPU load chart. Concept illustration, not a product screenshot.</desc>
   <defs>
-    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#0a0d13"/>
-      <stop offset="0.55" stop-color="#101522"/>
-      <stop offset="1" stop-color="#171021"/>
-    </linearGradient>
-    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#7dcfff"/>
-      <stop offset="1" stop-color="#9ece6a"/>
-    </linearGradient>
-    <filter id="glow"><feGaussianBlur stdDeviation="28"/></filter>
+    <linearGradient id="bg" x2="1" y2="1"><stop stop-color="#0d1119"/><stop offset="1" stop-color="#1c2030"/></linearGradient>
+    <pattern id="grid" width="64" height="64" patternUnits="userSpaceOnUse"><path d="M64 0H0V64" fill="none" stroke="#ffffff" stroke-opacity=".04"/></pattern>
   </defs>
-  <rect width="1280" height="720" rx="34" fill="url(#bg)"/>
-  <circle cx="1110" cy="100" r="190" fill="#9ece6a" opacity=".16" filter="url(#glow)"/>
-  <circle cx="150" cy="680" r="220" fill="#7dcfff" opacity=".10" filter="url(#glow)"/>
-  <g transform="translate(86 82)">
-    <rect x="0" y="0" width="172" height="42" rx="21" fill="#7dcfff" opacity=".13" stroke="#7dcfff" stroke-opacity=".45"/>
-    <text x="86" y="28" text-anchor="middle" fill="#7dcfff" font-size="18" font-weight="700" letter-spacing="1.3" font-family="Inter, ui-sans-serif, system-ui, sans-serif">NATIVE LINUX TOOL</text>
-    <text x="0" y="120" fill="#f6f8fc" font-size="70" font-weight="800" font-family="Inter, ui-sans-serif, system-ui, sans-serif">oVitals</text>
-    <text x="0" y="172" fill="#9eabc1" font-size="25" font-family="Inter, ui-sans-serif, system-ui, sans-serif">Hardware monitoring that feels at home in Omarchy.</text>
+  <rect width="1280" height="720" fill="url(#bg)"/>
+  <rect width="1280" height="720" fill="url(#grid)"/>
+  <g font-family="system-ui, sans-serif">
+    <path d="M72 92h48" stroke="#7dcfff" stroke-width="8" stroke-linecap="round"/>
+    <text x="72" y="188" fill="#f6f8fc" font-size="64" font-weight="750">oVitals</text>
+    <text x="72" y="252" fill="#7dcfff" font-size="38">Sensors → desktop</text>
+    <path d="M76 464h104l44-74 54 146 48-72h104" fill="none" stroke="#7dcfff" stroke-width="10" stroke-linejoin="round"/><path d="M470 464h90m-20-20 20 20-20 20" fill="none" stroke="#94a3b8" stroke-width="7"/><path d="M624 580h580" stroke="#46536b" stroke-width="3"/><rect x="636" y="490" width="26" height="90" rx="8" fill="#7dcfff" opacity="0.5"/><rect x="682" y="424" width="26" height="156" rx="8" fill="#7dcfff" opacity="0.7"/><rect x="728" y="462" width="26" height="118" rx="8" fill="#7dcfff" opacity="0.9"/><rect x="774" y="360" width="26" height="220" rx="8" fill="#7dcfff" opacity="0.5"/><rect x="820" y="404" width="26" height="176" rx="8" fill="#7dcfff" opacity="0.7"/><rect x="866" y="474" width="26" height="106" rx="8" fill="#7dcfff" opacity="0.9"/><rect x="912" y="390" width="26" height="190" rx="8" fill="#7dcfff" opacity="0.5"/><rect x="958" y="438" width="26" height="142" rx="8" fill="#7dcfff" opacity="0.7"/><rect x="1004" y="346" width="26" height="234" rx="8" fill="#7dcfff" opacity="0.9"/><rect x="1050" y="400" width="26" height="180" rx="8" fill="#7dcfff" opacity="0.5"/><rect x="1096" y="456" width="26" height="124" rx="8" fill="#7dcfff" opacity="0.7"/><rect x="1142" y="378" width="26" height="202" rx="8" fill="#7dcfff" opacity="0.9"/>
   </g>
-  <g transform="translate(684 118)">
-    <rect width="500" height="484" rx="28" fill="#0d1119" stroke="#2c3546" stroke-width="2"/>
-    <rect x="22" y="22" width="456" height="54" rx="14" fill="#141b27"/>
-    <circle cx="52" cy="49" r="7" fill="#7dcfff"/>
-    <circle cx="76" cy="49" r="7" fill="#9ece6a" opacity=".75"/>
-    <text x="108" y="57" fill="#dce4f2" font-size="21" font-weight="700" font-family="Inter, ui-sans-serif, system-ui, sans-serif">LIVE SYSTEM TELEMETRY</text>
-    <rect x="28" y="104" width="444" height="330" rx="18" fill="#0a0e15" stroke="#222b39"/>
-    <path d="M54 184 C122 110, 180 248, 246 164 S362 114, 444 194" fill="none" stroke="url(#accent)" stroke-width="5" stroke-linecap="round"/>
-    
-      <text x="760" y="284" fill="#7dcfff" font-size="24" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">CPU  63°C</text>
-      <text x="760" y="336" fill="#aebad0" font-size="24" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">RAM  42%</text>
-      <text x="760" y="388" fill="#aebad0" font-size="24" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">VRAM  31%</text>
-    <rect x="50" y="382" width="388" height="1" fill="#253044"/>
-    <rect x="50" y="404" width="104" height="10" rx="5" fill="#7dcfff" opacity=".72"/>
-    <rect x="168" y="404" width="148" height="10" rx="5" fill="#314059"/>
-    <rect x="330" y="404" width="78" height="10" rx="5" fill="#9ece6a" opacity=".62"/>
-  </g>
-  
-    <g transform="translate(92 430)">
-      <circle cx="8" cy="8" r="5" fill="#7dcfff"/>
-      <text x="28" y="15" fill="#c9d4e7" font-size="22" font-family="Inter, ui-sans-serif, system-ui, sans-serif">GTK 4 + libadwaita</text>
-    </g>
-    <g transform="translate(92 484)">
-      <circle cx="8" cy="8" r="5" fill="#7dcfff"/>
-      <text x="28" y="15" fill="#c9d4e7" font-size="22" font-family="Inter, ui-sans-serif, system-ui, sans-serif">Direct hwmon / cpufreq reads</text>
-    </g>
-    <g transform="translate(92 538)">
-      <circle cx="8" cy="8" r="5" fill="#7dcfff"/>
-      <text x="28" y="15" fill="#c9d4e7" font-size="22" font-family="Inter, ui-sans-serif, system-ui, sans-serif">Live Omarchy palette</text>
-    </g>
 </svg>

@@ -104,7 +104,11 @@ const { description, title, anonymous = false } = Astro.props;
     <!-- End Google Tag Manager (noscript) -->
     <style is:global>
       :root {
-        color-scheme: light dark;
+        color-scheme: light;
+      }
+
+      :root.dark {
+        color-scheme: dark;
       }
 
       html {

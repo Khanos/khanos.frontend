@@ -1,32 +1,33 @@
 ---
-import { getLang } from '../i18n/utils';
 import { ui } from '../i18n/ui';
 
-const lab = ui[getLang()].sections.lab;
+interface Props { lang: 'en' | 'es' }
+const { lang } = Astro.props;
+const lab = ui[lang].sections.lab;
 const experiments = [
   {
     ...lab.ovitals,
     image: '/lab/ovitals.svg',
     href: 'https://github.com/Khanos/ovitals',
-    tags: ['Python', 'GTK 4', 'Linux'],
+    tags: ['Python', 'GTK 4', 'Linux', 'Omarchy'],
   },
   {
     ...lab.wallapibara,
     image: '/lab/wallapibara.svg',
     href: 'https://github.com/Khanos/wallapibara',
-    tags: ['Next.js', 'TypeScript', 'Generative UI'],
+    tags: ['Next.js', 'TypeScript', 'Generative UI', 'Algorithms'],
   },
   {
     ...lab.pngToSvg,
     image: '/lab/png-to-svg.svg',
     href: 'https://github.com/Khanos/png-to-svg',
-    tags: ['Python', 'CLI', 'Asset tooling'],
+    tags: ['Python', 'CLI', 'SVG', 'Asset tooling'],
   },
   {
     ...lab.localImageStudio,
     image: '/lab/local-image-studio.svg',
     href: 'https://github.com/Khanos/local-image-studio',
-    tags: ['Next.js', 'ComfyUI', 'Local AI'],
+    tags: ['Next.js', 'ComfyUI', 'Local AI', 'SQLite'],
   },
 ];
 ---
@@ -34,9 +35,9 @@ const experiments = [
 <div class="lab-grid">
   {experiments.map((experiment) => (
     <article class="experiment">
-      <a href={experiment.href} target="_blank" rel="noreferrer">
+      <a href={experiment.href} target="_blank" rel="noopener noreferrer" aria-label={`${experiment.title}: ${experiment.linkLabel} (${lab.opensInNewTab})`}>
         <div class="preview">
-          <img src={experiment.image} alt={experiment.imgAlt} loading="lazy" />
+          <img src={experiment.image} alt={experiment.imgAlt} loading="lazy" decoding="async" width="1280" height="720" />
         </div>
 
         <div class="experiment-copy">
@@ -48,9 +49,9 @@ const experiments = [
           <h3>{experiment.title}</h3>
           <p>{experiment.description}</p>
 
-          <div class="tags" aria-label="Technologies">
-            {experiment.tags.map((tag) => <span>{tag}</span>)}
-          </div>
+          <ul class="tags">
+            {experiment.tags.map((tag) => <li>{tag}</li>)}
+          </ul>
 
           <span class="action">
             {experiment.linkLabel}
@@ -78,8 +79,9 @@ const experiments = [
     transition: border-color 180ms, transform 180ms, box-shadow 180ms;
   }
 
-  .experiment:hover {
-    transform: translateY(-4px);
+  .experiment:hover,
+  .experiment:focus-within {
+    transform: translateY(-2px);
     border-color: rgb(248 0 174 / .42);
     box-shadow: 0 16px 38px rgb(20 20 30 / .10);
   }
@@ -106,7 +108,7 @@ const experiments = [
   img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain;
     transition: transform 220ms ease;
   }
 
@@ -115,7 +117,7 @@ const experiments = [
   }
 
   .experiment-copy {
-    padding: 1.15rem;
+    padding: 1.25rem;
     flex: 1;
     display: flex;
     flex-direction: column;
@@ -131,7 +133,7 @@ const experiments = [
 
   .status,
   .source {
-    font-size: .68rem;
+    font-size: .75rem;
     font-weight: 700;
     letter-spacing: .08em;
     text-transform: uppercase;
@@ -142,7 +144,7 @@ const experiments = [
   }
 
   .source {
-    color: #888894;
+    color: #62626e;
   }
 
   h3 {
@@ -166,13 +168,13 @@ const experiments = [
     margin-top: 1rem;
   }
 
-  .tags span {
+  .tags li {
     border: 1px solid rgb(120 120 130 / .18);
     border-radius: 999px;
     padding: .25rem .5rem;
-    color: #73737f;
+    color: #62626e;
     background: rgb(120 120 130 / .055);
-    font-size: .68rem;
+    font-size: .75rem;
     font-weight: 600;
   }
 
@@ -197,7 +199,7 @@ const experiments = [
   }
 
   :global(.dark) .source,
-  :global(.dark) .tags span {
+  :global(.dark) .tags li {
     color: #9c9ca8;
   }
 
@@ -214,6 +216,7 @@ const experiments = [
     }
 
     .experiment:hover,
+    .experiment:focus-within,
     .experiment:hover img {
       transform: none;
     }
