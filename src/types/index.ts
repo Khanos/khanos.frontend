@@ -21,7 +21,7 @@ export interface githubCommitType {
   author: {
     login: string;
     avatar_url: string;
-  };
+  } | null;
   commit: {
     message: string;
     author: {
@@ -32,7 +32,7 @@ export interface githubCommitType {
   };
   repository: {
     name: string;
-    description: string;
+    description: string | null;
     html_url: string;
   };
   html_url: string;
@@ -76,18 +76,20 @@ export interface ProjectType {
 // Url Shortener types
 export interface urlShortenerListProps {
   urlList: urlShortenerType[];
-  setUrlList: (urlList: urlShortenerType[]) => void;
+  onDelete: (code: number) => Promise<void>;
+  disabled: boolean;
 };
 
 export interface urlShortenerType {
+  _id: string;
   original_url: string;
-  short_url: string;
+  short_url: number;
   creation_date: string;
-  error: string;
 };
 
 export interface urlListType {
   message: string;
   data: urlShortenerType[];
-  error: string;
+  error: false;
+  pagination: { limit: number; next: string | null };
 };

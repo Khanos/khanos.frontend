@@ -1,19 +1,10 @@
 import type { GithubCardProps } from '../../types';
-
-const findAndReplace = (string: string, word: string) => {
-  const stringLimit = 300;
-  const regex = new RegExp(word, 'gi');
-  const newString = string.replace(regex, `<span class='text-[#F800AE] text-lg font-bold'>${word}</span>`);
-  if (newString.length > stringLimit) {
-    return `${newString.substring(0, stringLimit)}...`;
-  }
-  return newString;
-}
+import { highlightParts } from '../../utils/github';
 
 const GithubCard: React.FC<GithubCardProps> = (props) => {
   const { commit, searchQuery } = props;
   const { author, commit: { message, author: { date, name } }, repository, html_url } = commit;
-  const formatedMessage = findAndReplace(message, searchQuery);
+  const messageParts = highlightParts(message, searchQuery);
   const getAvatar = () => {
     if (author) {
       return author.avatar_url;
@@ -41,8 +32,8 @@ const GithubCard: React.FC<GithubCardProps> = (props) => {
         </div>
         <p 
           className="mb-4 break-words text-base text-neutral-600 dark:text-neutral-200"
-          dangerouslySetInnerHTML={{ __html: formatedMessage}}
         >
+          {messageParts.map((part, index) => <span key={index} className={part.match ? 'text-[#F800AE] text-lg font-bold' : undefined}>{part.text}</span>)}
         </p>
         <p className="text-xs text-right text-neutral-500 dark:text-neutral-300">
           <a href={html_url}

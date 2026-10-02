@@ -76,6 +76,7 @@ const experiments = [
         <a
           class="project-link"
           href={experiment.href}
+          data-astro-reload={experiment.href.startsWith('/url') || undefined}
           target={experiment.href.startsWith('https://') ? '_blank' : undefined}
           rel={experiment.href.startsWith('https://') ? 'noopener noreferrer' : undefined}
           aria-label={`${experiment.title}: ${experiment.linkLabel}${experiment.href.startsWith('https://') ? ` (${lab.opensInNewTab})` : ''}`}
