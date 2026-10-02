@@ -92,6 +92,13 @@ const es =  {
         description: 'Convierte SVGs en componentes React, Vue, Angular o Svelte en pocos pasos.',
         linkLabel: 'Convertir un SVG',
       },
+      invoice: {
+        title: 'Khanos Invoice',
+        imgAlt: 'Ilustración de un editor de facturas junto a una vista previa A4 con conceptos de ejemplo',
+        status: 'Herramienta full-stack',
+        description: 'Un editor de facturas bilingüe con vista previa A4, impresión y PDF desde el navegador, acceso con Google y facturas por cuenta en Postgres.',
+        linkLabel: 'Ver repositorio',
+      },
       ovitals: {
         title: 'oVitals',
         imgAlt: 'Ilustración de sensores Linux conectados a un gráfico de carga de CPU',
