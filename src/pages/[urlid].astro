@@ -1,18 +1,28 @@
 ---
 import { getUrlData } from '../services'
+import { normalizedCode } from '../services/contracts';
+import { ApiRequestError } from '../services/api';
 
 type UrlId = Record<string, string | undefined>;
 
 const { urlid } : UrlId = Astro.params;
+const redirect = (location: string) => {
+  const response = Astro.redirect(location);
+  response.headers.set('Cache-Control', 'no-store');
+  return response;
+};
 
-if (!urlid || !/^\d{4}$/.test(urlid)) {
-  return Astro.redirect("/");
+if (!urlid || normalizedCode(urlid) === null) {
+  return redirect('/');
 } else {
-  const urlData = await getUrlData(urlid);
-  if(urlData && urlData.error) {
-    return Astro.redirect("/");
-  } else {
-    return Astro.redirect(urlData.original_url);
+  try {
+    const urlData = await getUrlData(urlid);
+    return redirect(urlData.original_url);
+  } catch (error) {
+    if (error instanceof ApiRequestError && [400, 404].includes(error.status)) return redirect('/');
+    return new Response('Short link temporarily unavailable. Please try again.', {
+      status: 503, headers: { 'Content-Type': 'text/plain; charset=utf-8', 'Cache-Control': 'no-store', 'Retry-After': '30' }
+    });
   }
 }
 ---

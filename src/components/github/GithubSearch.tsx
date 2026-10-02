@@ -1,5 +1,5 @@
-import { useState, useCallback, useEffect } from 'react';
-import type { GithubSearchProps, githubCommitType } from '../../types';
+import { useState, useEffect } from 'react';
+import type { GithubSearchProps } from '../../types';
 import { searchGithubCommits } from '../../services';
 import { useTranslations } from '../../i18n/utils';
 
@@ -11,19 +11,26 @@ const  GithubSearch: React.FC<GithubSearchProps>  = (props) => {
   const { setLoading, searchQuery, setSearchQuery, setCommits } = props;
   const [search, setSearch] = useState(searchQuery);
 
-  const getCommitsData = useCallback( async (search: string) => {
-    if(search.length <= 3) return;
-    setLoading(true);
-    const data = await searchGithubCommits(search) as { items: githubCommitType[]; total_count: number; };
-    if (data.total_count > 0) {
-      setCommits(data.items);
-    }
-    setLoading(false);
-  }, []);
-
+  const [warning, setWarning] = useState('');
+  const [empty, setEmpty] = useState(false);
   useEffect(() => {
-    getCommitsData(searchQuery);
-  }, [getCommitsData, searchQuery]);
+    const controller = new AbortController();
+    setWarning('');
+    setEmpty(false);
+    setCommits([]);
+    if (!searchQuery.trim()) { setLoading(false); return; }
+    setLoading(true);
+    searchGithubCommits(searchQuery, controller.signal).then(data => {
+      if (controller.signal.aborted) return;
+      setCommits(data.items);
+      setEmpty(data.items.length === 0);
+    }).catch(() => {
+      if (!controller.signal.aborted) setWarning(t('github').fetchError);
+    }).finally(() => {
+      if (!controller.signal.aborted) setLoading(false);
+    });
+    return () => controller.abort();
+  }, [searchQuery, setLoading, setCommits]);
 
   return (
     <div className="flex flex-col justify-center items-center mb-6"> 
@@ -32,6 +39,8 @@ const  GithubSearch: React.FC<GithubSearchProps>  = (props) => {
         <h2><span className="text-[#F800AE]">G</span>itHub API</h2>
         <h2><span className="text-[#F800AE]">D</span>emo</h2>
       </div>
+      {warning && <p role="alert" className="text-red-500 mb-4">{warning}</p>}
+      {empty && <p role="status">{t('github').noResults}</p>}
       <input 
         className="w-60 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 mb-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
         type="text" 

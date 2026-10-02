@@ -78,8 +78,8 @@ const en =  {
         status: 'Full-stack tool',
         title: 'URL Shortener',
         imgAlt: 'URL Shortener with URL input and saved links',
-        description: 'A small full-stack playground for shortening, saving, and sharing links.',
-        linkLabel: 'Shorten a link',
+        description: 'Manage short links as the owner. Shared short links remain public.',
+        linkLabel: 'Owner login',
       },
       svgToComponent: {
         status: 'Developer utility',
@@ -169,6 +169,8 @@ const en =  {
   github: {
     placeholder: 'e.g. cheese',
     button: 'Search',
+    fetchError: 'GitHub search is unavailable. Please try again.',
+    noResults: 'No commits found.',
     descriptionpt1: 'Search for fun words in recent GitHub commits.',
     descriptionpt2: 'Inappropriate language is optional but fun.',
     workflowpt1: 'Made using ⚛️ React and the island architecture.',
@@ -193,11 +195,13 @@ const en =  {
   url: {
     placeholder: 'e.g. https://www.epilef.rocks/',
     button: 'Shorten',
-    description: 'Shorten your URLs and share them with your friends.',
+    description: 'Owner administration. Short links remain public.',
+    loadMore: 'Load more',
+    retry: 'Retry',
     loading: 'Loading...',
     invalid: 'Invalid URL',
     alreadyInList: 'This URL is already in the list',
-    fetchError: 'Error fetching URL list',
+    fetchError: 'Could not complete the URL operation. Please try again.',
     table: {
       header: {
         number: '#',
