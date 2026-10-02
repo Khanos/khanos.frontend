@@ -32,6 +32,46 @@ Then, start the development server:
 pnpm dev
 ```
 
+## Backend integration and owner access
+
+Public GitHub search and numeric short-link redirects use `PUBLIC_BACKEND_API_URL`
+(default `https://khanos-backend.herokuapp.com/api/`). Set this public, credential-free
+HTTPS base URL with a trailing slash in both build and runtime environments. Development
+allows HTTP only on loopback. Public browser reads omit credentials, check HTTP/JSON
+contracts and have an eight-second deadline. A provider failure is shown as a retryable
+error; missing short links redirect home, while a dependency outage returns 503.
+
+`/url` is owner administration. The browser's standard HTTP Basic prompt accepts a
+separate owner username/password. Astro protects the page and every `/api/url-admin`
+operation before contacting the backend, then supplies the backend bearer token from
+server secrets. Provision these deployment secrets privately:
+
+- `URL_ADMIN_USERNAME`: 1-64 letters, digits, dots, underscores or hyphens.
+- `URL_ADMIN_PASSWORD`: 32-256 printable non-whitespace ASCII characters; generate a
+  random password, separate from the backend token. Use the site over HTTPS.
+- `OWNER_API_TOKEN`: the existing backend owner credential, 32-256 printable ASCII characters.
+- `BACKEND_TIMEOUT_MS`: optional server request deadline, default 8000, range 1-30000.
+
+The backend token is never sent to the browser or accepted from client input. Missing,
+invalid or reused secrets disable administration with 503. Do not set secrets with a
+`PUBLIC_` prefix. Use an untracked `.env` locally or the deployment secret manager; the
+environment example intentionally leaves secrets blank. Browser Basic credentials are
+cached by the browser; use a private browser session for owner work and close it when
+finished. Rotation replaces deployment secrets and requires updating both sides together.
+
+Mutation requests also require the frontend's exact Origin to prevent CSRF. API bodies
+are limited to 16 KiB, and owner responses/short-link redirects are not cacheable. The
+owner page omits tag-manager tracking and enters via a full navigation from Lab. URL lists
+load 25 records at a time using the backend cursor; create/copy/delete remain available
+after login. Existing four-digit padded links and new safe numeric codes resolve without
+rewriting issued links or database records. No accounts, cookies or sessions are added.
+
+Backend database/index/configuration rollout remains a separate operation: follow its
+`docs/url-integrity-migration.md`. Merge/deploy the frontend and backend compatibility
+PRs together after provisioning the secrets. The frontend normalizes legacy padding and
+therefore works with both the canonical-only backend from PR #25 and its compatibility fix;
+the backend fix additionally supports older frontend clients that still send padding.
+
 ## Building
 
 To build the project for production, run:
@@ -51,10 +91,10 @@ Use the pinned `pnpm@9.15.9` package manager and Node.js 24:
 
 ```sh
 pnpm install --frozen-lockfile
-pnpm test                          # writing utility unit tests
+pnpm test                          # writing, API and owner-boundary unit tests
 pnpm test:watch                    # unit tests while editing
 pnpm exec playwright install chromium  # one-time browser download
-pnpm test:e2e                      # homepage browser tests
+pnpm test:e2e                      # homepage and backend compatibility browser tests
 pnpm build                        # Astro typecheck and production build
 ```
 
@@ -66,8 +106,11 @@ covers homepage hierarchy, article routes, English/Spanish content, navigation
 active states, and responsive layout at 1440px, 768px, and 375px.
 
 Browser tests start and stop an isolated Astro development server on
-`127.0.0.1:4335`; leave that port free. They block external requests such as
-analytics and do not rely on the backend. They verify development rendering;
+`127.0.0.1:4335` and a native HTTP fixture on `127.0.0.1:4337`; leave those ports free.
+Synthetic owner credentials replace local configuration in the test process. The new
+tests cover owner denial/login, CSRF, list/create/copy/delete, pagination, old/new redirects,
+safe provider text and GitHub failures in both languages. They block external requests such
+as analytics and do not rely on production databases or providers. They verify development rendering;
 the separate build checks production compilation, not a deployed Vercel runtime.
 
 GitHub Actions runs unit tests, the build, and Chromium browser tests on pull

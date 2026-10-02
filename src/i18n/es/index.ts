@@ -82,8 +82,8 @@ const es =  {
         status: 'Herramienta full-stack',
         title: 'Acortador de URL',
         imgAlt: 'Acortador de URL con entrada de enlaces y tabla de enlaces guardados',
-        description: 'Un pequeño laboratorio full-stack para acortar, guardar y compartir enlaces.',
-        linkLabel: 'Acortar un enlace',
+        description: 'Gestiona enlaces como propietario. Los enlaces compartidos siguen siendo públicos.',
+        linkLabel: 'Acceso del propietario',
       },
       svgToComponent: {
         status: 'Utilidad dev',
@@ -173,6 +173,8 @@ const es =  {
   github: {
     placeholder: 'ej. queso',
     button: 'Buscar',
+    fetchError: 'La búsqueda de GitHub no está disponible. Inténtalo de nuevo.',
+    noResults: 'No se encontraron commits.',
     descriptionpt1: 'Busca palabras divertidas en commits recientes de GitHub.',
     descriptionpt2: 'El lenguaje inapropiado es opcional pero divertido.',
     workflowpt1: 'Hecho con ⚛️ React y la arquitectura de islas.',
@@ -197,11 +199,13 @@ const es =  {
   url: {
     placeholder: 'ej. https://www.epilef.rocks/',
     button: 'Acortar',
-    description: 'Acorta tus URLs con un click.',
+    description: 'Administración del propietario. Los enlaces cortos siguen siendo públicos.',
+    loadMore: 'Cargar más',
+    retry: 'Reintentar',
     loading: 'Cargando...',
     invalid: 'URL inválida',
     alreadyInList: 'Esta URL ya está en la lista',
-    fetchError: 'Error al obtener la lista de URL',
+    fetchError: 'No se pudo completar la operación del enlace. Inténtalo de nuevo.',
     table: {
       header: {
         number: '#',

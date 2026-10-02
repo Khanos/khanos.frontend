@@ -14,12 +14,13 @@ interface Props {
   title: string
   description: string
   anonymous?: boolean
+  ownerPage?: boolean
 }
 
-const { description, title, anonymous = false } = Astro.props;
+const { description, title, anonymous = false, ownerPage = false } = Astro.props;
 ---
 <!doctype html>
-<html lang={lang}>
+<html lang={lang} data-owner-page={ownerPage ? 'true' : undefined}>
   <head>
     <meta charset="UTF-8" />
     <meta name="description" content={description} />
@@ -79,11 +80,13 @@ const { description, title, anonymous = false } = Astro.props;
     <link rel="icon" type="image/svg+xml" href="/favicon.ico" />
     <meta name="generator" content={Astro.generator} />
     {!anonymous && <title>{title}</title>}
-    <ClientRouter />
+    {!ownerPage && <ClientRouter />}
     <!-- Google Tag Manager -->
     <script>
       import { loadGTM } from '../scripts/gtm.ts';
-      loadGTM(window, document, 'script', 'dataLayer', 'GTM-NMXF995G');
+      if (document.documentElement.dataset.ownerPage !== 'true') {
+        loadGTM(window, document, 'script', 'dataLayer', 'GTM-NMXF995G');
+      }
     </script>
     <!-- End Google Tag Manager -->
   </head>
@@ -99,8 +102,8 @@ const { description, title, anonymous = false } = Astro.props;
     <slot />
     <Footer />
     <!-- Google Tag Manager (noscript) -->
-    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NMXF995G"
-    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    {!ownerPage && <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NMXF995G"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>}
     <!-- End Google Tag Manager (noscript) -->
     <style is:global>
       :root {
