@@ -25,6 +25,9 @@ Use `rg` for literals, configuration, documentation, and source fallbacks.
   `pnpm exec playwright install chromium`; tests manage an isolated server on port 4335.
 - `pnpm exec astro check`: run Astro/TypeScript checks.
 - `pnpm build`: run `astro check` followed by `astro build`.
+- `pnpm test:runtime`: after build, exercise Vercel's generated handler with
+  require(ESM) disabled and synthetic API responses. Keep sanitize-html bundled
+  via `vite.ssr.noExternal` so Vercel does not require its ESM-only parser.
 - `pnpm preview`: invoke the configured Astro preview command; check adapter
   support before relying on it for production verification.
 
