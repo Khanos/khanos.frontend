@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img" aria-labelledby="title desc">
+  <title id="title">Khanos Invoice: technical illustration</title>
+  <desc id="desc">An invoice editor alongside an A4 preview using sample data. Concept illustration, not a product screenshot.</desc>
+  <defs>
+    <linearGradient id="bg" x2="1" y2="1"><stop stop-color="#0d1119"/><stop offset="1" stop-color="#1c2030"/></linearGradient>
+    <pattern id="grid" width="64" height="64" patternUnits="userSpaceOnUse"><path d="M64 0H0V64" fill="none" stroke="#ffffff" stroke-opacity=".04"/></pattern>
+  </defs>
+  <rect width="1280" height="720" fill="url(#bg)"/>
+  <rect width="1280" height="720" fill="url(#grid)"/>
+  <g font-family="system-ui, sans-serif">
+    <path d="M72 92h48" stroke="#22d3ee" stroke-width="8" stroke-linecap="round"/>
+    <text x="72" y="188" fill="#f6f8fc" font-size="64" font-weight="750">Khanos Invoice</text>
+    <text x="72" y="252" fill="#22d3ee" font-size="38">EN / ES · A4 · PDF</text>
+    <rect x="72" y="320" width="544" height="324" rx="24" fill="#182336" stroke="#46536b" stroke-width="2"/>
+    <text x="104" y="374" fill="#dce4f2" font-size="28" font-weight="650">Editor</text>
+    <rect x="104" y="408" width="480" height="48" rx="10" fill="#0d1119"/>
+    <text x="124" y="440" fill="#94a3b8" font-size="22">INV-DEMO-001</text>
+    <rect x="104" y="476" width="480" height="48" rx="10" fill="#0d1119"/>
+    <text x="124" y="508" fill="#94a3b8" font-size="22">Sample service</text>
+    <rect x="104" y="548" width="168" height="54" rx="12" fill="#22d3ee"/>
+    <path d="M160 564v24m-8-8 8 8 8-8m-24 12h32" stroke="#0d1119" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M647 484h62m-16-16 16 16-16 16" fill="none" stroke="#94a3b8" stroke-width="5"/>
+    <rect x="760" y="96" width="370" height="528" rx="12" fill="#f6f8fc"/>
+    <path d="M794 142h48" stroke="#0891b2" stroke-width="6" stroke-linecap="round"/>
+    <text x="794" y="193" fill="#182336" font-size="32" font-weight="750">INVOICE</text>
+    <text x="794" y="226" fill="#64748b" font-size="17">INV-DEMO-001</text>
+    <path d="M794 270h110m-110 24h76m-76 24h94" stroke="#cbd5e1" stroke-width="8" stroke-linecap="round"/>
+    <rect x="794" y="354" width="302" height="38" rx="5" fill="#e2e8f0"/>
+    <text x="806" y="379" fill="#475569" font-size="16">Item</text>
+    <text x="1084" y="379" fill="#475569" font-size="16" text-anchor="end">EUR</text>
+    <text x="806" y="427" fill="#475569" font-size="16">Sample service</text>
+    <text x="1084" y="427" fill="#475569" font-size="16" text-anchor="end">100.00</text>
+    <path d="M794 449h302" stroke="#cbd5e1" stroke-width="2"/>
+    <text x="806" y="502" fill="#182336" font-size="19" font-weight="650">Total</text>
+    <text x="1084" y="502" fill="#0891b2" font-size="23" font-weight="750" text-anchor="end">€100.00</text>
+    <path d="M794 554h302m-302 20h184" stroke="#e2e8f0" stroke-width="6" stroke-linecap="round"/>
+  </g>
+</svg>
