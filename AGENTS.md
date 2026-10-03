@@ -16,7 +16,7 @@ Use `rg` for literals, configuration, documentation, and source fallbacks.
 ## Stack and commands
 
 - Astro with TypeScript, Tailwind CSS, and React interactive islands.
-- Server output with the Vercel adapter; individual blog articles are prerendered.
+- Server output with the Vercel adapter; blog articles render on demand from the backend.
 - Node.js `24.x`; package manager pinned to `pnpm@9.15.9` in `package.json`.
 - `pnpm install`: install dependencies.
 - `pnpm dev`: start the development server.
@@ -50,19 +50,22 @@ or deleting either without an explicit migration task.
 
 ## Blog content flow
 
-`src/content.config.ts` defines the `posts` collection with a glob loader for
-Markdown/MDX under `src/content/posts/`. Required metadata is `author`, `date`
-(a string), `image`, and `title`.
+`src/services/blog.ts` fetches published summaries and full posts from the existing
+`PUBLIC_BACKEND_API_URL`. Types are in `src/types/blog.ts`; runtime guards reject
+invalid contracts. There is no local collection or content fallback.
 
-Articles live in `en/` and `es/`; shared cover images live in `images/`.
-For example, `en/5-from-panic-to-production.md` becomes
-`/blog/en/5-from-panic-to-production`.
+`src/pages/blog.astro` lists summaries by language and page. `BlogList.astro` and
+`Post.astro` retain the existing cards. `LatestWriting.astro` requests the latest
+three summaries. `src/pages/blog/[lang]/[slug].astro` renders on demand, keeping
+URLs such as `/blog/en/6-state-of-devs-2026-ai-workflow`. `blog-sitemap.xml.ts`
+provides dynamic article URLs to the configured sitemap index.
 
-`src/pages/blog.astro` loads posts and filters by language. `BlogList.astro`
-maps them to `Post.astro` cards. `src/pages/blog/[lang]/[slug].astro` generates
-static paths and renders the article body with Astro's content renderer.
-Content changes require a rebuild/deployment to update published articles.
-Preserve existing URLs and paired translations when editing content.
+Markdown source lives in backend MongoDB. `src/utils/blog-render.ts` sanitizes
+HTML before rendering; do not evaluate database MDX/JavaScript or weaken its HTML,
+URL or style allowlists. Portable survey figures reuse `src/styles/blog-content.css`.
+Original posts/assets and explicit importer live in `khanos.backend`; follow its
+`docs/blog.md` for import and rollout. Backend first, then frontend. Successful
+blog responses support a 60-second shared cache; failures are uncached 503/404.
 
 ## Working conventions and known pitfalls
 
@@ -72,10 +75,10 @@ Preserve existing URLs and paired translations when editing content.
 - Language currently uses mutable `defaultLang`; the layout reads `?lang=`,
   while article URLs also include language. Inspect render order and navigation
   before assuming these mechanisms stay synchronized.
-- Blog cards use raw Markdown body previews and the list has no explicit date
-  sorting. Dates are strings, so date sorting/formatting needs deliberate parsing.
-- Shared metadata includes duplicate title/description tags and fixed social
-  values. Inspect the layout when changing article SEO.
+- Blog cards use API excerpts. The blog index sorts by slug to preserve legacy
+  ordering; homepage Writing sorts by publication date. ISO dates represent UTC.
+- Non-article shared metadata retains legacy values. Articles pass explicit
+  language, title, excerpt, canonical URL and cover metadata through the layout.
 - `tsconfig.json` has a machine-specific legacy `baseUrl`; `.eslintrc.json`
   references Next.js. Inspect actual errors before changing either; do not
   assume a Next.js lint command applies to this Astro project.

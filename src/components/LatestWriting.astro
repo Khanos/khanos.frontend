@@ -1,14 +1,13 @@
 ---
-import { getCollection } from 'astro:content';
+import type { BlogPostSummary } from '../types/blog';
 import WritingIcon from './icons/Writing.astro';
 import SectionContainer from './SectionContainer.astro';
 import WritingPostCard from './WritingPostCard.astro';
-import { latestPublishedPosts } from '../utils/writing';
 import { ui } from '../i18n/ui';
-interface Props { lang: 'en' | 'es' }
-const { lang } = Astro.props;
+interface Props { lang: 'en' | 'es'; posts: BlogPostSummary[]; unavailable?: boolean }
+const { lang, posts, unavailable = false } = Astro.props;
 const labels = ui[lang].sections.writing;
-const [featured, ...secondary] = latestPublishedPosts(await getCollection('posts'), lang);
+const [featured, ...secondary] = posts;
 ---
 <SectionContainer id="writing">
   <div class="writing-header">
@@ -21,12 +20,13 @@ const [featured, ...secondary] = latestPublishedPosts(await getCollection('posts
     </div>
     <a class="all-posts" href={`/blog?lang=${lang}`}>{labels.viewAll} <span aria-hidden="true">→</span></a>
   </div>
+  {unavailable && <p role="alert">{lang === 'es' ? 'Los artículos no están disponibles temporalmente.' : 'Articles are temporarily unavailable.'}</p>}
   {featured ? <div class="writing-grid">
     <WritingPostCard post={featured} lang={lang} featured />
     {secondary.length > 0 && <div class="secondary-posts">
       {secondary.map(post => <WritingPostCard post={post} lang={lang} />)}
     </div>}
-  </div> : <p class="text-gray-600 dark:text-gray-400">{labels.empty}</p>}
+  </div> : !unavailable && <p class="text-gray-600 dark:text-gray-400">{labels.empty}</p>}
 </SectionContainer>
 <style>
   .writing-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 1.5rem; margin-bottom: 1.5rem; }

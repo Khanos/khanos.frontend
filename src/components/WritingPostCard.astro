@@ -1,25 +1,24 @@
 ---
-import { Image } from 'astro:assets';
-import type { CollectionEntry } from 'astro:content';
-import { articleText, publicationDate, readingMinutes } from '../utils/writing';
+import { Image } from "astro:assets";
+import type { BlogPostSummary } from '../types/blog';
+import { blogAsset } from '../services/blog';
 import { ui } from '../i18n/ui';
 interface Props {
-  post: CollectionEntry<'posts'>;
+  post: BlogPostSummary;
   lang: 'en' | 'es';
   featured?: boolean;
 }
 const { post, lang, featured = false } = Astro.props;
 const labels = ui[lang].sections.writing;
-const date = publicationDate(post.data.date);
-const text = articleText(post.body);
-const excerpt = post.data.description || text;
-const minutes = readingMinutes(post.body);
-const category = post.data.categories?.[0];
+const date = new Date(post.publishedAt!);
+const excerpt = post.excerpt;
+const minutes = post.readingMinutes;
+const category = post.categories[0];
 ---
 <article class:list={['writing-card', { featured }]}>
-  <a class="post-link" href={`/blog/${post.id}`}>
+  <a class="post-link" href={`/blog/${post.slug}`}>
     <div class="post-image">
-      <Image src={post.data.image} alt={post.data.title} width={featured ? 720 : 320}
+      <Image src={blogAsset(post.coverImage)} alt={post.title} width={featured ? 720 : 320}
         height={featured ? 405 : 240} format="webp" loading="lazy" />
     </div>
     <div class="post-copy">
@@ -28,7 +27,7 @@ const category = post.data.categories?.[0];
         <time datetime={date.toISOString()}>{new Intl.DateTimeFormat(lang, { month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC' }).format(date)}</time>
         {minutes && <span>· {minutes} {labels.readingTime}</span>}
       </div>
-      <h3>{post.data.title}</h3>
+      <h3>{post.title}</h3>
       <p>{excerpt}</p>
       <span class="read-link">{labels.readArticle} <span aria-hidden="true">→</span></span>
     </div>

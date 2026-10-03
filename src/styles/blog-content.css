@@ -1,73 +1,5 @@
----
-import {
-  formatNumber,
-  formatPercent,
-  type ChartConfig,
-} from "../../data/state-of-devs-charts";
-interface Props {
-  chart: ChartConfig;
-  lang?: "en" | "es";
-  compact?: boolean;
-}
-const { chart, lang = "en", compact = false } = Astro.props;
-const titleId = `survey-${chart.id}-title`;
----
 
-<figure
-  class:list={["survey-chart", "not-prose", { compact }]}
-  aria-labelledby={titleId}
-  data-chart={chart.id}
->
-  <figcaption>
-    <h3 id={titleId}>{chart.title}</h3>
-    <span class="sample">
-      {formatNumber(chart.n, lang)} {lang === "es" ? "respuestas" : "answers"}
-    </span>
-  </figcaption>
-  <div class="axis" aria-hidden="true">
-    <span>0%</span>
-    <span>50%</span>
-    <span>100%</span>
-  </div>
-  <ul class="chart-rows">
-    {chart.rows.map((row) => (
-      <li
-        class="chart-row"
-        tabindex="0"
-        aria-label={`${row.label}: ${formatPercent(row.percent, lang)}, ${formatNumber(row.count, lang)} / ${formatNumber(chart.n, lang)}`}
-      >
-        <div class="row-heading">
-          <span>{row.label}</span>
-          <strong>{formatPercent(row.percent, lang)}</strong>
-        </div>
-        <div class="bar-track" aria-hidden="true">
-          <span class="bar-fill" style={`width: ${row.percent}%`}></span>
-        </div>
-        {row.details && (
-          <dl class="row-details">
-            {row.details.map((detail) => (
-              <div>
-                <dt>{detail.label}</dt>
-                <dd>{detail.value}</dd>
-              </div>
-            ))}
-          </dl>
-        )}
-        <span class="chart-tooltip" aria-hidden="true">
-          {formatNumber(row.count, lang)} / {formatNumber(chart.n, lang)}{" "}
-          {lang === "es" ? "respuestas" : "answers"}
-        </span>
-      </li>
-    ))}
-  </ul>
-  <p class="chart-note">
-    {chart.note}{" "}
-    <a href={chart.source}>{lang === "es" ? "Datos" : "Source data"}</a>
-  </p>
-</figure>
-
-<style>
-  .survey-chart {
+  .blog-content .survey-chart {
     --track: #e7e5e4;
     --ink: #292524;
     --muted: #57534e;
@@ -82,7 +14,7 @@ const titleId = `survey-${chart.id}-title`;
     color: var(--ink);
     min-width: 0;
   }
-  :global(html.dark) .survey-chart {
+  html.dark .blog-content .survey-chart {
     --track: #343434;
     --ink: #f5f5f4;
     --muted: #c4c4c4;
@@ -90,7 +22,7 @@ const titleId = `survey-${chart.id}-title`;
     --border: #454545;
     --bar: #ff70ca;
   }
-  figcaption {
+  .blog-content figcaption {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
@@ -98,41 +30,41 @@ const titleId = `survey-${chart.id}-title`;
     gap: 0.5rem 1rem;
     margin-bottom: 1.25rem;
   }
-  h3 {
+  .blog-content h3 {
     margin: 0;
     font-size: 1.05rem;
     font-weight: 650;
     line-height: 1.45;
     max-width: 38rem;
   }
-  .sample {
+  .blog-content .sample {
     color: var(--muted);
     font-size: 0.8rem;
     white-space: nowrap;
   }
-  .axis {
+  .blog-content .axis {
     display: flex;
     justify-content: space-between;
     color: var(--muted);
     font-size: 0.7rem;
     margin-bottom: 0.85rem;
   }
-  .chart-rows {
+  .blog-content .chart-rows {
     margin: 0;
     padding: 0;
     list-style: none;
     display: grid;
     gap: 0.9rem;
   }
-  .chart-row {
+  .blog-content .chart-row {
     position: relative;
     border-radius: 0.35rem;
     outline-offset: 0.3rem;
   }
-  .chart-row:focus-visible {
+  .blog-content .chart-row:focus-visible {
     outline: 2px solid var(--bar);
   }
-  .row-heading {
+  .blog-content .row-heading {
     display: flex;
     justify-content: space-between;
     align-items: baseline;
@@ -141,11 +73,11 @@ const titleId = `survey-${chart.id}-title`;
     line-height: 1.4;
     margin-bottom: 0.35rem;
   }
-  .row-heading strong {
+  .blog-content .row-heading strong {
     font-variant-numeric: tabular-nums;
     white-space: nowrap;
   }
-  .bar-track {
+  .blog-content .bar-track {
     height: 0.55rem;
     border-radius: 0.2rem;
     overflow: hidden;
@@ -157,29 +89,29 @@ const titleId = `survey-${chart.id}-title`;
       transparent calc(50% + 1px)
     );
   }
-  .bar-fill {
+  .blog-content .bar-fill {
     display: block;
     height: 100%;
     background: var(--bar);
     border-radius: 0.2rem;
   }
-  .row-details {
+  .blog-content .row-details {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 0.8rem;
     margin: 0.8rem 0 0.6rem;
   }
-  dt {
+  .blog-content dt {
     font-size: 0.7rem;
     line-height: 1.4;
     color: var(--muted);
   }
-  dd {
+  .blog-content dd {
     margin: 0.2rem 0 0;
     font-size: 0.85rem;
     font-weight: 600;
   }
-  .chart-tooltip {
+  .blog-content .chart-tooltip {
     display: none;
     width: fit-content;
     margin: 0.5rem 0 0 auto;
@@ -191,22 +123,22 @@ const titleId = `survey-${chart.id}-title`;
     font-size: 0.7rem;
     max-width: 100%;
   }
-  .chart-row:hover .chart-tooltip,
-  .chart-row:focus .chart-tooltip {
+  .blog-content .chart-row:hover .chart-tooltip,
+  .blog-content .chart-row:focus .chart-tooltip {
     display: block;
   }
-  .chart-note {
+  .blog-content .chart-note {
     color: var(--muted);
     font-size: 0.75rem;
     line-height: 1.6;
     margin: 1.25rem 0 0;
   }
-  .chart-note a {
+  .blog-content .chart-note a {
     color: inherit;
     text-decoration: underline;
     text-underline-offset: 3px;
   }
-  .compact {
+  .blog-content .compact {
     margin: 1rem 0 0;
     border: 0;
     border-top: 1px solid var(--border);
@@ -215,11 +147,29 @@ const titleId = `survey-${chart.id}-title`;
     padding: 1.25rem 0 0;
   }
   @media (max-width: 480px) {
-    .row-details {
+    .blog-content .row-details {
       grid-template-columns: repeat(2, minmax(0, 1fr));
     }
-    .row-details div:last-child {
+    .blog-content .row-details div:last-child {
       grid-column: 1 / -1;
     }
   }
-</style>
+
+
+  .blog-content .workplace-charts {
+    margin: 2rem 0;
+    border: 1px solid #d6d3d1;
+    border-radius: 1rem;
+    padding: clamp(1rem, 3vw, 1.5rem);
+    background: #ffffffb8;
+  }
+  html.dark .blog-content .workplace-charts {
+    border-color: #454545;
+    background: #191919c9;
+  }
+  .blog-content .workplace-charts .survey-chart:not(.compact) {
+    border: 0;
+    background: transparent;
+    padding: 0;
+    margin: 0;
+  }

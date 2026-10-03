@@ -2,16 +2,20 @@
 import Layout from "../layouts/Layout.astro";
 import SectionContainer from "../components/SectionContainer.astro";
 import BlogList from "../components/BlogList.astro";
-import { getCollection } from "astro:content";
+import { getBlogPage, blogCacheControl } from "../services/blog";
 import { useTranslations } from '../i18n/utils';
 
 type tLang = (str: any) => any;
 
 const lang = Astro.url.searchParams.get("lang") === "es" ? "es" : "en";
 const t:tLang = useTranslations(lang);
-const posts = await getCollection("posts");
-
-const postsFilteredByLang = posts.filter((post) => post.id.includes(lang));
+const pageParam = Astro.url.searchParams.get('page') || '1';
+if (!/^[1-9]\d*$/.test(pageParam) || Number(pageParam) > 1000) return new Response('Invalid page', { status: 400 });
+const page = Number(pageParam);
+let result;
+try { result = await getBlogPage(lang, page); }
+catch { return new Response(lang === 'es' ? 'Los artículos no están disponibles temporalmente.' : 'Articles are temporarily unavailable.', { status: 503, headers: { 'Cache-Control': 'no-store' } }); }
+Astro.response.headers.set('Cache-Control', blogCacheControl);
 ---
 
 <Layout
@@ -20,7 +24,11 @@ const postsFilteredByLang = posts.filter((post) => post.id.includes(lang));
 >
   <main class="px-4">
     <SectionContainer id="blog" class="py-16 md:py-36">
-      <BlogList posts={postsFilteredByLang} />
+      <BlogList posts={result.data} />
+      {result.pagination.pages > 1 && <nav class="mt-10 flex justify-between" aria-label={lang === 'es' ? 'Páginas del blog' : 'Blog pages'}>
+        {page > 1 && <a href={`/blog?lang=${lang}&page=${page - 1}`}>{lang === 'es' ? 'Anterior' : 'Previous'}</a>}
+        {page < result.pagination.pages && <a href={`/blog?lang=${lang}&page=${page + 1}`}>{lang === 'es' ? 'Siguiente' : 'Next'}</a>}
+      </nav>}
     </SectionContainer>
   </main>
 </Layout>
