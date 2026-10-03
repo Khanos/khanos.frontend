@@ -1,63 +1,59 @@
 ---
+import { Image } from "astro:assets";
 import Layout from "../../../layouts/Layout.astro";
 import SectionContainer from "../../../components/SectionContainer.astro";
-import { Image } from "astro:assets";
-import { getCollection, render } from "astro:content";
-import type { CollectionEntry } from "astro:content";
+import { getBlogPost, blogAsset, blogCacheControl } from "../../../services/blog";
+import { ApiRequestError } from "../../../services/api";
+import { renderBlog } from "../../../utils/blog-render";
+import "../../../styles/blog-content.css";
 import LinkInline from "../../../components/LinkInline.astro";
 
-export const prerender = true;
-
-export async function getStaticPaths() {
-  const pages = await getCollection('posts');
-
-  const paths = pages.map((page) => {
-    const [lang, ...slug] = page.id.split('/');
-    return { params: { lang, slug: slug.join('/') || undefined }, props: page };
-  });
-
-  return paths;
+export const prerender = false;
+const { lang, slug } = Astro.params;
+if (!['en', 'es'].includes(lang || '') || !/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug || '')) return new Response('Not found', { status: 404 });
+let post;
+try { post = await getBlogPost(`${lang}/${slug}`); }
+catch (error) {
+  const missing = error instanceof ApiRequestError && error.status === 404;
+  return new Response(missing ? 'Not found' : 'Article temporarily unavailable', { status: missing ? 404 : 503, headers: { 'Cache-Control': 'no-store' } });
 }
-
-type Props = {
-  post: CollectionEntry<"posts">;
-};
-const post: any = Astro.props;
-const formattedDate = post.data.date.toLocaleString();
-const byline = post.data.anonymous ? formattedDate : `${post.data.author} . ${formattedDate}`;
-const { Content } = await render(post);
+Astro.response.headers.set('Cache-Control', blogCacheControl);
+const formattedDate = post.displayDate || new Intl.DateTimeFormat(lang, { timeZone: 'UTC' }).format(new Date(post.publishedAt!));
+const byline = post.anonymous ? formattedDate : `${post.author} . ${formattedDate}`;
+const html = renderBlog(post.content);
 ---
 
 <Layout
-  title={post.data.title}
-  description={post.data.description ?? byline}
-  anonymous={post.data.anonymous}
+  title={post.title}
+  description={post.excerpt || byline}
+  anonymous={post.anonymous}
+  article
+  language={post.language}
+  socialImage={blogAsset(post.coverImage)}
 >
   <main class="px-4">
-    <SectionContainer id={post.data.title.trim()} class="py-16 md:py-36">
+    <SectionContainer id={post.title.trim()} class="py-16 md:py-36">
       <div class="text-3xl text-black/80 dark:text-white mb-4 font-semibold inline-block">
-        {post.data.title}
+        {post.title}
       </div>
       <div class="text-medium text-black/80 dark:text-white mb-4 font-semibold inline-block">
         {byline}
       </div>
       <Image
-        src={post.data.image}
-        alt={post.data.title}
+        src={blogAsset(post.coverImage)}
+        alt={post.title}
         width={900}
         height={900 / 1.5}
         format="webp"
         class="rounded-2xl shadow-xl mb-6 aspect-thumbnail object-cover"
       />
-      <div class="prose dark:prose-invert min-w-full">
-        <Content />
-      </div>
+      <div class="blog-content prose dark:prose-invert min-w-full" set:html={html} />
       <div class="mt-10 text-right">
         <LinkInline 
-          href="/blog" 
-          aria-label="Go back to the entries list"
+          href={`/blog?lang=${lang}`}
+          aria-label={lang === 'es' ? 'Volver a la lista de artículos' : 'Go back to the entries list'}
         >
-          Go back
+          {lang === 'es' ? 'Volver' : 'Go back'}
         </LinkInline>
       </div>
     </SectionContainer>

@@ -116,3 +116,24 @@ the separate build checks production compilation, not a deployed Vercel runtime.
 GitHub Actions runs unit tests, the build, and Chromium browser tests on pull
 requests and pushes to `master`. Failed browser tests upload traces and
 screenshots; test output is ignored by Git.
+
+## Blog API
+
+Blog content now comes from `khanos.backend` MongoDB over the existing
+`PUBLIC_BACKEND_API_URL` configuration (set it at build and runtime; HTTPS base
+ending in `/api/`). `/blog`, `/blog/[lang]/[slug]` and homepage Writing use server
+fetches. Existing bilingual article URLs and card/chart styling are retained.
+Article Markdown is rendered through `markdown-it` and sanitized with
+`sanitize-html`; no database MDX or JavaScript is executed. Article metadata,
+language, cover and canonical URL come from the post. Successful blog HTML can
+be cached by a shared cache for 60 seconds; failures return uncached 503.
+
+Types and runtime response guards live in `src/types/blog.ts` and
+`src/services/blog.ts`. Lists contain summaries; bodies are fetched only for
+articles. The original sources/assets and reproducible importer now belong to
+the backend. Follow `khanos.backend/docs/blog.md`: import and verify the database,
+release the backend, then release this frontend. Build does not contact the
+blog API or require database credentials. No local content fallback is used.
+
+Run `pnpm test`, `pnpm build`, and `pnpm test:e2e`. Browser tests use an isolated
+synthetic API fixture; they do not prove production availability.

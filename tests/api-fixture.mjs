@@ -1,4 +1,5 @@
 import http from 'node:http';
+import { blogPosts } from './blog-fixture.mjs';
 
 // Synthetic credentials, only used by the isolated test process.
 export const owner = { username: 'fixture-owner', password: 'synthetic-browser-owner-password-00000' };
@@ -25,6 +26,24 @@ export async function startApiFixture() {
     if (url.pathname === '/__mode') { mode = url.searchParams.get('value'); return reply(200, {}); }
     if (url.pathname === '/__stats') return reply(200, { calls });
     calls++;
+    if (url.pathname.startsWith('/blog-assets/')) {
+      res.setHeader('Content-Type', 'image/png');
+      return res.end(Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQIHWP4z8DwHwAFgAI/ScLbtAAAAABJRU5ErkJggg==', 'base64'));
+    }
+    if (url.pathname === '/api/blog' || url.pathname.startsWith('/api/blog/')) {
+      if (mode === 'blog-failure') return error(503);
+      if (mode === 'blog-malformed') return reply(200, { invalid: true });
+      if (url.pathname === '/api/blog') {
+        let posts = blogPosts.filter(post => post.language === url.searchParams.get('language'));
+        posts.sort((a, b) => url.searchParams.get('sort') === 'publishedAt' ? b.publishedAt.localeCompare(a.publishedAt) : a.slug.localeCompare(b.slug));
+        const page = Number(url.searchParams.get('page') || 1), limit = Number(url.searchParams.get('limit') || 25);
+        const data = posts.slice((page - 1) * limit, page * limit).map(({ content, ...post }) => post);
+        return reply(200, { data, pagination: { page, limit, total: posts.length, pages: Math.ceil(posts.length / limit) } });
+      }
+      const slug = decodeURIComponent(url.pathname.slice('/api/blog/'.length));
+      const post = blogPosts.find(post => post.slug === slug);
+      return post ? reply(200, post) : error(404);
+    }
     if (url.pathname.startsWith('/api/github/getCommits/')) {
       const word = decodeURIComponent(url.pathname.slice('/api/github/getCommits/'.length));
       if (word === 'upstreamfail') return error(502);

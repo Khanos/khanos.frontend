@@ -1,4 +1,7 @@
 import { defineConfig } from 'astro/config';
+import { loadEnv } from 'vite';
+import { fileURLToPath } from 'node:url';
+import { parseBackendBase } from './src/config/backend.mjs';
 import tailwind from "@astrojs/tailwind";
 import robotsTxt from "astro-robots-txt";
 import react from "@astrojs/react";
@@ -7,16 +10,22 @@ import mdx from '@astrojs/mdx';
 
 import vercel from "@astrojs/vercel";
 
+const development = process.env.NODE_ENV !== 'production';
+const env = loadEnv(development ? 'development' : 'production', fileURLToPath(new URL('.', import.meta.url)), 'PUBLIC_');
+const backend = parseBackendBase(process.env.PUBLIC_BACKEND_API_URL || env.PUBLIC_BACKEND_API_URL, development);
+
 // https://astro.build/config
 export default defineConfig({
   integrations: [
     mdx(),
     tailwind(), 
     robotsTxt(), 
-    sitemap(),
+    sitemap({ customSitemaps: ['https://epilef.app/blog-sitemap.xml'] }),
     react(), 
   ],
   site: 'https://epilef.app/',
+  // Keep existing Astro/Sharp cover optimization; authorize only backend asset paths.
+  image: { remotePatterns: [{ protocol: backend.protocol.slice(0, -1), hostname: backend.hostname, port: backend.port, pathname: '/blog-assets/**' }] },
   output: 'server',
   adapter: vercel()
 });

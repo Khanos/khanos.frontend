@@ -1,10 +1,10 @@
 ---
-import type {CollectionEntry} from "astro:content"
+import type { BlogPostSummary } from "../types/blog"
 
 import Post from "./Post.astro"
 
 type Props = {
-    posts: CollectionEntry<"posts">[]
+    posts: BlogPostSummary[]
 }
 
 const { posts } = Astro.props
