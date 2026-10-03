@@ -129,7 +129,7 @@ for (const lang of ["en", "es"]) {
       const next = lab.getByRole("button", { name: lang === "en" ? "Next projects" : "Proyectos siguientes" });
       await expect(cards).toHaveCount(8);
       await expect(lab.locator("h3")).toHaveText([
-        "Khanos Invoice", "oVitals", "Wallapibara", "PNG to SVG", "Local Image Studio",
+        lang === "en" ? "Invoice Editor" : "Editor de facturas", "oVitals", "Wallapibara", "PNG to SVG", "Local Image Studio",
         lang === "en" ? "SVG to Component" : "SVG a Componente",
         "GitHub API Demo", lang === "en" ? "URL Shortener" : "Acortador de URL",
       ]);

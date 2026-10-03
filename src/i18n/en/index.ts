@@ -89,7 +89,7 @@ const en =  {
         linkLabel: 'Convert an SVG',
       },
       invoice: {
-        title: 'Khanos Invoice',
+        title: 'Invoice Editor',
         imgAlt: 'Illustration of an invoice editor beside an A4 preview with sample line items',
         status: 'Full-stack tool',
         description: 'A bilingual invoice editor with live A4 preview, browser print/PDF export, Google sign-in, and account-scoped invoices in Postgres.',

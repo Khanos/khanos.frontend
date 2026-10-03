@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img" aria-labelledby="title desc">
-  <title id="title">Khanos Invoice: technical illustration</title>
+  <title id="title">Invoice Editor: technical illustration</title>
   <desc id="desc">An invoice editor alongside an A4 preview using sample data. Concept illustration, not a product screenshot.</desc>
   <defs>
     <linearGradient id="bg" x2="1" y2="1"><stop stop-color="#0d1119"/><stop offset="1" stop-color="#1c2030"/></linearGradient>
@@ -9,7 +9,7 @@
   <rect width="1280" height="720" fill="url(#grid)"/>
   <g font-family="system-ui, sans-serif">
     <path d="M72 92h48" stroke="#22d3ee" stroke-width="8" stroke-linecap="round"/>
-    <text x="72" y="188" fill="#f6f8fc" font-size="64" font-weight="750">Khanos Invoice</text>
+    <text x="72" y="188" fill="#f6f8fc" font-size="64" font-weight="750">Invoice Editor</text>
     <text x="72" y="252" fill="#22d3ee" font-size="38">EN / ES · A4 · PDF</text>
     <rect x="72" y="320" width="544" height="324" rx="24" fill="#182336" stroke="#46536b" stroke-width="2"/>
     <text x="104" y="374" fill="#dce4f2" font-size="28" font-weight="650">Editor</text>
