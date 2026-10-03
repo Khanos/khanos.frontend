@@ -28,7 +28,7 @@ export default defineConfig({
   image: { remotePatterns: [{ protocol: backend.protocol.slice(0, -1), hostname: backend.hostname, port: backend.port, pathname: '/blog-assets/**' }] },
   // Vercel's runtime loader cannot require sanitize-html's ESM-only parser.
   // Bundle the sanitizer so Vite converts that boundary to native ESM imports.
-  vite: { ssr: { noExternal: ['sanitize-html'] } },
+  vite: { ssr: { noExternal: development ? [] : ['sanitize-html'] } },
   output: 'server',
   adapter: vercel()
 });
