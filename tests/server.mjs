@@ -7,6 +7,8 @@ process.env.PUBLIC_BACKEND_API_URL = `${fixtureOrigin}/api/`;
 process.env.URL_ADMIN_USERNAME = owner.username;
 process.env.URL_ADMIN_PASSWORD = owner.password;
 process.env.OWNER_API_TOKEN = token;
+// Synthetic token can sign local client authorizations; Blob writes are intercepted.
+process.env.BLOB_READ_WRITE_TOKEN = 'vercel_blob_rw_fixturestore_synthetic-test-blob-secret-0000000000';
 
 // Use a separate foreground server: Astro's agent-aware CLI can detach or reuse
 // the developer's server. Vercel server output cannot use `astro preview`.

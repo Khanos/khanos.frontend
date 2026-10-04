@@ -125,6 +125,12 @@ for routes, environment configuration, response-envelope assumptions and V1 limi
 Drafting, publishing, scheduling and deleting content use the backend at runtime;
 publishing requires no content-file changes, Git commit, build or redeployment.
 
+Cover and inline Markdown images can be uploaded directly to public Vercel Blob.
+Connect a public store and supply server-only `BLOB_READ_WRITE_TOKEN`; the existing
+owner login protects upload authorization. Inline images are inserted at the
+captured cursor/selection with alt text and immediate preview. See
+[Blog image setup, security and validation](docs/blog-images.md).
+
 Blog content now comes from `khanos.backend` MongoDB over the existing
 `PUBLIC_BACKEND_API_URL` configuration (set it at build and runtime; HTTPS base
 ending in `/api/`). `/blog`, `/blog/[lang]/[slug]` and homepage Writing use server

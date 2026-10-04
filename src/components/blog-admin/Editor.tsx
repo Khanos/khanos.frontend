@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import type { BlogPost } from "../../types/blog";
 import { blogAsset } from "../../services/blog";
 import type { BlogInput } from "../../services/blog-admin-contract";
@@ -14,6 +14,9 @@ import {
   formatDate,
   publicationLabel,
 } from "./client";
+import CoverImageField from "./CoverImageField";
+import ImageUploadDialog from "./ImageUploadDialog";
+import { insertMarkdownImage, type EditorSelection } from "./markdown-image";
 
 type Form = Omit<BlogInput, "categories" | "status" | "publishedAt"> & {
   categories: string;
@@ -66,10 +69,25 @@ export default function Editor({ id }: { id?: string }) {
   const [success, setSuccess] = useState("");
   const [preview, setPreview] = useState("");
   const [previewState, setPreviewState] = useState("");
+  const [imageTarget, setImageTarget] = useState<{
+    kind: "cover" | "inline";
+    file?: File;
+    selection?: EditorSelection;
+  } | null>(null);
+  const editor = useRef<HTMLTextAreaElement>(null);
+  const selection = useRef<EditorSelection>({ start: 0, end: 0 });
+  const restoreSelection = useRef<EditorSelection | null>(null);
+  useLayoutEffect(() => {
+    if (imageTarget || !restoreSelection.current) return;
+    const range = restoreSelection.current;
+    restoreSelection.current = null;
+    editor.current?.focus();
+    editor.current?.setSelectionRange(range.start, range.end);
+  }, [imageTarget]);
   const dirty = JSON.stringify(form) !== baseline;
   const allowLeave = useRef(false);
   const dirtyRef = useRef(false);
-  dirtyRef.current = dirty || !!busy;
+  dirtyRef.current = dirty || !!busy || !!imageTarget;
   useEffect(() => {
     if (!id) return;
     const controller = new AbortController();
@@ -170,7 +188,44 @@ export default function Editor({ id }: { id?: string }) {
     });
     setSuccess("");
   }
+  function rememberSelection() {
+    if (editor.current)
+      selection.current = {
+        start: editor.current.selectionStart,
+        end: editor.current.selectionEnd,
+      };
+  }
+  function addInlineImage(file?: File) {
+    if (busy || imageTarget) return;
+    rememberSelection();
+    setImageTarget({
+      kind: "inline",
+      file,
+      selection: { ...selection.current },
+    });
+  }
+  function finishImage(url?: string, alt = "") {
+    if (imageTarget?.selection)
+      selection.current = { ...imageTarget.selection };
+    if (url && imageTarget?.kind === "cover") change("coverImage", url);
+    if (url && imageTarget?.kind === "inline") {
+      const inserted = insertMarkdownImage(
+        form.content,
+        imageTarget.selection!,
+        alt,
+        url,
+      );
+      if (inserted.content.length > 400000)
+        throw new Error("This image would exceed the article length limit.");
+      change("content", inserted.content);
+      selection.current = { start: inserted.cursor, end: inserted.cursor };
+    }
+    if (imageTarget?.kind === "inline")
+      restoreSelection.current = { ...selection.current };
+    setImageTarget(null);
+  }
   async function save(status: "draft" | "published") {
+    if (busy || imageTarget) return;
     setError("");
     setSuccess("");
     setFields({});
@@ -347,11 +402,11 @@ export default function Editor({ id }: { id?: string }) {
       <form
         onSubmit={(event) => {
           event.preventDefault();
-          if (!busy) void save("draft");
+          if (!busy && !imageTarget) void save("draft");
         }}
         noValidate
       >
-        <fieldset disabled={!!busy}>
+        <fieldset disabled={!!busy || !!imageTarget}>
           <div className="admin-fields">
             <label className="admin-wide">
               <span>
@@ -438,24 +493,12 @@ export default function Editor({ id }: { id?: string }) {
                 </p>
               </div>
             )}
-            <label className="admin-wide">
-              <span>
-                Cover image URL <span aria-hidden="true">*</span>
-              </span>
-              <input
-                type="url"
-                value={form.coverImage}
-                placeholder="https://…"
-                onChange={(event) => change("coverImage", event.target.value)}
-                required
-                maxLength={2048}
-                {...accessibility("coverImage")}
-              />
-              {fieldError("coverImage")}
-              <span className="admin-muted">
-                HTTPS URL · image uploads are not required.
-              </span>
-            </label>
+            <CoverImageField
+              value={form.coverImage}
+              onChange={(value) => change("coverImage", value)}
+              onUpload={() => setImageTarget({ kind: "cover" })}
+              error={fields.coverImage}
+            />
             <label>
               Author
               <input
@@ -518,21 +561,53 @@ export default function Editor({ id }: { id?: string }) {
             </label>
           </div>
           <div className="admin-markdown">
-            <label>
-              <span>
-                Markdown <span aria-hidden="true">*</span>
-              </span>
+            <div>
+              <div className="admin-editor-toolbar">
+                <label htmlFor="blog-markdown">
+                  <span>
+                    Markdown <span aria-hidden="true">*</span>
+                  </span>
+                </label>
+                <button
+                  type="button"
+                  className="admin-button"
+                  onPointerDown={(event) => {
+                    event.preventDefault();
+                    rememberSelection();
+                  }}
+                  onClick={() => addInlineImage()}
+                >
+                  Image
+                </button>
+              </div>
               <textarea
+                ref={editor}
+                id="blog-markdown"
                 className="admin-code"
                 value={form.content}
                 rows={24}
                 onChange={(event) => change("content", event.target.value)}
+                onSelect={rememberSelection}
+                onPaste={(event) => {
+                  const images = Array.from(event.clipboardData.items).filter(
+                    (item) =>
+                      item.kind === "file" && item.type.startsWith("image/"),
+                  );
+                  if (!images.length) return;
+                  event.preventDefault();
+                  const file = images[0].getAsFile();
+                  if (file) addInlineImage(file);
+                }}
                 required
                 maxLength={400000}
                 {...accessibility("content")}
               />
               {fieldError("content")}
-            </label>
+              <p className="admin-muted">
+                Use Image or paste an image to upload it at the current
+                selection.
+              </p>
+            </div>
             <section className="admin-preview" aria-label="Markdown preview">
               <h2>Preview</h2>
               {previewState && <p role="status">{previewState}</p>}
@@ -577,6 +652,14 @@ export default function Editor({ id }: { id?: string }) {
           </div>
         </fieldset>
       </form>
+      {imageTarget && (
+        <ImageUploadDialog
+          kind={imageTarget.kind}
+          initialFile={imageTarget.file}
+          onClose={() => finishImage()}
+          onUploaded={finishImage}
+        />
+      )}
     </div>
   );
 }

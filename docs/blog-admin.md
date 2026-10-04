@@ -1,7 +1,8 @@
 # Private blog admin
 
-The admin reuses the portfolio architecture. No backend files, content files,
-dependencies, or lockfiles were changed. The public blog continues
+The admin reuses the portfolio architecture. No backend or content files were
+changed. Image authoring adds the official Blob SDK; see [Blog images](blog-images.md)
+for setup, security, direct uploads and verification. The public blog continues
 fetching MongoDB-backed API data at runtime with its existing 60-second cache.
 Publishing content needs no Git commit, frontend build, or redeployment.
 Installing this new admin feature does require a normal application deployment.
@@ -14,6 +15,7 @@ Installing this new admin feature does require a normal application deployment.
 - `/api/blog-admin`: GET summaries, POST new post.
 - `/api/blog-admin/:id`: GET full admin post, PATCH, DELETE.
 - `/api/blog-admin/preview`: POST Markdown, return sanitized HTML.
+- `/api/blog-admin/upload`: POST owner-authenticated client-upload authorization metadata.
 
 Use the existing owner credentials in server-side Vercel environment variables:
 `URL_ADMIN_USERNAME`, `URL_ADMIN_PASSWORD`, `OWNER_API_TOKEN`, optionally
@@ -99,7 +101,11 @@ or deployed Vercel configuration. No real owner writes or deployment are part
 of this work. Existing build hints/bundle-size warnings remain. There is no
 configured lint script; `astro check` supplies repository type/static checks.
 
-Useful later additions: image uploads behind the cover-URL field, explicit
+Cover/inline image uploads now use Vercel Blob, including cursor insertion,
+alt text, preview and clipboard paste. Supply server-only `BLOB_READ_WRITE_TOKEN`
+from a connected public store. See [Blog images](blog-images.md).
+
+Useful later additions: media management and image optimization, explicit
 session logout/expiry if HTTP Basic becomes inconvenient, optional slug redirects
 when moving a published URL, and edit conflict detection if multiple tabs/users
 edit the same post. None is needed for the personal V1 interface.
