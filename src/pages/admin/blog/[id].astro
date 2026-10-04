@@ -1,0 +1,13 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import Editor from '../../../components/blog-admin/Editor';
+import { validBlogId } from '../../../services/blog-admin-contract';
+import '../../../styles/blog-admin.css';
+import '../../../styles/blog-content.css';
+export const prerender = false;
+const id = Astro.params.id;
+if (!id || !validBlogId(id)) return new Response('Not found', { status: 404 });
+---
+<Layout ownerPage article language="en" title="Edit blog post" description="Private blog editor">
+  <main><Editor id={id} client:only="react" /></main>
+</Layout>

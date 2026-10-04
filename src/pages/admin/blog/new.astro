@@ -1,0 +1,10 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import Editor from '../../../components/blog-admin/Editor';
+import '../../../styles/blog-admin.css';
+import '../../../styles/blog-content.css';
+export const prerender = false;
+---
+<Layout ownerPage article language="en" title="New blog post" description="Private blog editor">
+  <main><Editor client:only="react" /></main>
+</Layout>

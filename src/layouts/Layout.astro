@@ -29,6 +29,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site || Astro.url.origin).hr
     <meta charset="UTF-8" />
     <meta name="description" content={description} />
     <meta name="viewport" content="width=device-width" />
+    {ownerPage && <meta name="robots" content="noindex, nofollow" />}
 
     <!-- Primary Meta Tags -->
     <title>{(article || anonymous) ? title : "Software Engineer - Ready for the next adventure."}</title>

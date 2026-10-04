@@ -13,7 +13,7 @@ export function authorizeOwner(request: Request, env = process.env): Response | 
   if (!encoded || provided.toString('base64') !== encoded ||
       !timingSafeEqual(digest(provided.toString('utf8')), digest(`${username}:${password}`))) {
     const response = apiError(401, 'OWNER_AUTH_REQUIRED');
-    response.headers.set('WWW-Authenticate', 'Basic realm="URL owner", charset="UTF-8"');
+    response.headers.set('WWW-Authenticate', 'Basic realm="Portfolio owner", charset="UTF-8"');
     return response;
   }
   // Browser Basic credentials are ambient; reject cross-origin mutations (CSRF).
@@ -22,7 +22,9 @@ export function authorizeOwner(request: Request, env = process.env): Response | 
 }
 export function isOwnerPath(pathname: string) {
   const path = decodeURI(pathname).replace(/\/+$/, '');
-  return path === '/url' || path === '/api/url-admin' || path.startsWith('/api/url-admin/');
+  return path === '/url' || path === '/api/url-admin' || path.startsWith('/api/url-admin/') ||
+    path === '/admin/blog' || path.startsWith('/admin/blog/') ||
+    path === '/api/blog-admin' || path.startsWith('/api/blog-admin/');
 }
 export async function ownerBoundary(request: Request, next: () => Promise<Response>, env = process.env) {
   let protectedPath;
@@ -34,6 +36,7 @@ export async function ownerBoundary(request: Request, next: () => Promise<Respon
   const response = await next();
   for (const [name, value] of Object.entries(privateHeaders)) response.headers.set(name, value);
   response.headers.set('X-Frame-Options', 'DENY');
+  response.headers.set('X-Robots-Tag', 'noindex, nofollow');
   response.headers.set('Content-Security-Policy', "frame-ancestors 'none'");
   return response;
 }
