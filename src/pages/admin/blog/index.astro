@@ -1,0 +1,9 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import Dashboard from '../../../components/blog-admin/Dashboard';
+import '../../../styles/blog-admin.css';
+export const prerender = false;
+---
+<Layout ownerPage article language="en" title="Blog admin" description="Private blog workspace">
+  <main><Dashboard client:only="react" /></main>
+</Layout>

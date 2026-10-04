@@ -6,9 +6,10 @@ export const owner = { username: 'fixture-owner', password: 'synthetic-browser-o
 export const token = 'synthetic-backend-owner-token-0000000000';
 export const fixtureOrigin = 'http://127.0.0.1:4337';
 export async function startApiFixture() {
-  let records, mode, calls;
+  let records, mode, calls, posts;
   const reset = () => {
     mode = 'normal'; calls = 0;
+    posts = structuredClone(blogPosts);
     records = [42, 9376, ...Array.from({ length: 30 }, (_, i) => 200000000000001 + i)].map((code, index) => ({
       _id: (index + 1).toString(16).padStart(24, '0'), short_url: code,
       original_url: `https://example.com/fixture-${index}`, creation_date: '2026-01-01T00:00:00.000Z',
@@ -33,15 +34,45 @@ export async function startApiFixture() {
     if (url.pathname === '/api/blog' || url.pathname.startsWith('/api/blog/')) {
       if (mode === 'blog-failure') return error(503);
       if (mode === 'blog-malformed') return reply(200, { invalid: true });
-      if (url.pathname === '/api/blog') {
-        let posts = blogPosts.filter(post => post.language === url.searchParams.get('language'));
-        posts.sort((a, b) => url.searchParams.get('sort') === 'publishedAt' ? b.publishedAt.localeCompare(a.publishedAt) : a.slug.localeCompare(b.slug));
+      const administrative = url.pathname.startsWith('/api/blog/admin') || req.method !== 'GET';
+      if (administrative && req.headers.authorization !== `Bearer ${token}`) return error(401);
+      const list = url.pathname === '/api/blog/admin' || (url.pathname === '/api/blog' && req.method === 'GET');
+      if (list) {
+        let selected = posts.filter(post => (!url.searchParams.get('language') || post.language === url.searchParams.get('language')) &&
+          (!administrative ? post.status === 'published' && Date.parse(post.publishedAt) <= Date.now() : !url.searchParams.get('status') || post.status === url.searchParams.get('status')));
+        selected.sort((a, b) => url.searchParams.get('sort') === 'publishedAt' ? b.publishedAt.localeCompare(a.publishedAt) : a.slug.localeCompare(b.slug));
         const page = Number(url.searchParams.get('page') || 1), limit = Number(url.searchParams.get('limit') || 25);
-        const data = posts.slice((page - 1) * limit, page * limit).map(({ content, ...post }) => post);
-        return reply(200, { data, pagination: { page, limit, total: posts.length, pages: Math.ceil(posts.length / limit) } });
+        const data = selected.slice((page - 1) * limit, page * limit).map(({ content, ...post }) => post);
+        return reply(200, { data, pagination: { page, limit, total: selected.length, pages: Math.ceil(selected.length / limit) } });
+      }
+      if (req.method === 'POST' || req.method === 'PATCH') {
+        let text = '';
+        for await (const chunk of req) text += chunk;
+        const body = JSON.parse(text);
+        if (mode === 'blog-validation') return reply(422, { errors: { title: `Private ${token}` } });
+        const id = req.method === 'PATCH' ? url.pathname.slice('/api/blog/'.length) : (posts.length + 100).toString(16).padStart(24, '0');
+        const existing = posts.find(post => post.id === id);
+        if (req.method === 'PATCH' && !existing) return error(404);
+        if (posts.some(post => post.slug === body.slug && post.id !== id)) return reply(409, { error: 'Private duplicate detail' });
+        const now = new Date().toISOString();
+        const post = { ...existing, ...body, id, readingMinutes: 1, createdAt: existing?.createdAt || now, updatedAt: now };
+        if (body.status === 'published' && !post.publishedAt) post.publishedAt = now;
+        posts = posts.filter(item => item.id !== id).concat(post);
+        return reply(req.method === 'POST' ? 201 : 200, post);
+      }
+      if (req.method === 'DELETE') {
+        const id = url.pathname.slice('/api/blog/'.length);
+        if (!posts.some(post => post.id === id)) return error(404);
+        posts = posts.filter(post => post.id !== id);
+        res.statusCode = 204;
+        return res.end();
+      }
+      if (url.pathname.startsWith('/api/blog/admin/')) {
+        const post = posts.find(post => post.id === url.pathname.slice('/api/blog/admin/'.length));
+        return post ? reply(200, post) : error(404);
       }
       const slug = decodeURIComponent(url.pathname.slice('/api/blog/'.length));
-      const post = blogPosts.find(post => post.slug === slug);
+      const post = posts.find(post => post.slug === slug && post.status === 'published' && Date.parse(post.publishedAt) <= Date.now());
       return post ? reply(200, post) : error(404);
     }
     if (url.pathname.startsWith('/api/github/getCommits/')) {

@@ -119,6 +119,12 @@ screenshots; test output is ignored by Git.
 
 ## Blog API
 
+Private blog editing is available at `/admin/blog`, reusing the existing owner
+login and server-only token proxy. See [Blog admin setup and backend integration](docs/blog-admin.md)
+for routes, environment configuration, response-envelope assumptions and V1 limits.
+Drafting, publishing, scheduling and deleting content use the backend at runtime;
+publishing requires no content-file changes, Git commit, build or redeployment.
+
 Blog content now comes from `khanos.backend` MongoDB over the existing
 `PUBLIC_BACKEND_API_URL` configuration (set it at build and runtime; HTTPS base
 ending in `/api/`). `/blog`, `/blog/[lang]/[slug]` and homepage Writing use server

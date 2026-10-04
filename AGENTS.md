@@ -13,6 +13,14 @@ coverage for evidence paths; read source directly when coverage is incomplete
 or graph relationships are insufficient, especially in Astro templates.
 Use `rg` for literals, configuration, documentation, and source fallbacks.
 
+## Related agent handoffs
+
+Before changing private blog administration, owner access, scheduling, or preview,
+read [Private Blog Admin Handoff](docs/BLOG_ADMIN_HANDOFF.md). It points to the
+implementation, setup, backend contract assumptions, and verification evidence in
+`docs/blog-admin.md`. Preserve the server-only owner-token boundary and runtime
+public blog architecture described there.
+
 ## Stack and commands
 
 - Astro with TypeScript, Tailwind CSS, and React interactive islands.
