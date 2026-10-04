@@ -6,6 +6,8 @@ import { readdir, readFile } from 'node:fs/promises';
 process.env.URL_ADMIN_USERNAME = owner.username;
 process.env.URL_ADMIN_PASSWORD = owner.password;
 process.env.OWNER_API_TOKEN = token;
+const blobSecret = 'vercel_blob_rw_fixturestore_synthetic-test-blob-secret-0000000000';
+process.env.BLOB_READ_WRITE_TOKEN = blobSecret;
 process.env.PUBLIC_BACKEND_API_URL = 'https://example.com/api/';
 let adminPost = structuredClone(blogPosts[0]);
 let adminCalls = 0;
@@ -70,7 +72,7 @@ const adminRequest = (path, method = 'GET', body) => new Request(`https://epilef
   ...(body ? { body: JSON.stringify(body) } : {}),
 });
 const callsBefore = adminCalls;
-for (const path of ['/admin/blog', '/admin/blog/new', `/admin/blog/${adminPost.id}`, '/api/blog-admin', '/api/blog-admin/preview']) {
+for (const path of ['/admin/blog', '/admin/blog/new', `/admin/blog/${adminPost.id}`, '/api/blog-admin', '/api/blog-admin/preview', '/api/blog-admin/upload']) {
   const denied = await handler.fetch(new Request(`https://epilef.app${path}`));
   assert.equal(denied.status, 401);
   assert.equal(denied.headers.get('cache-control'), 'no-store');
@@ -97,6 +99,21 @@ for (const [method, path, body] of [
 const preview = await handler.fetch(adminRequest('/api/blog-admin/preview', 'POST', { content: '# Preview\n\n<script>window.attack=1</script>' }));
 assert.equal(preview.status, 200);
 assert.equal((await preview.json()).html, '<h1>Preview</h1>\n');
+const uploadPath = 'blog/2026/10/01234567-89ab-4cde-8012-3456789abcde-diagram.webp';
+const uploadBody = { type: 'blob.generate-client-token', payload: { pathname: uploadPath, multipart: false, clientPayload: JSON.stringify({ type: 'image/webp', size: 1024 }) } };
+const uploadAuthorization = await handler.fetch(adminRequest('/api/blog-admin/upload', 'POST', uploadBody));
+assert.equal(uploadAuthorization.status, 200);
+const clientAuthorization = await uploadAuthorization.json();
+assert.ok(!JSON.stringify(clientAuthorization).includes(blobSecret));
+const payload = JSON.parse(Buffer.from(Buffer.from(clientAuthorization.clientToken.split('_')[4], 'base64').toString().split('.')[1], 'base64').toString());
+assert.equal(payload.pathname, uploadPath);
+assert.deepEqual(payload.allowedContentTypes, ['image/webp']);
+assert.equal(payload.maximumSizeInBytes, 1024);
+assert.equal(payload.addRandomSuffix, true);
+assert.equal(payload.allowOverwrite, false);
+assert.equal(payload.onUploadCompleted, undefined);
+const imagePreview = await handler.fetch(adminRequest('/api/blog-admin/preview', 'POST', { content: `![Diagram](https://fixturestore.public.blob.vercel-storage.com/${uploadPath})` }));
+assert.ok((await imagePreview.json()).html.includes(`src="https://fixturestore.public.blob.vercel-storage.com/${uploadPath}"`));
 assert.equal((await handler.fetch(adminRequest(`/api/blog-admin/${adminPost.id}`, 'DELETE'))).status, 200);
 async function scanClient(directory) {
   let files = 0;
@@ -105,7 +122,10 @@ async function scanClient(directory) {
     if (entry.isDirectory()) files += await scanClient(path);
     else if (/\.(?:js|mjs|html|map)$/.test(entry.name)) {
       const text = await readFile(path, 'utf8');
-      for (const secret of [token, owner.password, 'OWNER_API_TOKEN', 'URL_ADMIN_PASSWORD', 'node:crypto']) assert.ok(!text.includes(secret), `Private server value/module leaked into ${path}`);
+      // The official client SDK contains the generic BLOB_READ_WRITE_TOKEN name
+      // in shared fallback/error code. Test actual secret sentinels and server
+      // signing/auth modules, rather than misclassifying SDK reference text.
+      for (const secret of [token, owner.password, blobSecret, 'OWNER_API_TOKEN', 'URL_ADMIN_PASSWORD', 'generateClientTokenFromReadWriteToken', 'node:crypto']) assert.ok(!text.includes(secret), `Private server value/module leaked into ${path}`);
       files++;
     }
   }

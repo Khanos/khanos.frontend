@@ -26,7 +26,10 @@ and sanitizer. Do not enable MDX execution or weaken sanitization. Published
 slugs are locked by default; explicit URL changes require confirmation.
 Scheduling sends `status: published` with a future ISO timestamp; the backend
 owns public visibility and timestamp assignment. No frontend publishing cron.
-Images use HTTPS URLs; uploads are outside V1.
+Images use HTTPS URLs; cover and inline uploads now use direct Vercel Blob client
+uploads. See [Blog images](blog-images.md) for the token endpoint, environment,
+cursor/paste behavior, tests and safe orphan retention. The new server-only
+secret is `BLOB_READ_WRITE_TOKEN`; the existing owner boundary remains intact.
 
 ## Verification and next work
 
@@ -48,3 +51,13 @@ duplicate-slug status, validation limits, and schedule filtering described in
 files were changed here. Merge/deploy only when separately requested.
 A code rollback should revert the feature as a unit; it does not roll back
 MongoDB content or publish/delete operations.
+
+## Image support validation (2026-10-04)
+
+The Blob image extension passes 57 unit tests, all 44 Playwright tests, Astro
+checks, production build and generated-handler/secret-isolation checks. Desktop
+and mobile screenshots of cover/inline authoring, the image dialog and public
+images were inspected. Tests use synthetic owner/Blob credentials, intercept
+storage writes and mock optimized cover delivery; they do not prove a real
+deployed Blob transfer. Follow [Blog images](blog-images.md) for the complete
+setup, file inventory and V1/V2 boundaries before deploying.
