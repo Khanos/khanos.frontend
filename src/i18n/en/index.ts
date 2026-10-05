@@ -209,6 +209,10 @@ const en =  {
     invalid: 'Invalid URL',
     alreadyInList: 'This URL is already in the list',
     fetchError: 'Could not complete the URL operation. Please try again.',
+    rateLimited: 'Too many requests. Please wait before trying again.',
+    rateLimitedRetry: 'Too many requests. Try again in {seconds} seconds.',
+    uncertainWrite: 'The operation could not be confirmed. Refresh the list before trying again.',
+    privacy: 'Short links and their destinations are public. Do not use them to share confidential URLs.',
     table: {
       header: {
         number: '#',

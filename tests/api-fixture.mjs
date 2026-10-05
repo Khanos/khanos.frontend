@@ -89,13 +89,15 @@ export async function startApiFixture() {
       return reply(200, result);
     }
     if (mode === 'db-failure') return error(503);
+    if (mode === 'url-rate-limit') { res.setHeader('Retry-After', '2'); return error(429); }
     const lookup = /^\/api\/url\/(\d+)$/.exec(url.pathname);
     if (lookup && req.method === 'GET') {
       const record = records.find(item => item.short_url === Number(lookup[1]));
-      return record ? reply(200, record) : error(404);
+      return record ? reply(200, mode === 'url-mismatch' ? { ...record, short_url: record.short_url + 1 } : record) : error(404);
     }
     if (req.headers.authorization !== `Bearer ${token}`) return error(401);
     if (url.pathname === '/api/url' && req.method === 'GET') {
+      if (mode === 'url-mismatch-list-rate-limit') { res.setHeader('Retry-After', '2'); return error(429); }
       const filtered = records.filter(item => !url.searchParams.get('after') || item._id > url.searchParams.get('after'));
       const data = filtered.slice(0, 25);
       return reply(200, { error: false, message: 'URLs found', data, pagination: { limit: 25, next: filtered.length > 25 ? data.at(-1)._id : null } });
@@ -109,14 +111,14 @@ export async function startApiFixture() {
         record = { _id: (records.length + 100).toString(16).padStart(24, '0'), original_url, short_url: 200000000000100 + records.length, creation_date: '2026-01-01T00:00:00Z' };
         records.push(record);
       }
-      return reply(200, record);
+      return reply(200, mode.startsWith('url-mismatch') ? { ...record, original_url: 'https://other.example/' } : record);
     }
     const deleting = /^\/api\/url\/delete\/(\d+)$/.exec(url.pathname);
     if (deleting && req.method === 'DELETE') {
       const record = records.find(item => item.short_url === Number(deleting[1]));
       if (!record) return error(404);
       records = records.filter(item => item !== record);
-      return reply(200, record);
+      return reply(200, mode.startsWith('url-mismatch') ? { ...record, short_url: record.short_url + 1 } : record);
     }
     return error(404);
   });

@@ -84,6 +84,55 @@ for (const lang of ['en', 'es']) {
     await context.close();
   });
 
+  test(`owner throttling preserves input, disables manual retries briefly and never polls (${lang})`, async ({ browser, request }) => {
+    const context = await browser.newContext({ httpCredentials: owner });
+    const page = await context.newPage();
+    await page.route('**/*', route => new URL(route.request().url()).hostname === '127.0.0.1' ? route.continue() : route.abort());
+    await page.goto(`/url?lang=${lang}`);
+    await expect(page.locator('tbody tr')).toHaveCount(25);
+    await page.clock.install();
+    const input = 'https://example.com/throttled-owner-create';
+    await page.locator('#search').fill(input);
+    let ownerCalls = 0;
+    page.on('request', request => { if (new URL(request.url()).pathname.startsWith('/api/url-admin')) ownerCalls++; });
+    await request.get(`${fixtureOrigin}/__mode?value=url-rate-limit`);
+    await page.getByRole('button', { name: lang === 'en' ? 'Shorten' : 'Acortar', exact: true }).click();
+    await expect(page.getByRole('alert')).toContainText(lang === 'en' ? 'Try again in 2 seconds.' : 'Inténtalo de nuevo en 2 segundos.');
+    await expect(page.locator('#search')).toHaveValue(input);
+    await expect(page.locator('#search')).toBeDisabled();
+    await expect(page.getByRole('button', { name: lang === 'en' ? 'Retry' : 'Reintentar', exact: true })).toBeDisabled();
+    await expect(page.getByRole('button', { name: lang === 'en' ? 'Delete' : 'Eliminar', exact: true }).first()).toBeDisabled();
+    await request.get(`${fixtureOrigin}/__mode?value=normal`);
+    await page.clock.runFor(2001);
+    await expect(page.locator('#search')).toBeEnabled();
+    expect(ownerCalls).toBe(1);
+    await page.getByRole('button', { name: lang === 'en' ? 'Shorten' : 'Acortar', exact: true }).click();
+    await expect(page.locator('tbody tr').filter({ hasText: input })).toHaveCount(1);
+    expect(ownerCalls).toBe(2);
+    await context.close();
+  });
+
+  test(`uncertain delete reconciles once without deleting an unrelated row (${lang})`, async ({ browser, request }) => {
+    const context = await browser.newContext({ httpCredentials: owner });
+    const page = await context.newPage();
+    await page.route('**/*', route => new URL(route.request().url()).hostname === '127.0.0.1' ? route.continue() : route.abort());
+    await page.goto(`/url?lang=${lang}`);
+    await expect(page.locator('tbody tr')).toHaveCount(25);
+    let deletes = 0, refreshes = 0;
+    page.on('request', request => {
+      if (request.method() === 'DELETE') deletes++;
+      if (new URL(request.url()).pathname === '/api/url-admin') refreshes++;
+    });
+    await request.get(`${fixtureOrigin}/__mode?value=url-mismatch`);
+    await page.locator('tbody tr').filter({ hasText: 'https://example.com/fixture-0' }).getByRole('button', { name: lang === 'en' ? 'Delete' : 'Eliminar', exact: true }).click();
+    await expect(page.getByRole('alert')).toContainText(lang === 'en' ? 'could not be confirmed' : 'No se pudo confirmar');
+    await expect(page.locator('tbody tr').filter({ hasText: 'https://example.com/fixture-0' })).toHaveCount(0);
+    await expect(page.locator('tbody tr').filter({ hasText: 'https://example.com/fixture-1' }).first()).toBeVisible();
+    expect(deletes).toBe(1);
+    expect(refreshes).toBe(1);
+    await context.close();
+  });
+
   test(`GitHub clears stale results, encodes literal text and displays failures (${lang})`, async ({ page }) => {
     await page.route('**/*', route => new URL(route.request().url()).hostname === '127.0.0.1' ? route.continue() : route.abort());
     await page.goto(`/github?lang=${lang}`);
@@ -104,6 +153,26 @@ for (const lang of ['en', 'es']) {
   });
 }
 
+test('an uncertain write respects a throttled reconciliation read without repeating either request', async ({ browser, request }) => {
+  const context = await browser.newContext({ httpCredentials: owner });
+  const page = await context.newPage();
+  await page.route('**/*', route => new URL(route.request().url()).hostname === '127.0.0.1' ? route.continue() : route.abort());
+  await page.goto('/url?lang=en');
+  await expect(page.locator('tbody tr')).toHaveCount(25);
+  await page.clock.install();
+  let ownerCalls = 0;
+  page.on('request', request => { if (new URL(request.url()).pathname.startsWith('/api/url-admin')) ownerCalls++; });
+  await request.get(`${fixtureOrigin}/__mode?value=url-mismatch-list-rate-limit`);
+  await page.locator('tbody tr').filter({ hasText: 'https://example.com/fixture-0' }).getByRole('button', { name: 'Delete', exact: true }).click();
+  await expect(page.getByRole('alert')).toContainText('could not be confirmed');
+  await expect(page.getByRole('alert')).toContainText('Try again in 2 seconds.');
+  await expect(page.getByRole('button', { name: 'Retry', exact: true })).toBeDisabled();
+  await page.clock.runFor(2001);
+  await expect(page.getByRole('button', { name: 'Retry', exact: true })).toBeEnabled();
+  expect(ownerCalls).toBe(2);
+  await context.close();
+});
+
 test('public short links support padded legacy and large codes with truthful missing/dependency outcomes', async ({ request }) => {
   for (const [code, destination] of [['0042', 'fixture-0'], ['9376', 'fixture-1'], ['200000000000001', 'fixture-2']]) {
     const response = await request.get(`/${code}`, { maxRedirects: 0 });
@@ -117,4 +186,14 @@ test('public short links support padded legacy and large codes with truthful mis
   const unavailable = await request.get('/9376', { maxRedirects: 0 });
   expect(unavailable.status()).toBe(503);
   expect(unavailable.headers()['cache-control']).toBe('no-store');
+  expect(unavailable.headers()['retry-after']).toBeUndefined();
+  await request.get(`${fixtureOrigin}/__mode?value=url-rate-limit`);
+  const limited = await request.get('/0042', { maxRedirects: 0 });
+  expect(limited.status()).toBe(429);
+  expect(limited.headers()['retry-after']).toBe('2');
+  expect(limited.headers()['cache-control']).toBe('no-store');
+  await request.get(`${fixtureOrigin}/__mode?value=url-mismatch`);
+  const mismatch = await request.get('/0042', { maxRedirects: 0 });
+  expect(mismatch.status()).toBe(502);
+  expect(mismatch.headers().location).toBeUndefined();
 });

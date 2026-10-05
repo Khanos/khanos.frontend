@@ -39,7 +39,10 @@ Public GitHub search and numeric short-link redirects use `PUBLIC_BACKEND_API_UR
 HTTPS base URL with a trailing slash in both build and runtime environments. Development
 allows HTTP only on loopback. Public browser reads omit credentials, check HTTP/JSON
 contracts and have an eight-second deadline. A provider failure is shown as a retryable
-error; missing short links redirect home, while a dependency outage returns 503.
+error; missing short links redirect home, a dependency outage returns 503 and
+upstream throttling remains uncached 429 with validated retry timing. Numeric
+resolution uses a server-only authenticated relay; the browser never receives
+its token. Short links and destinations are public, including legacy codes.
 
 `/url` is owner administration. The browser's standard HTTP Basic prompt accepts a
 separate owner username/password. Astro protects the page and every `/api/url-admin`
@@ -51,6 +54,13 @@ server secrets. Provision these deployment secrets privately:
   random password, separate from the backend token. Use the site over HTTPS.
 - `OWNER_API_TOKEN`: the existing backend owner credential, 32-256 printable ASCII characters.
 - `BACKEND_TIMEOUT_MS`: optional server request deadline, default 8000, range 1-30000.
+
+Production owner access and numeric resolution also require configured shared
+Vercel Firewall SDK rules and a separate server-only `RATE_LIMIT_SECRET`.
+Missing admission controls fail closed with 503.
+Follow [Short URL security and rollout](docs/short-url-security.md) for the four
+rule settings, staged thresholds, per-region scope, entitlement/cost review,
+bounded contracts and required ingress checks before deployment.
 
 The backend token is never sent to the browser or accepted from client input. Missing,
 invalid or reused secrets disable administration with 503. Do not set secrets with a
