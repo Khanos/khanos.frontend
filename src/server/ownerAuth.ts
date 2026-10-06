@@ -1,5 +1,7 @@
 import { createHash, timingSafeEqual } from 'node:crypto';
 import { apiError, privateHeaders, validOwnerToken } from './backend';
+import { enforceRateLimit } from './rateLimit';
+import { normalizedCode } from '../services/contracts';
 
 const digest = (value: string) => createHash('sha256').update(value).digest();
 export function authorizeOwner(request: Request, env = process.env): Response | null {
@@ -26,17 +28,35 @@ export function isOwnerPath(pathname: string) {
     path === '/admin/blog' || path.startsWith('/admin/blog/') ||
     path === '/api/blog-admin' || path.startsWith('/api/blog-admin/');
 }
-export async function ownerBoundary(request: Request, next: () => Promise<Response>, env = process.env) {
-  let protectedPath;
-  try { protectedPath = isOwnerPath(new URL(request.url).pathname); }
-  catch { return apiError(400, 'INVALID_PATH'); }
-  if (!protectedPath) return next();
-  const denied = authorizeOwner(request, env);
-  if (denied) return denied;
-  const response = await next();
+function privateResponse(response: Response) {
   for (const [name, value] of Object.entries(privateHeaders)) response.headers.set(name, value);
   response.headers.set('X-Frame-Options', 'DENY');
   response.headers.set('X-Robots-Tag', 'noindex, nofollow');
   response.headers.set('Content-Security-Policy', "frame-ancestors 'none'");
   return response;
+}
+export async function ownerBoundary(request: Request, next: () => Promise<Response>, env = process.env, limit = enforceRateLimit) {
+  let protectedPath;
+  try { protectedPath = isOwnerPath(new URL(request.url).pathname); }
+  catch { return apiError(400, 'INVALID_PATH'); }
+  if (!protectedPath) {
+    const path = decodeURI(new URL(request.url).pathname).replace(/\/+$/, '').slice(1);
+    if (normalizedCode(path) !== null) {
+      const denied = await limit(request, 'resolver', env);
+      if (denied) return denied;
+    }
+    return next();
+  }
+  // Broad pre-auth ceiling bounds hashing and malformed/cross-origin traffic.
+  const aggregateLimited = await limit(request, 'aggregate', env);
+  if (aggregateLimited) return privateResponse(aggregateLimited);
+  const limited = await limit(request, 'owner', env);
+  if (limited) return privateResponse(limited);
+  const denied = authorizeOwner(request, env);
+  if (denied) {
+    // Failed attempts have their own client bucket, never an account-wide lockout.
+    if ([401, 403].includes(denied.status)) return privateResponse(await limit(request, 'failure', env) || denied);
+    return privateResponse(denied);
+  }
+  return privateResponse(await next());
 }

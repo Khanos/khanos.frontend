@@ -9,18 +9,53 @@ process.env.OWNER_API_TOKEN = token;
 const blobSecret = 'vercel_blob_rw_fixturestore_synthetic-test-blob-secret-0000000000';
 process.env.BLOB_READ_WRITE_TOKEN = blobSecret;
 process.env.PUBLIC_BACKEND_API_URL = 'https://example.com/api/';
+process.env.NODE_ENV = 'production';
+process.env.VERCEL = '1';
+process.env.VERCEL_ENV = 'production';
+process.env.VERCEL_URL = 'fixture.vercel.app';
+const rateLimitSecret = 'synthetic-firewall-counter-secret-000000000000';
+process.env.RATE_LIMIT_SECRET = rateLimitSecret;
 let adminPost = structuredClone(blogPosts[0]);
 let adminCalls = 0;
+let urlMode = 'normal', admissionMode = 'normal', urlCalls = 0;
+const urlRecord = { _id: '012345678901234567890abc', original_url: 'https://example.com/runtime-link', short_url: 42, creation_date: '2026-01-01T00:00:00Z' };
 
 // Exercise Vercel's built handler with Node's require(ESM) bridge disabled,
 // matching the runtime loader that rejected sanitize-html's parser dependency.
 // Intercept every fetch so this check never reaches a production API.
 globalThis.fetch = async (input, init = {}) => {
   const url = new URL(input instanceof Request ? input.url : String(input));
+  if (url.pathname === '/api/admission') {
+    assert.equal(url.origin, 'https://example.com');
+    const headers = new Headers(init.headers);
+    assert.equal(headers.get('authorization'), `Bearer ${rateLimitSecret}`);
+    assert.equal(headers.get('cookie'), null);
+    assert.equal(headers.get('x-forwarded-for'), null);
+    assert.equal(headers.get('x-real-ip'), null);
+    const body = JSON.parse(init.body);
+    assert.equal(body.clientIp, '192.0.2.1');
+    assert.equal(body.environment, 'production');
+    assert.ok(['aggregate', 'owner', 'failure', 'resolver'].includes(body.kind));
+    assert.equal(init.redirect, 'error');
+    return new Response(null, { status: admissionMode === 'limited' ? 429 : admissionMode === 'missing' ? 404 : admissionMode === 'unavailable' ? 503 : 204 });
+  }
   if (new Headers(init.headers).get('authorization')) {
     adminCalls++;
     assert.equal(new Headers(init.headers).get('authorization'), `Bearer ${token}`);
     assert.equal(new Headers(init.headers).get('cookie'), null);
+    if (url.pathname.startsWith('/api/url')) {
+      urlCalls++;
+      assert.equal(new Headers(init.headers).get('x-forwarded-for'), null);
+      if (urlMode === 'limited') return Response.json({ error: 'private-provider-detail' }, { status: 429, headers: { 'Retry-After': '45' } });
+      if (urlMode === 'failure') return Response.json({ error: 'private-provider-detail' }, { status: 503 });
+      if (urlMode === 'mismatch') return Response.json({ ...urlRecord, short_url: 43, original_url: 'https://other.example/' });
+      if (url.pathname === '/api/url') return Response.json({ error: false, data: [urlRecord], pagination: { limit: 25, next: null } });
+      if (url.pathname === '/api/url/create') return Response.json({ ...urlRecord, original_url: JSON.parse(init.body).original_url });
+      if (url.pathname === '/api/url/delete/42' || url.pathname === '/api/url/42') return Response.json(urlRecord);
+      if (url.pathname === '/api/url/0') return Response.json({ ...urlRecord, short_url: 0 });
+      if (url.pathname === '/api/url/200000000000001') return Response.json({ ...urlRecord, short_url: 200000000000001 });
+      return Response.json({ error: 'not-found' }, { status: 404 });
+    }
     if (url.pathname === '/api/blog/admin') {
       const { content, ...summary } = adminPost;
       return Response.json({ data: [summary], pagination: { page: 1, limit: 25, total: 1, pages: 1 } });
@@ -68,12 +103,12 @@ console.log('Built Vercel runtime: bilingual articles, sanitizer, charts, sitema
 
 const authorization = `Basic ${Buffer.from(`${owner.username}:${owner.password}`).toString('base64')}`;
 const adminRequest = (path, method = 'GET', body) => new Request(`https://epilef.app${path}`, {
-  method, headers: { authorization, Origin: 'https://epilef.app', 'Content-Type': 'application/json' },
+  method, headers: { authorization, Origin: 'https://epilef.app', 'Content-Type': 'application/json', 'x-real-ip': '192.0.2.1' },
   ...(body ? { body: JSON.stringify(body) } : {}),
 });
 const callsBefore = adminCalls;
 for (const path of ['/admin/blog', '/admin/blog/new', `/admin/blog/${adminPost.id}`, '/api/blog-admin', '/api/blog-admin/preview', '/api/blog-admin/upload']) {
-  const denied = await handler.fetch(new Request(`https://epilef.app${path}`));
+  const denied = await handler.fetch(new Request(`https://epilef.app${path}`, { headers: { 'x-real-ip': '192.0.2.1' } }));
   assert.equal(denied.status, 401);
   assert.equal(denied.headers.get('cache-control'), 'no-store');
 }
@@ -115,6 +150,66 @@ assert.equal(payload.onUploadCompleted, undefined);
 const imagePreview = await handler.fetch(adminRequest('/api/blog-admin/preview', 'POST', { content: `![Diagram](https://fixturestore.public.blob.vercel-storage.com/${uploadPath})` }));
 assert.ok((await imagePreview.json()).html.includes(`src="https://fixturestore.public.blob.vercel-storage.com/${uploadPath}"`));
 assert.equal((await handler.fetch(adminRequest(`/api/blog-admin/${adminPost.id}`, 'DELETE'))).status, 200);
+const publicUrlRequest = path => new Request(`https://epilef.app${path}`, { headers: { 'x-real-ip': '192.0.2.1', 'x-forwarded-for': '198.51.100.99', host: 'attacker.example', cookie: 'synthetic-private=fixture' } });
+for (const path of ['/0042', '/0000', '/200000000000001']) {
+  const response = await handler.fetch(publicUrlRequest(path));
+  assert.equal(response.status, 302);
+  assert.equal(response.headers.get('location'), urlRecord.original_url);
+  assert.equal(response.headers.get('cache-control'), 'no-store');
+}
+assert.equal((await handler.fetch(publicUrlRequest('/9999'))).headers.get('location'), '/');
+for (const path of ['/url', '/url/', '/%75rl', '/api/url-admin', '/api/url-admin/create', '/api/url-admin/delete/0042']) {
+  const before = urlCalls;
+  const response = await handler.fetch(publicUrlRequest(path));
+  assert.equal(response.status, 401);
+  assert.equal(response.headers.get('x-frame-options'), 'DENY');
+  assert.equal(urlCalls, before);
+}
+for (const path of ['/url', '/api/url-admin']) assert.equal((await handler.fetch(adminRequest(path))).status, 200);
+const exactOriginal = 'https://example.com/é?q=Raw%2f#A';
+const created = await handler.fetch(adminRequest('/api/url-admin/create', 'POST', { original_url: exactOriginal }));
+assert.equal(created.status, 200);
+assert.equal((await created.json()).original_url, exactOriginal);
+assert.equal((await handler.fetch(adminRequest('/api/url-admin/delete/0042', 'DELETE'))).status, 200);
+urlMode = 'mismatch';
+for (const request of [publicUrlRequest('/0042'), adminRequest('/api/url-admin/create', 'POST', { original_url: exactOriginal }), adminRequest('/api/url-admin/delete/0042', 'DELETE')]) {
+  const response = await handler.fetch(request);
+  assert.equal(response.status, 502);
+  assert.equal(response.headers.get('location'), null);
+}
+for (const [mode, status, retry] of [['limited', 429, '45'], ['failure', 503, null]]) {
+  urlMode = mode;
+  for (const request of [publicUrlRequest('/0042'), adminRequest('/api/url-admin')]) {
+    const response = await handler.fetch(request);
+    assert.equal(response.status, status);
+    assert.equal(response.headers.get('retry-after'), retry);
+    assert.equal(response.headers.get('cache-control'), 'no-store');
+    assert.ok(!(await response.text()).includes('private-provider-detail'));
+  }
+}
+urlMode = 'normal';
+for (const [mode, status] of [['limited', 429], ['missing', 503], ['unavailable', 503]]) {
+  admissionMode = mode;
+  const before = urlCalls;
+  for (const request of [publicUrlRequest('/0042'), adminRequest('/api/url-admin')]) {
+    const response = await handler.fetch(request);
+    assert.equal(response.status, status);
+    assert.equal(response.headers.get('retry-after'), null);
+  }
+  assert.equal(urlCalls, before, 'Admission denial must not call URL operations');
+}
+admissionMode = 'normal';
+const savedToken = process.env.OWNER_API_TOKEN;
+delete process.env.OWNER_API_TOKEN;
+assert.equal((await handler.fetch(publicUrlRequest('/0042'))).status, 503);
+process.env.OWNER_API_TOKEN = savedToken;
+delete process.env.RATE_LIMIT_SECRET;
+const beforeMissingRateSecret = urlCalls;
+assert.equal((await handler.fetch(publicUrlRequest('/0042'))).status, 503);
+assert.equal((await handler.fetch(adminRequest('/api/url-admin'))).status, 503);
+assert.equal(urlCalls, beforeMissingRateSecret);
+process.env.RATE_LIMIT_SECRET = rateLimitSecret;
+console.log('Built Vercel runtime: numeric public bearer relay, URL owner routes, identity binding, 429/503, Redis admission fail-closed and no upstream calls on denial passed.');
 async function scanClient(directory) {
   let files = 0;
   for (const entry of await readdir(directory, { withFileTypes: true })) {
@@ -125,7 +220,7 @@ async function scanClient(directory) {
       // The official client SDK contains the generic BLOB_READ_WRITE_TOKEN name
       // in shared fallback/error code. Test actual secret sentinels and server
       // signing/auth modules, rather than misclassifying SDK reference text.
-      for (const secret of [token, owner.password, blobSecret, 'OWNER_API_TOKEN', 'URL_ADMIN_PASSWORD', 'generateClientTokenFromReadWriteToken', 'node:crypto']) assert.ok(!text.includes(secret), `Private server value/module leaked into ${path}`);
+      for (const secret of [token, owner.password, blobSecret, rateLimitSecret, 'RATE_LIMIT_SECRET', 'OWNER_API_TOKEN', 'URL_ADMIN_PASSWORD', 'generateClientTokenFromReadWriteToken', 'node:crypto', 'node:net', 'vercel/rate-limit-api', 'OWNER_AGGREGATE_RATE_LIMIT_ID', 'SHORT_URL_RATE_LIMIT_ID']) assert.ok(!text.includes(secret), `Private server value/module leaked into ${path}`);
       files++;
     }
   }

@@ -213,6 +213,10 @@ const es =  {
     invalid: 'URL inválida',
     alreadyInList: 'Esta URL ya está en la lista',
     fetchError: 'No se pudo completar la operación del enlace. Inténtalo de nuevo.',
+    rateLimited: 'Demasiadas solicitudes. Espera antes de intentarlo de nuevo.',
+    rateLimitedRetry: 'Demasiadas solicitudes. Inténtalo de nuevo en {seconds} segundos.',
+    uncertainWrite: 'No se pudo confirmar la operación. Actualiza la lista antes de intentarlo de nuevo.',
+    privacy: 'Los enlaces cortos y sus destinos son públicos. No los uses para compartir URL confidenciales.',
     table: {
       header: {
         number: '#',

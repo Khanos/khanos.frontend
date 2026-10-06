@@ -1,5 +1,5 @@
 ---
-import { getUrlData } from '../services'
+import { resolveShortUrl } from '../server/shortUrl';
 import { normalizedCode } from '../services/contracts';
 import { ApiRequestError } from '../services/api';
 
@@ -16,13 +16,14 @@ if (!urlid || normalizedCode(urlid) === null) {
   return redirect('/');
 } else {
   try {
-    const urlData = await getUrlData(urlid);
+    const urlData = await resolveShortUrl(urlid, Astro.request);
     return redirect(urlData.original_url);
   } catch (error) {
     if (error instanceof ApiRequestError && [400, 404].includes(error.status)) return redirect('/');
-    return new Response('Short link temporarily unavailable. Please try again.', {
-      status: 503, headers: { 'Content-Type': 'text/plain; charset=utf-8', 'Cache-Control': 'no-store', 'Retry-After': '30' }
-    });
+    const status = error instanceof ApiRequestError && [429, 502].includes(error.status) ? error.status : 503;
+    const headers = new Headers({ 'Content-Type': 'text/plain; charset=utf-8', 'Cache-Control': 'no-store' });
+    if (status === 429 && error instanceof ApiRequestError && error.retryAfter !== undefined) headers.set('Retry-After', String(error.retryAfter));
+    return new Response(status === 429 ? 'Too many short-link requests. Please try again later.' : 'Short link temporarily unavailable. Please try again.', { status, headers });
   }
 }
 ---
