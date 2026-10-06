@@ -1,5 +1,6 @@
 import ExpOnject from "./experience.ts";
 import ProjectsArray from './projects.ts';
+import { urlShowcase } from './project-showcases';
 
 const es =  {
   layouts: {
@@ -71,6 +72,12 @@ const es =  {
       range: 'Mostrando {first}–{last} de {total}',
       carouselHelp: 'Desliza para explorar. Usa los botones anterior y siguiente o las flechas izquierda y derecha; los botones vuelven al otro extremo al llegar al final.',
       openTool: 'Abrir herramienta',
+      showcase: {
+        view: 'Ver proyecto', close: 'Cerrar detalles del proyecto',
+        overview: 'Descripción', purpose: 'Propósito', highlights: 'Detalles de implementación',
+        tech: 'Tecnologías', images: 'Capturas', links: 'Enlaces del proyecto',
+        statuses: { public: 'Aplicación pública', private: 'Aplicación privada', experimental: 'Experimental', archived: 'Archivado' },
+      },
       github: {
         status: 'Experimento API',
         title: 'GitHub API Demo',
@@ -83,7 +90,8 @@ const es =  {
         title: 'Acortador de URL',
         imgAlt: 'Acortador de URL con entrada de enlaces y tabla de enlaces guardados',
         description: 'Gestiona enlaces como propietario. Los enlaces compartidos siguen siendo públicos.',
-        linkLabel: 'Acceso del propietario',
+        linkLabel: 'Explorar proyecto',
+        showcase: urlShowcase,
       },
       svgToComponent: {
         status: 'Utilidad dev',

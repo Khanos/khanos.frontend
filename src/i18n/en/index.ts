@@ -1,5 +1,6 @@
 import ExpOnject from "./experience.ts";
 import ProjectsArray from './projects.ts';
+import { urlShowcase } from './project-showcases';
 
 const en =  {
   layouts: {
@@ -67,6 +68,12 @@ const en =  {
       range: 'Showing {first}–{last} of {total}',
       carouselHelp: 'Swipe or scroll to explore. Use the previous and next buttons or the left and right arrow keys; the buttons wrap back around at either end.',
       openTool: 'Open tool',
+      showcase: {
+        view: 'View project', close: 'Close project details',
+        overview: 'Overview', purpose: 'Purpose', highlights: 'Implementation highlights',
+        tech: 'Built with', images: 'Screenshots', links: 'Project links',
+        statuses: { public: 'Public app', private: 'Private app', experimental: 'Experimental', archived: 'Archived' },
+      },
       github: {
         status: 'API experiment',
         title: 'GitHub API Demo',
@@ -79,7 +86,8 @@ const en =  {
         title: 'URL Shortener',
         imgAlt: 'URL Shortener with URL input and saved links',
         description: 'Manage short links as the owner. Shared short links remain public.',
-        linkLabel: 'Owner login',
+        linkLabel: 'Explore project',
+        showcase: urlShowcase,
       },
       svgToComponent: {
         status: 'Developer utility',

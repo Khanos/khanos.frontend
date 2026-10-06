@@ -1,0 +1,36 @@
+---
+import type { LabProject } from '../types';
+import { ui } from '../i18n/ui';
+import ProjectCardContent from './ProjectCardContent.astro';
+import ProjectDetailsModal from './ProjectDetailsModal.astro';
+import '../styles/project-card.css';
+interface Props { project: LabProject; lang: 'en' | 'es'; id: string }
+const { project, lang, id } = Astro.props;
+const lab = ui[lang].sections.lab;
+const href = project.link ?? project.github;
+---
+<article class="experiment">
+  {project.showcase ? (
+    <ProjectDetailsModal project={project} lang={lang} id={id}>
+      <div slot="trigger" class="project-body">
+        <ProjectCardContent project={project} lang={lang}>
+          <button slot="action" type="button" class="action project-link" data-showcase-trigger aria-haspopup="dialog" aria-controls={id} aria-label={`${project.title}: ${project.linkLabel}`}>
+            {project.linkLabel} <span aria-hidden="true">→</span>
+          </button>
+        </ProjectCardContent>
+      </div>
+    </ProjectDetailsModal>
+  ) : (
+    <a class="project-link" href={href} data-astro-reload={href?.startsWith('/url') || undefined}
+      target={href?.startsWith('https://') ? '_blank' : undefined}
+      rel={href?.startsWith('https://') ? 'noopener noreferrer' : undefined}
+      aria-label={`${project.title}: ${project.linkLabel}${href?.startsWith('https://') ? ` (${lab.opensInNewTab})` : ''}`}>
+      <ProjectCardContent project={project} lang={lang} />
+    </a>
+  )}
+  {project.liveHref && (
+    <a class="live-link" href={project.liveHref} target="_blank" rel="noopener noreferrer" aria-label={`${project.title}: ${lab.liveSite} (${lab.opensInNewTab})`}>
+      {lab.liveSite} <span aria-hidden="true">↗</span>
+    </a>
+  )}
+</article>
