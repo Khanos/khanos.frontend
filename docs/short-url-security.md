@@ -43,117 +43,117 @@ owner UI still requests 25. Unrelated GitHub/blog decoding budgets are unchanged
 
 ## Shared frontend enforcement
 
-`@vercel/firewall` 1.2.5 checks Vercel's platform counters before numeric lookup
-and before Basic verification. No process-local production counter is used.
-The counters are **per Vercel region**, not a global quota. Deployment metadata
-currently reports one production function region, `iad1`; this fact must be
-rechecked before rollout. Multi-region deployment would give each region its own
-budget. The backend's finite relay/aggregate policy remains a separate safeguard.
+Frontend admission uses the existing Heroku Redis through authenticated
+`POST /api/admission` calls. Every Vercel instance and region shares the same
+counters within each deployment environment; Preview and Production use separate
+key namespaces so preview tests do not consume production frontend buckets.
+The backend emergency ceiling is still shared across environments. This replaces the four Vercel Firewall SDK rules, which exceed Hobby's
+one-rate-limit-rule allowance. It requires no Vercel plan change, paid Vercel
+add-on or additional Redis instance. `REDIS_URL` stays on Heroku; credentials are
+never copied into frontend configuration. The four former `*_RATE_LIMIT_ID`
+variables are obsolete and ignored. Existing platform DDoS protection remains.
 
-The production adapter requires Vercel runtime identity, `NODE_ENV=production`,
-the Vercel-provided `.vercel.app` deployment hostname, a valid Vercel-provided
-`x-real-ip`, configured rule IDs and an independent `RATE_LIMIT_SECRET`. Generate
-this random server-only SDK secret as 32–256 printable non-space ASCII characters;
-never reuse the bearer token or Basic username/password. The SDK salts counting
-keys with it so callers cannot derive another client's internal counter key.
-The adapter rejects missing, malformed or reused secrets before provider calls.
-Rotate through the deployment secret manager, never browser code or source.
-Rotation changes counter keys, so coordinate it with admission monitoring.
-It ignores raw Host, Forwarded and XFF. Only
-the fixed deployment hostname and sanitized IP headers are passed to the SDK,
-which would otherwise copy every supplied header to its internal endpoint.
-Vercel overwrites `x-real-ip` at its ingress; do not port this trust to an
-unverified direct server or a front proxy. A front proxy requires a separately
-verified client-identity design and staging spoofing tests.
-
-Local Astro development bypasses remote admission checks only in a development
-build outside Vercel and outside `NODE_ENV=production`. Production has no bypass
-switch: absent platform identity, malformed settings, missing rules, blocked
-provider responses, provider exceptions or a two-second admission deadline
-produce uncached 503 before invoking the backend. Platform admission 429 is
-returned without guessed retry timing because the SDK does not expose it.
-The deadline bounds application waiting; the SDK provides no cancellation API,
-so an already-started provider check may finish after the 503.
-
-Configure four enforcing **SDK rules** with the exact IDs below in the intended
-Vercel project before deploying the frontend. IDs are server environment settings;
-thresholds live in Vercel, not local maps or `vercel.json`.
-
-| Server setting / suggested ID | Scope | Initial staging budget |
+| Admission kind | Scope | Fixed budget |
 | --- | --- | --- |
-| `OWNER_AGGREGATE_RATE_LIMIT_ID=owner-emergency` | All shared owner requests; constant emergency key | 5000/minute per region |
-| `OWNER_RATE_LIMIT_ID=owner-safety` | All shared owner requests before authentication; per client IP | 120/minute per region |
-| `OWNER_FAILURE_RATE_LIMIT_ID=owner-failures` | Failed Basic and cross-origin owner attempts; per client IP | 20/10 minutes per region |
-| `SHORT_URL_RATE_LIMIT_ID=short-url-resolver` | Normalized numeric resolution before relay; per client IP | 60/minute per region |
+| `aggregate` | All shared owner requests; constant emergency key | 5000/minute |
+| `owner` | All shared owner requests before authentication; per client IP | 120/minute |
+| `failure` | Failed Basic and cross-origin attempts; per client IP | 20/10 minutes |
+| `resolver` | Numeric resolution before relay; per client IP | 60/minute |
 
-These are starting thresholds for synthetic staging traffic, not measured safe
-production capacity. The emergency ceiling can intentionally affect everyone
-under extreme load; ordinary failed attempts do not create an account-wide
-lockout or consume another client's failure bucket. SDK rules should use the
-SDK-supplied key and cover all methods without extra path/header filters: the
-application selects normalized routes before calling the appropriate rule.
-Test the constant emergency key across two different IPs as well as client
-isolation. Do not configure an IP-only counting override that defeats the
-SDK's aggregate key.
+These are starting thresholds, not measured safe capacity. Each fixed window
+starts on its first request, with atomic increment/expiry in Redis. Buckets
+remain separate from backend anonymous/relay/owner/API quotas. IPv6 addresses
+share a /56 identity through `ipKeyGenerator`; IPv4 uses canonical IP identities.
+The backend hashes identities before constructing namespaced counter keys.
+Expiry is automatic, unrelated to dyno or function restarts. Mini Redis has no
+persistence, so a Redis service restart can reset active windows; preserve its
+`noeviction` policy to avoid premature resets when memory fills.
 
-Four rules require project entitlement; Vercel's documented Hobby allowance is
-one custom rate-limit rule. Verify the project plan, counting-key behavior and
-costs before provisioning. No plan purchase, firewall publication, secret
-mutation or deployment has been performed by this implementation. Read-only
-inspection did not retrieve a custom firewall configuration (provider 404);
-that is not proof no platform controls exist.
+`RATE_LIMIT_SECRET` is now a dedicated admission bearer, identical in Heroku and
+Vercel Preview/Production. Generate 32–256 random printable non-space ASCII
+characters, independent from `OWNER_API_TOKEN` and Basic credentials. This token
+cannot list/create/delete URLs or operate on blog data. The endpoint accepts only
+a fixed kind, Preview/Production environment and a valid client IP, with a 1 KiB JSON limit; callers cannot choose
+Redis keys, budgets or windows. Authentication occurs before parsing. Never expose
+this credential in browser code, source, logs or chat. Rotate both deployments
+together; unlike the SDK secret, rotation does not change counter identities.
+
+The frontend requires `VERCEL=1`, `NODE_ENV=production`, the platform VERCEL_ENV
+(Preview/Production), a Vercel-provided
+`.vercel.app` deployment hostname and a valid platform `x-real-ip`. Vercel
+[overwrites x-real-ip at ingress](https://vercel.com/docs/headers/request-headers).
+The adapter ignores caller Host, Forwarded and XFF, and asserts only this validated
+IP to the backend over HTTPS using the dedicated bearer. Heroku trusts this body
+only after authentication; public callers cannot choose another client's quota.
+No browser Basic credentials, cookies, destination or forwarding headers are
+sent with admission. A front proxy requires an independently verified identity
+design; do not copy this trust to direct/unverified server ingress.
+
+Production has no local-map fallback or bypass. Local development bypasses
+admission only in a development build outside Vercel and NODE_ENV=production.
+Missing identity/secret, disabled or old backend endpoint, unexpected HTTP status,
+Redis outage, network failure and a two-second total deadline produce uncached
+503 before URL/blog operations. The HTTP request is cancelled on deadline; no
+uncertain increment is retried or refunded. Only backend 204 grants admission;
+429 remains uncached 429 and propagates validated Retry-After (1–3600 seconds).
+Admission failure leaves the backend's health endpoints outside rate limiting.
+
+Authenticated admission pays the backend's existing 5000/minute emergency
+ceiling and its selected frontend bucket, while bypassing the unrelated
+50/5-minute API budget that would incorrectly pool Vercel egress addresses.
+Unauthenticated admission receives that ordinary API budget. Owner visits make
+two admission calls (aggregate then owner), failed authentication a third, and
+numeric resolution one; permitted operations then pay their existing backend
+quota separately. These extra HTTPS/Redis operations increase latency and
+backend load, and can exhaust the backend ceiling before the frontend owner
+ceiling. The Heroku Mini service fee remains the existing fee; monitor capacity
+and aggregate latency/status without logging client IPs or destinations.
 
 ## Deployment gate and rollback
 
-1. Stage the compatible backend operation/relay budgets and shared-store policy
-   first. Keep unauthenticated backend lookup compatible and preserve uniqueness.
-2. Review Vercel capabilities, costs and aggregate traffic counts, never raw
-   destination inventories or credentials. Configure SDK rules in log mode for
-   tuning, then enforce in preview. A log-only rule is not enforcement: do not
-   approve production rollout while protected checks are merely logging.
-3. Verify preview/system-environment exposure and protection-bypass automation
-   using Vercel's documented setup. Enter secrets through the provider secret
-   manager, never commit or paste them into chat. Provision owner settings and
-   rule IDs and `RATE_LIMIT_SECRET` for each intended environment. Confirm `.vercel.app` deployment
-   hosts reach the intended rules under the actual deployment protection policy.
-4. Prove two-client isolation, normalized/encoded/trailing-slash paths, forged
-   Host/XFF/Forwarded/x-real-ip behavior through real HTTPS ingress, bounded
-   failure and recovery, shared counter behavior across actual replicas/regions,
-   separate owner/relay quotas and safe 429/retry semantics through both hops.
-   Check Basic/blog/preview/Blob authorization and browser secret isolation.
-5. Review concrete staged changes and publish enforcing rules through the
-   separately authorized firewall rollout. Deploy backend compatibility before
-   frontend. Verify anonymous owner denial, a harmless known-link Location
-   without following it, uncached 429/503 and recovery. Monitor aggregate class,
-   status and latency only; do not log destinations, auth headers or forwarding
-   chains.
+1. Configure the same independent `RATE_LIMIT_SECRET` privately on Heroku and
+   Vercel Preview/Production, preserving existing owner/database settings.
+2. Merge/deploy backend admission support first. Older frontend deployments
+   remain compatible because the endpoint and secret are additive. Read-only
+   health and an authenticated synthetic admission call must succeed before the
+   frontend rollout. Do not publish a frontend version against a missing endpoint.
+3. Deploy the frontend PR to Preview with the new settings. Test actual HTTPS
+   ingress for client isolation, forged forwarding/Host/x-real-ip headers,
+   normalized/encoded/trailing-slash routes, IPv6 grouping, and bounded 429/503
+   recovery. Preview deployment protection must remain in place; use authorized
+   test access rather than disabling it.
+4. Verify shared quotas across frontend replicas/regions, aggregate sharing
+   across different IPs, owner/relay separation, Basic/Origin/blog/preview/Blob
+   authorization, browser secret isolation and a harmless known-link Location
+   without following it. Then approve the production frontend merge/deployment.
 
-Until these steps pass, this code is locally verified and deployment-dependent
-abuse isolation remains unverified. Rule IDs existing in environment variables
-alone do not prove enforcement; verify each rule is enabled with a blocking
-rate-limit action and has no bypass/filter that silently permits protected calls.
+Until live checks pass, local fixtures prove adapter/contracts and deployment
+behavior remains unverified. The frontend's former Firewall requirements are
+removed; no rule publication or Vercel plan upgrade is part of this rollout.
 
-Rollback the focused frontend code and associated rules together, retaining
-existing owner credentials, issued mappings and backend uniqueness indexes.
-Coordinate backend quota configuration when rolling back the authenticated relay.
-Never restore the old hash allocator or silently rewrite/revoke mappings.
+Rollback frontend code and its admission provider together; the former SDK
+version requires its own enforcing rules, so on Hobby roll back to the earlier
+compatible frontend release rather than the undeployable four-rule version.
+Backend admission support can remain installed while rolling back the frontend.
+Keep owner credentials, issued mappings and uniqueness indexes. Never reset
+counter namespaces or rewrite/revoke mappings implicitly.
 
 ## Local regression gates
 
 Use Node 24.x and pinned pnpm 9.15.9. Run `pnpm test`, `pnpm build`,
 `pnpm test:runtime`, `pnpm test:e2e` sequentially, then `git diff --check`.
-Unit tests inject provider admission decisions; generated-handler tests exercise
-the real SDK against synthetic fetch responses and scan browser assets for
+Unit tests inject admission decisions; generated-handler tests exercise
+the production HTTPS adapter against synthetic fetch responses and scan browser assets for
 credentials/server modules. Playwright uses a disposable loopback backend with
 synthetic credentials, mocks failures/mismatches and blocks outside browser
 requests. None of these tests prove deployed Vercel counters or production TLS.
 
 The pnpm lock is authoritative for this repository. The historical npm lock
 already differs from current application dependency versions; both files are
-retained with only the pinned zero-dependency Firewall SDK added, without an
+retained with only the obsolete zero-dependency Firewall SDK removed, without an
 unrelated npm dependency refresh.
 
-References: [Vercel SDK and per-region counters](https://vercel.com/docs/vercel-firewall/vercel-waf/rate-limiting-sdk),
-[Vercel rate limits, plans and counting keys](https://vercel.com/docs/vercel-firewall/vercel-waf/rate-limiting),
-[Vercel overwritten ingress headers](https://vercel.com/docs/headers/request-headers),
-[Vercel front proxies](https://vercel.com/docs/security/reverse-proxy).
+References: [Vercel ingress headers](https://vercel.com/docs/headers/request-headers),
+[Vercel rate-limit plan limits](https://vercel.com/docs/vercel-firewall/vercel-waf/rate-limiting),
+[Vercel front proxies](https://vercel.com/docs/security/reverse-proxy),
+[backend limiter operations](https://github.com/Khanos/khanos.backend/blob/main/docs/url-security.md).

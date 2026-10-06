@@ -35,9 +35,6 @@ importers:
       '@vercel/blob':
         specifier: 2.8.0
         version: 2.8.0
-      '@vercel/firewall':
-        specifier: 1.2.5
-        version: 1.2.5
       astro:
         specifier: ^7.3.2
         version: 7.3.2(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.1)(@types/node@24.13.3)(@vercel/blob@2.8.0)(@vercel/functions@3.9.6)(jiti@1.21.7)(yaml@2.9.0)
@@ -1170,10 +1167,6 @@ packages:
   '@vercel/cli-exec@1.0.1':
     resolution: {integrity: sha512-g9XerViJ/paZujufXYcu5XYI2vU2rtB4sgdpjUHde5RnOkdmpu0ngH46LCFGHoPXO/C+qDPSczIHIRN+8Q2YKQ==}
     engines: {node: '>= 18'}
-
-  '@vercel/firewall@1.2.5':
-    resolution: {integrity: sha512-rylXD6sfUgJMtYGuILXZZPy1af2aLQbRIAQf5nr2vI84PdGNaPEu19VvMG05KOXZ2qwfwf99OsM8brO9VzN8Gg==}
-    engines: {node: '>= 20'}
 
   '@vercel/functions@3.9.6':
     resolution: {integrity: sha512-00NG7F+VItu1UygM0IL6QqmGrzUAeHMCUNMq89bcsbnBqoE3Gpya9yn3g+TBGDbAFjuaojJCzLNYUVFt+reSnQ==}
@@ -3953,8 +3946,6 @@ snapshots:
   '@vercel/cli-exec@1.0.1':
     dependencies:
       execa: 5.1.1
-
-  '@vercel/firewall@1.2.5': {}
 
   '@vercel/functions@3.9.6':
     dependencies:

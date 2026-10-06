@@ -11,16 +11,13 @@ process.env.BLOB_READ_WRITE_TOKEN = blobSecret;
 process.env.PUBLIC_BACKEND_API_URL = 'https://example.com/api/';
 process.env.NODE_ENV = 'production';
 process.env.VERCEL = '1';
+process.env.VERCEL_ENV = 'production';
 process.env.VERCEL_URL = 'fixture.vercel.app';
-process.env.OWNER_AGGREGATE_RATE_LIMIT_ID = 'owner-emergency';
-process.env.OWNER_RATE_LIMIT_ID = 'owner-safety';
-process.env.OWNER_FAILURE_RATE_LIMIT_ID = 'owner-failures';
-process.env.SHORT_URL_RATE_LIMIT_ID = 'short-url-resolver';
 const rateLimitSecret = 'synthetic-firewall-counter-secret-000000000000';
 process.env.RATE_LIMIT_SECRET = rateLimitSecret;
 let adminPost = structuredClone(blogPosts[0]);
 let adminCalls = 0;
-let urlMode = 'normal', firewallMode = 'normal', urlCalls = 0;
+let urlMode = 'normal', admissionMode = 'normal', urlCalls = 0;
 const urlRecord = { _id: '012345678901234567890abc', original_url: 'https://example.com/runtime-link', short_url: 42, creation_date: '2026-01-01T00:00:00Z' };
 
 // Exercise Vercel's built handler with Node's require(ESM) bridge disabled,
@@ -28,14 +25,19 @@ const urlRecord = { _id: '012345678901234567890abc', original_url: 'https://exam
 // Intercept every fetch so this check never reaches a production API.
 globalThis.fetch = async (input, init = {}) => {
   const url = new URL(input instanceof Request ? input.url : String(input));
-  if (url.hostname === 'fixture.vercel.app' && url.pathname.startsWith('/.well-known/vercel/rate-limit-api/')) {
+  if (url.pathname === '/api/admission') {
+    assert.equal(url.origin, 'https://example.com');
     const headers = new Headers(init.headers);
-    assert.equal(headers.get('authorization'), null);
+    assert.equal(headers.get('authorization'), `Bearer ${rateLimitSecret}`);
     assert.equal(headers.get('cookie'), null);
-    assert.equal(headers.get('x-rr-authorization'), null);
-    assert.equal(headers.get('x-rr-cookie'), null);
-    assert.equal(headers.get('x-real-ip'), '192.0.2.1');
-    return new Response(null, { status: firewallMode === 'limited' ? 429 : firewallMode === 'missing' ? 404 : firewallMode === 'unavailable' ? 503 : 204 });
+    assert.equal(headers.get('x-forwarded-for'), null);
+    assert.equal(headers.get('x-real-ip'), null);
+    const body = JSON.parse(init.body);
+    assert.equal(body.clientIp, '192.0.2.1');
+    assert.equal(body.environment, 'production');
+    assert.ok(['aggregate', 'owner', 'failure', 'resolver'].includes(body.kind));
+    assert.equal(init.redirect, 'error');
+    return new Response(null, { status: admissionMode === 'limited' ? 429 : admissionMode === 'missing' ? 404 : admissionMode === 'unavailable' ? 503 : 204 });
   }
   if (new Headers(init.headers).get('authorization')) {
     adminCalls++;
@@ -187,16 +189,16 @@ for (const [mode, status, retry] of [['limited', 429, '45'], ['failure', 503, nu
 }
 urlMode = 'normal';
 for (const [mode, status] of [['limited', 429], ['missing', 503], ['unavailable', 503]]) {
-  firewallMode = mode;
+  admissionMode = mode;
   const before = urlCalls;
   for (const request of [publicUrlRequest('/0042'), adminRequest('/api/url-admin')]) {
     const response = await handler.fetch(request);
     assert.equal(response.status, status);
     assert.equal(response.headers.get('retry-after'), null);
   }
-  assert.equal(urlCalls, before, 'Firewall denial must not call the backend');
+  assert.equal(urlCalls, before, 'Admission denial must not call URL operations');
 }
-firewallMode = 'normal';
+admissionMode = 'normal';
 const savedToken = process.env.OWNER_API_TOKEN;
 delete process.env.OWNER_API_TOKEN;
 assert.equal((await handler.fetch(publicUrlRequest('/0042'))).status, 503);
@@ -207,7 +209,7 @@ assert.equal((await handler.fetch(publicUrlRequest('/0042'))).status, 503);
 assert.equal((await handler.fetch(adminRequest('/api/url-admin'))).status, 503);
 assert.equal(urlCalls, beforeMissingRateSecret);
 process.env.RATE_LIMIT_SECRET = rateLimitSecret;
-console.log('Built Vercel runtime: numeric public bearer relay, URL owner routes, identity binding, 429/503, firewall fail-closed and no upstream calls on denial passed.');
+console.log('Built Vercel runtime: numeric public bearer relay, URL owner routes, identity binding, 429/503, Redis admission fail-closed and no upstream calls on denial passed.');
 async function scanClient(directory) {
   let files = 0;
   for (const entry of await readdir(directory, { withFileTypes: true })) {

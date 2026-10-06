@@ -9,8 +9,7 @@ import { POST } from '../../src/pages/api/url-admin/create';
 import { DELETE } from '../../src/pages/api/url-admin/delete/[short_url]';
 
 const env = {
-  NODE_ENV: 'production', VERCEL: '1', VERCEL_URL: 'fixture.vercel.app',
-  OWNER_AGGREGATE_RATE_LIMIT_ID: 'owner-emergency', OWNER_RATE_LIMIT_ID: 'owner-safety', OWNER_FAILURE_RATE_LIMIT_ID: 'owner-failures', SHORT_URL_RATE_LIMIT_ID: 'short-url-resolver',
+  NODE_ENV: 'production', VERCEL: '1', VERCEL_ENV: 'production', VERCEL_URL: 'fixture.vercel.app',
   RATE_LIMIT_SECRET: 'synthetic-firewall-counter-secret-000000000000',
   URL_ADMIN_USERNAME: 'fixture-owner', URL_ADMIN_PASSWORD: 'synthetic-browser-owner-password-00000', OWNER_API_TOKEN: 'synthetic-backend-owner-token-0000000000', PUBLIC_BACKEND_API_URL: 'https://example.com/api/',
 };
@@ -21,24 +20,24 @@ const request = (path = '/url', authorization = '', method = 'GET') => new Reque
 const record = { _id: '012345678901234567890abc', original_url: 'https://example.com/', short_url: 42, creation_date: '2026-01-01T00:00:00Z' };
 afterEach(() => { vi.unstubAllGlobals(); vi.unstubAllEnvs(); });
 
-it('uses only a trusted Vercel identity and fixed host with sanitized headers', async () => {
+it('uses only trusted Vercel identity with a fixed admission kind', async () => {
   const check = vi.fn().mockResolvedValue({ rateLimited: false });
   expect(await enforceRateLimit(request(), 'owner', env, check)).toBeNull();
   const [id, options] = check.mock.calls[0];
-  expect(id).toBe('owner-safety');
-  expect(options.rateLimitKey).toBe('192.0.2.1');
-  expect(Object.fromEntries(options.headers)).toEqual({ host: 'fixture.vercel.app', 'x-real-ip': '192.0.2.1', 'x-forwarded-for': '192.0.2.1' });
+  expect(id).toBe('owner');
+  expect(options.clientIp).toBe('192.0.2.1');
+  expect(options.signal).toBeInstanceOf(AbortSignal);
   await enforceRateLimit(request(), 'aggregate', env, check);
-  expect(check.mock.calls[1][1].rateLimitKey).toBe('owner-emergency');
+  expect(check.mock.calls[1][0]).toBe('aggregate');
 });
-it('fails closed for missing rules, provider failures, unsupported ingress and invalid identity', async () => {
+it('fails closed for missing platform settings, provider failures, unsupported ingress and invalid identity', async () => {
   for (const result of [{ rateLimited: false, error: 'not-found' }, { rateLimited: true, error: 'blocked' }, {}]) {
     const denied = await enforceRateLimit(request(), 'owner', env, vi.fn().mockResolvedValue(result));
     expect(denied?.status).toBe(503);
     expect(await denied?.text()).not.toContain('not-found');
   }
   expect((await enforceRateLimit(request(), 'owner', env, vi.fn().mockRejectedValue(new Error('private-provider-detail'))))?.status).toBe(503);
-  for (const settings of [{ ...env, OWNER_RATE_LIMIT_ID: '' }, { ...env, VERCEL: '' }, { ...env, VERCEL_URL: 'evil.example/path' }, { ...env, NODE_ENV: 'development' }]) {
+  for (const settings of [{ ...env, VERCEL_ENV: '' }, { ...env, VERCEL: '' }, { ...env, VERCEL_URL: 'evil.example/path' }, { ...env, NODE_ENV: 'development' }]) {
     const check = vi.fn();
     expect((await enforceRateLimit(request(), 'owner', settings, check))?.status).toBe(503);
     expect(check).not.toHaveBeenCalled();
@@ -55,7 +54,7 @@ it('times out an unavailable provider without allowing the request', async () =>
     expect((await pending)?.status).toBe(503);
   } finally { vi.useRealTimers(); }
 });
-it('requires an independent server-only SDK counter secret before any provider call', async () => {
+it('requires an independent server-only admission secret before any provider call', async () => {
   for (const secret of ['', 'short', 'x'.repeat(257), 'x'.repeat(32) + '\n', env.OWNER_API_TOKEN, env.URL_ADMIN_PASSWORD, env.URL_ADMIN_USERNAME]) {
     const check = vi.fn();
     expect((await enforceRateLimit(request(), 'resolver', { ...env, RATE_LIMIT_SECRET: secret }, check))?.status).toBe(503);
@@ -67,6 +66,47 @@ it('returns uncached 429 without inventing retry timing', async () => {
   expect(denied?.status).toBe(429);
   expect(denied?.headers.get('retry-after')).toBeNull();
   expect(denied?.headers.get('cache-control')).toBe('no-store');
+});
+it('uses the actual HTTPS admission adapter with only its credential and validated IP', async () => {
+  const fetch = vi.fn().mockResolvedValue(new Response(null, { status: 204 }));
+  vi.stubGlobal('fetch', fetch);
+  expect(await enforceRateLimit(request(), 'resolver', env)).toBeNull();
+  const [url, options] = fetch.mock.calls[0];
+  expect(String(url)).toBe('https://example.com/api/admission');
+  expect(options.method).toBe('POST');
+  expect(options.redirect).toBe('error');
+  expect(options.credentials).toBe('omit');
+  expect(options.headers).toEqual({ 'Content-Type': 'application/json', Authorization: `Bearer ${env.RATE_LIMIT_SECRET}` });
+  expect(JSON.parse(options.body)).toEqual({ kind: 'resolver', clientIp: '192.0.2.1', environment: 'production' });
+  for (const status of [200, 301, 401, 404, 500, 503]) {
+    fetch.mockResolvedValueOnce(new Response('private-provider-detail', { status }));
+    const denied = await enforceRateLimit(request(), 'resolver', env);
+    expect(denied?.status).toBe(503);
+    expect(await denied?.text()).not.toContain('private-provider-detail');
+  }
+  fetch.mockResolvedValueOnce(new Response('private-provider-detail', { status: 429, headers: { 'Retry-After': '12' } }));
+  const limited = await enforceRateLimit(request(), 'resolver', env);
+  expect(limited?.status).toBe(429);
+  expect(limited?.headers.get('retry-after')).toBe('12');
+  fetch.mockResolvedValueOnce(new Response(null, { status: 429, headers: { 'Retry-After': 'unsafe' } }));
+  expect((await enforceRateLimit(request(), 'resolver', env))?.headers.get('retry-after')).toBeNull();
+  fetch.mockRejectedValueOnce(new Error('private-provider-detail'));
+  expect((await enforceRateLimit(request(), 'resolver', env))?.status).toBe(503);
+  const before = fetch.mock.calls.length;
+  expect((await enforceRateLimit(request(), 'resolver', { ...env, PUBLIC_BACKEND_API_URL: 'http://evil.example/api/' }))?.status).toBe(503);
+  expect(fetch).toHaveBeenCalledTimes(before);
+});
+it('cancels stalled admission HTTP requests at the application deadline without retries', async () => {
+  vi.useFakeTimers();
+  try {
+    const fetch = vi.fn().mockImplementation(() => new Promise(() => {}));
+    vi.stubGlobal('fetch', fetch);
+    const pending = enforceRateLimit(request(), 'owner', env);
+    await vi.advanceTimersByTimeAsync(2001);
+    expect((await pending)?.status).toBe(503);
+    expect(fetch).toHaveBeenCalledTimes(1);
+    expect(fetch.mock.calls[0][1].signal.aborted).toBe(true);
+  } finally { vi.useRealTimers(); }
 });
 it('enforces pre-auth safety and separate failed/cross-origin attempt budgets on every shared owner path', async () => {
   for (const path of ['/url', '/%75rl/', '/api/%75rl-admin/create', '/admin/blog/new', '/api/blog-admin/upload']) {
@@ -99,7 +139,7 @@ it('gates normalized numeric resolution before invoking the server-only relay', 
   }
 });
 it('isolates clients using the shared enforcement result and recovers after provider failure', async () => {
-  const check = vi.fn().mockImplementation((_id, options) => Promise.resolve({ rateLimited: options.rateLimitKey === '192.0.2.1' }));
+  const check = vi.fn().mockImplementation((_id, options) => Promise.resolve({ rateLimited: options.clientIp === '192.0.2.1' }));
   const other = new Request('https://frontend.example/0042', { headers: { 'x-real-ip': '192.0.2.2' } });
   expect((await enforceRateLimit(request(), 'resolver', env, check))?.status).toBe(429);
   expect(await enforceRateLimit(other, 'resolver', env, check)).toBeNull();

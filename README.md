@@ -55,12 +55,13 @@ server secrets. Provision these deployment secrets privately:
 - `OWNER_API_TOKEN`: the existing backend owner credential, 32-256 printable ASCII characters.
 - `BACKEND_TIMEOUT_MS`: optional server request deadline, default 8000, range 1-30000.
 
-Production owner access and numeric resolution also require configured shared
-Vercel Firewall SDK rules and a separate server-only `RATE_LIMIT_SECRET`.
-Missing admission controls fail closed with 503.
-Follow [Short URL security and rollout](docs/short-url-security.md) for the four
-rule settings, staged thresholds, per-region scope, entitlement/cost review,
-bounded contracts and required ingress checks before deployment.
+Production owner access and numeric resolution also require the server-only
+`RATE_LIMIT_SECRET`, matching the backend's dedicated `/api/admission` credential.
+The backend uses its existing Heroku Redis to share four independent frontend
+buckets across every Vercel instance and region. No Vercel plan change or Firewall
+rule is required. Missing admission controls or Redis outages fail closed with 503.
+Follow [Short URL security and rollout](docs/short-url-security.md) for policy,
+backend-first deployment, bounded contracts and ingress checks.
 
 The backend token is never sent to the browser or accepted from client input. Missing,
 invalid or reused secrets disable administration with 503. Do not set secrets with a
