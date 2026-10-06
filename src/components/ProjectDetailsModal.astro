@@ -1,0 +1,193 @@
+---
+import { Image } from 'astro:assets';
+import GitHub from './icons/GitHub.astro';
+import Link from './icons/Link.astro';
+import { ui } from '../i18n/ui';
+import type { ProjectType } from '../types';
+interface Props { project: Pick<ProjectType, 'title' | 'showcase'>; lang: 'en' | 'es'; id: string }
+const { project, lang, id } = Astro.props;
+const details = project.showcase;
+const labels = ui[lang].sections.lab.showcase;
+const newTab = ui[lang].sections.lab.opensInNewTab;
+---
+{details && (
+  <project-details-modal>
+    <slot name="trigger" />
+    <dialog id={id} class="project-dialog" aria-labelledby={`${id}-title`} aria-describedby={`${id}-summary`}>
+      <div class="showcase-toolbar">
+        <span class="showcase-eyebrow">{labels.view}</span>
+        <button type="button" class="showcase-close" data-showcase-close aria-label={labels.close} autofocus>
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div class="showcase-content">
+        <header class="showcase-header">
+          {details.status && <span class="showcase-status">{labels.statuses[details.status]}</span>}
+          <h2 id={`${id}-title`}>{project.title}</h2>
+          <p id={`${id}-summary`} class="showcase-summary">{details.summary}</p>
+          {details.statusNote && <p class="showcase-note">{details.statusNote}</p>}
+        </header>
+        {!!details.images?.length && (
+          <section class="showcase-images" aria-label={labels.images}>
+            {details.images.map(({ src, alt, caption }) => (
+              <figure>
+                {typeof src === 'string' ? (
+                  <img src={src} alt={alt} loading="lazy" decoding="async" />
+                ) : (
+                  <Image src={src} alt={alt} width={1600} format="webp" loading="lazy" decoding="async" />
+                )}
+                {caption && <figcaption>{caption}</figcaption>}
+              </figure>
+            ))}
+          </section>
+        )}
+        {details.description && (
+          <section aria-labelledby={`${id}-overview`}>
+            <h3 id={`${id}-overview`}>{labels.overview}</h3>
+            <p>{details.description}</p>
+          </section>
+        )}
+        {details.purpose && (
+          <section aria-labelledby={`${id}-purpose`}>
+            <h3 id={`${id}-purpose`}>{labels.purpose}</h3>
+            <p>{details.purpose}</p>
+          </section>
+        )}
+        {!!details.highlights?.length && (
+          <section aria-labelledby={`${id}-highlights`}>
+            <h3 id={`${id}-highlights`}>{labels.highlights}</h3>
+            <ul class="showcase-highlights">
+              {details.highlights.map(({ title, description }) => (
+                <li><h4>{title}</h4><p>{description}</p></li>
+              ))}
+            </ul>
+          </section>
+        )}
+        {!!details.tech?.length && (
+          <section aria-labelledby={`${id}-tech`}>
+            <h3 id={`${id}-tech`}>{labels.tech}</h3>
+            <ul class="showcase-tech">{details.tech.map(tech => <li>{tech}</li>)}</ul>
+          </section>
+        )}
+        {!!details.links?.length && (
+          <section aria-labelledby={`${id}-links`}>
+            <h3 id={`${id}-links`}>{labels.links}</h3>
+            <ul class="showcase-links">
+              {details.links.map(link => (
+                <li><a href={link.url} target="_blank" rel="noopener noreferrer" aria-label={`${link.label} (${newTab})`}>
+                  {link.type === 'repository' ? <GitHub aria-hidden="true" /> : <Link aria-hidden="true" />}
+                  {link.label}<span aria-hidden="true">↗</span>
+                </a></li>
+              ))}
+            </ul>
+          </section>
+        )}
+      </div>
+    </dialog>
+  </project-details-modal>
+)}
+
+<script>
+  class ProjectDetailsModal extends HTMLElement {
+    private cleanup?: () => void;
+
+    connectedCallback() {
+      this.cleanup?.();
+      const dialog = this.querySelector<HTMLDialogElement>('dialog');
+      const trigger = this.querySelector<HTMLButtonElement>('[data-showcase-trigger]');
+      if (!dialog || !trigger) return;
+      const controller = new AbortController();
+      const { signal } = controller;
+      const root = document.documentElement;
+      let previousOverflow: string | undefined;
+      const unlock = () => {
+        if (previousOverflow === undefined) return;
+        root.style.overflow = previousOverflow;
+        previousOverflow = undefined;
+      };
+      trigger.addEventListener('click', () => {
+        if (dialog.open) return;
+        dialog.showModal();
+        dialog.scrollTop = 0;
+        previousOverflow = root.style.overflow;
+        root.style.overflow = 'hidden';
+      }, { signal });
+      this.querySelector('[data-showcase-close]')?.addEventListener('click', () => dialog.close(), { signal });
+      // Native dialog handles focus containment, inert background, Escape,
+      // and focus restoration. No custom keyboard trap is necessary.
+      dialog.addEventListener('close', unlock, { signal });
+      let pointerStartedOutside = false;
+      const outside = (event: PointerEvent) => {
+        const bounds = dialog.getBoundingClientRect();
+        return event.target === dialog && (event.clientX < bounds.left || event.clientX > bounds.right || event.clientY < bounds.top || event.clientY > bounds.bottom);
+      };
+      dialog.addEventListener('pointerdown', event => { pointerStartedOutside = outside(event); }, { signal });
+      dialog.addEventListener('pointerup', event => {
+        if (pointerStartedOutside && outside(event)) dialog.close();
+        pointerStartedOutside = false;
+      }, { signal });
+      // Astro client navigation can remove the open dialog before close fires.
+      this.cleanup = () => {
+        controller.abort();
+        if (dialog.open) dialog.close();
+        unlock();
+      };
+    }
+
+    disconnectedCallback() { this.cleanup?.(); }
+  }
+  if (!customElements.get('project-details-modal')) customElements.define('project-details-modal', ProjectDetailsModal);
+</script>
+
+<style>
+  .project-dialog {
+    width: min(1024px, calc(100% - 3rem));
+    max-width: none;
+    max-height: calc(100dvh - 3rem);
+    margin: auto;
+    padding: 0;
+    border: 1px solid rgb(120 120 130 / .25);
+    border-radius: 1.25rem;
+    background: #fafafa;
+    color: #17171d;
+    box-shadow: 0 24px 80px rgb(0 0 0 / .25);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    overflow-wrap: anywhere;
+  }
+  .project-dialog::backdrop { background: rgb(12 12 18 / .65); backdrop-filter: blur(4px); }
+  .showcase-toolbar { position: sticky; top: 0; z-index: 1; display: flex; align-items: center; justify-content: space-between; padding: .75rem 2rem; background: #fafafa; border-bottom: 1px solid rgb(120 120 130 / .15); }
+  .showcase-eyebrow { color: #62626e; font-size: .7rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+  .showcase-close { display: grid; place-items: center; width: 2.75rem; height: 2.75rem; border: 1px solid rgb(120 120 130 / .25); border-radius: 50%; color: inherit; background: transparent; font-size: 1.75rem; line-height: 1; }
+  .showcase-close:hover { background: rgb(248 0 174 / .06); border-color: #a60075; }
+  .showcase-content { padding: 2rem; display: grid; gap: 2rem; min-width: 0; }
+  .project-dialog h2 { margin: .75rem 0; font-size: clamp(1.75rem, 4vw, 2.5rem); font-weight: 700; line-height: 1.15; letter-spacing: -.03em; }
+  .project-dialog h3 { margin-bottom: .75rem; font-size: 1.05rem; font-weight: 700; line-height: 1.4; }
+  .project-dialog h4 { font-size: .95rem; font-weight: 650; }
+  .project-dialog p { margin: 0; color: #62626e; font-size: .95rem; line-height: 1.7; }
+  .project-dialog .showcase-summary { font-size: 1.1rem; max-width: 65ch; }
+  .project-dialog .showcase-note { margin-top: 1rem; font-size: .875rem; padding-left: 1rem; border-left: 2px solid rgb(248 0 174 / .35); }
+  .showcase-status { display: inline-block; border: 1px solid rgb(248 0 174 / .2); border-radius: 999px; padding: .3rem .65rem; color: #a60075; background: rgb(248 0 174 / .04); font-size: .75rem; font-weight: 650; }
+  .showcase-images { display: grid; gap: 1.25rem; }
+  .project-dialog figure { margin: 0; min-width: 0; }
+  .project-dialog img { display: block; width: 100%; height: auto; border: 1px solid rgb(120 120 130 / .2); border-radius: .75rem; object-fit: contain; }
+  .project-dialog figcaption { margin-top: .6rem; color: #62626e; font-size: .8rem; line-height: 1.6; }
+  .showcase-highlights { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
+  .showcase-highlights li { padding: 1.15rem; border: 1px solid rgb(120 120 130 / .18); border-radius: .75rem; background: rgb(120 120 130 / .035); }
+  .project-dialog .showcase-highlights p { margin-top: .5rem; font-size: .875rem; }
+  .showcase-tech, .showcase-links { display: flex; flex-wrap: wrap; gap: .5rem; }
+  .showcase-tech li { border: 1px solid rgb(120 120 130 / .2); border-radius: 999px; padding: .3rem .65rem; color: #62626e; font-size: .8rem; font-weight: 600; }
+  .showcase-links a { display: inline-flex; align-items: center; justify-content: center; gap: .5rem; min-height: 2.75rem; padding: .6rem .9rem; border: 1px solid rgb(120 120 130 / .25); border-radius: .6rem; color: #a60075; font-size: .875rem; font-weight: 650; }
+  .showcase-links a:hover { border-color: #a60075; background: rgb(248 0 174 / .04); }
+  .showcase-links svg { width: 1.15rem; height: 1.15rem; flex-shrink: 0; }
+  .showcase-close:focus-visible, .showcase-links a:focus-visible { outline: 2px solid #F800AE; outline-offset: 3px; }
+  :global(.dark) .project-dialog, :global(.dark) .showcase-toolbar { background: #1c1c22; color: #f5f5f7; }
+  :global(.dark) .project-dialog p, :global(.dark) .project-dialog figcaption, :global(.dark) .showcase-eyebrow, :global(.dark) .showcase-tech li { color: #acacb8; }
+  :global(.dark) .showcase-status, :global(.dark) .showcase-links a { color: #ff70d4; }
+  @media (max-width: 639px) {
+    .project-dialog { width: 100%; height: 100dvh; max-height: 100dvh; border-radius: 0; border: 0; }
+    .showcase-toolbar { padding: .75rem 1.25rem; padding-top: max(.75rem, env(safe-area-inset-top)); }
+    .showcase-content { padding: 1.5rem 1.25rem max(1.5rem, env(safe-area-inset-bottom)); gap: 1.75rem; }
+    .showcase-highlights { grid-template-columns: 1fr; }
+  }
+</style>

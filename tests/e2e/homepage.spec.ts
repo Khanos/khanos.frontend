@@ -17,7 +17,7 @@ test("homepage separates writing from experiments and preserves article links", 
   );
   expect(
     await page
-      .locator("main section")
+      .locator("main section[id]")
       .evaluateAll((sections) => sections.map((section) => section.id)),
   ).toEqual(["home", "writing", "lab", "experience", "projects", "about"]);
   const writing = page.locator("#writing");
@@ -128,7 +128,7 @@ for (const lang of ["en", "es"]) {
       const previous = lab.getByRole("button", { name: lang === "en" ? "Previous projects" : "Proyectos anteriores" });
       const next = lab.getByRole("button", { name: lang === "en" ? "Next projects" : "Proyectos siguientes" });
       await expect(cards).toHaveCount(8);
-      await expect(lab.locator("h3")).toHaveText([
+      await expect(lab.locator(".experiment-copy h3")).toHaveText([
         lang === "en" ? "Invoice Editor" : "Editor de facturas", "oVitals", "Wallapibara", "PNG to SVG", "Local Image Studio",
         lang === "en" ? "SVG to Component" : "SVG a Componente",
         "GitHub API Demo", lang === "en" ? "URL Shortener" : "Acortador de URL",
@@ -142,7 +142,7 @@ for (const lang of ["en", "es"]) {
         await expect(link).toHaveAttribute("rel", /noopener/);
         await expect(link).toHaveAccessibleName(new RegExp(lang === "en" ? "View repository" : "Ver repositorio"));
       }
-      for (const [index, path] of ["svgToComponent", "github", "url"].entries()) {
+      for (const [index, path] of ["svgToComponent", "github"].entries()) {
         const link = cards.nth(index + 5).locator(".project-link");
         await expect(link).toHaveAttribute("href", `/${path}?lang=${lang}`);
         await expect(link).not.toHaveAttribute("target", "_blank");
@@ -154,8 +154,8 @@ for (const lang of ["en", "es"]) {
       await expect(live.locator("a")).toHaveCount(0);
       for (const card of await cards.all()) {
         await card.scrollIntoViewIfNeeded();
-        await expect.poll(() => card.locator("img").evaluate((img: HTMLImageElement) => img.complete && img.naturalWidth > 0)).toBe(true);
-        await expect(card.locator("img")).not.toHaveAttribute("alt", "");
+        await expect.poll(() => card.locator(".preview img").evaluate((img: HTMLImageElement) => img.complete && img.naturalWidth > 0)).toBe(true);
+        await expect(card.locator(".preview img")).not.toHaveAttribute("alt", "");
         expect(await card.locator(".tags li").count()).toBeGreaterThanOrEqual(3);
       }
       for (const dark of [false, true]) {
@@ -199,7 +199,7 @@ for (const lang of ["en", "es"]) {
             const own = card.getBoundingClientRect();
             return own.x >= bounds.x - 1 && own.right <= bounds.right + 1;
           })).toBe(true);
-          expect(await card.locator(".project-link").evaluate((link) => getComputedStyle(link).outlineStyle)).toBe("solid");
+          expect(await card.locator(".project-link").evaluate((link) => getComputedStyle(link, link.tagName === "BUTTON" ? "::after" : null).outlineStyle)).toBe("solid");
           expect(await card.evaluate((card) => getComputedStyle(card).transform)).toBe("none");
           if (await card.locator(".live-link").count()) {
             await page.keyboard.press("Tab");

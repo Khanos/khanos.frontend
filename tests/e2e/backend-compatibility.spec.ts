@@ -24,16 +24,15 @@ test('owner mutations require a same-origin request and validate bodies', async 
   await request.dispose();
 });
 
-test('entering owner administration from Lab starts a fresh document without tracking', async ({ browser }) => {
+test('direct owner administration remains a fresh private document without tracking', async ({ browser }) => {
   const context = await browser.newContext({ httpCredentials: owner });
   const page = await context.newPage();
   await page.route('**/*', route => new URL(route.request().url()).hostname === '127.0.0.1' ? route.continue() : route.abort());
   await page.goto('/?lang=en');
   await page.evaluate(() => { (window as any).__publicPageMarker = true; });
-  const ownerLink = page.locator('#lab a[href="/url?lang=en"]');
-  await expect(ownerLink).toHaveAttribute('data-astro-reload', 'true');
-  await ownerLink.focus();
-  await ownerLink.press('Enter');
+  // Public portfolio cards now showcase the app; owners use the private URL directly.
+  await expect(page.locator('#lab a[href="/url?lang=en"]')).toHaveCount(0);
+  await page.goto('/url?lang=en');
   await expect(page.locator('tbody tr')).toHaveCount(25);
   expect(await page.evaluate(() => (window as any).__publicPageMarker)).toBeUndefined();
   await expect(page.locator('html')).toHaveAttribute('data-owner-page', 'true');

@@ -1,5 +1,6 @@
 ---
-import { Image } from 'astro:assets';
+import ProjectCard from './ProjectCard.astro';
+import type { LabProject } from '../types';
 import { ui } from '../i18n/ui';
 import LabGithubImage from '../assets/img/lab-github.png';
 import LabSvgToComponentImage from '../assets/img/lab-svg-to-component.png';
@@ -8,113 +9,70 @@ import LabUrlImage from '../assets/img/lab-url.png';
 interface Props { lang: 'en' | 'es' }
 const { lang } = Astro.props;
 const lab = ui[lang].sections.lab;
-const experiments = [
+const experiments: LabProject[] = [
   {
     liveHref: 'https://invoice.epilef.app/',
     ...lab.invoice,
     image: '/lab/invoice.svg',
-    href: 'https://github.com/Khanos/khanos-invoice-public',
+    link: 'https://github.com/Khanos/khanos-invoice-public',
     tags: ['Next.js', 'TypeScript', 'NextAuth', 'Postgres'],
   },
   {
     liveHref: undefined,
     ...lab.ovitals,
     image: '/lab/ovitals.svg',
-    href: 'https://github.com/Khanos/ovitals',
+    link: 'https://github.com/Khanos/ovitals',
     tags: ['Python', 'GTK 4', 'Linux', 'Omarchy'],
   },
   {
     liveHref: 'https://wallapibara.epilef.app/',
     ...lab.wallapibara,
     image: '/lab/wallapibara.svg',
-    href: 'https://github.com/Khanos/wallapibara',
+    link: 'https://github.com/Khanos/wallapibara',
     tags: ['Next.js', 'TypeScript', 'Generative UI', 'Algorithms'],
   },
   {
     liveHref: undefined,
     ...lab.pngToSvg,
     image: '/lab/png-to-svg.svg',
-    href: 'https://github.com/Khanos/png-to-svg',
+    link: 'https://github.com/Khanos/png-to-svg',
     tags: ['Python', 'CLI', 'SVG', 'Asset tooling'],
   },
   {
     liveHref: undefined,
     ...lab.localImageStudio,
     image: '/lab/local-image-studio.svg',
-    href: 'https://github.com/Khanos/local-image-studio',
+    link: 'https://github.com/Khanos/local-image-studio',
     tags: ['Next.js', 'ComfyUI', 'Local AI', 'SQLite'],
   },
   {
     liveHref: undefined,
     ...lab.svgToComponent,
     image: LabSvgToComponentImage,
-    href: `/svgToComponent?lang=${lang}`,
+    link: `/svgToComponent?lang=${lang}`,
     tags: ['SVG', 'React', 'Vue', 'Svelte'],
   },
   {
     liveHref: undefined,
     ...lab.github,
     image: LabGithubImage,
-    href: `/github?lang=${lang}`,
+    link: `/github?lang=${lang}`,
     tags: ['React', 'GitHub API', 'REST'],
   },
   {
     liveHref: undefined,
     ...lab.url,
     image: LabUrlImage,
-    href: `/url?lang=${lang}`,
     tags: ['React', 'API', 'Full-stack'],
   },
-];
+].map(project => ({ ...project, imageAlt: project.imgAlt }));
 ---
 
 <lab-carousel role="region" aria-roledescription={lab.carouselRole} aria-label={lab.carouselLabel} data-range-template={lab.range}>
   <p id="lab-carousel-help" class="sr-only">{lab.carouselHelp}</p>
   <div id="lab-track" class="lab-track" role="group" tabindex="0" aria-label={lab.carouselLabel} aria-describedby="lab-carousel-help">
-    {experiments.map((experiment) => (
-      <article class="experiment">
-        <a
-          class="project-link"
-          href={experiment.href}
-          data-astro-reload={experiment.href.startsWith('/url') || undefined}
-          target={experiment.href.startsWith('https://') ? '_blank' : undefined}
-          rel={experiment.href.startsWith('https://') ? 'noopener noreferrer' : undefined}
-          aria-label={`${experiment.title}: ${experiment.linkLabel}${experiment.href.startsWith('https://') ? ` (${lab.opensInNewTab})` : ''}`}
-        >
-          <div class="preview">
-            {typeof experiment.image === 'string' ? (
-              <img src={experiment.image} alt={experiment.imgAlt} loading="lazy" decoding="async" width="1280" height="720" />
-            ) : (
-              <Image class="tool-cover" src={experiment.image} width={640} format="webp" alt={experiment.imgAlt} loading="lazy" decoding="async" />
-            )}
-          </div>
-
-          <div class="experiment-copy">
-            <div class="meta-row">
-              <span class="status">{experiment.status}</span>
-              <span class="source">{experiment.href.startsWith('https://') ? 'GitHub' : lab.openTool}</span>
-            </div>
-
-            <h3>{experiment.title}</h3>
-            <p>{experiment.description}</p>
-
-            <ul class="tags">
-              {experiment.tags.map((tag) => <li>{tag}</li>)}
-            </ul>
-
-            <span class="action">
-              {experiment.linkLabel}
-              <span aria-hidden="true">{experiment.href.startsWith('https://') ? '↗' : '→'}</span>
-            </span>
-          </div>
-        </a>
-        {experiment.liveHref && (
-          <a class="live-link" href={experiment.liveHref} target="_blank" rel="noopener noreferrer"
-            aria-label={`${experiment.title}: ${lab.liveSite} (${lab.opensInNewTab})`}>
-            {lab.liveSite} <span aria-hidden="true">↗</span>
-          </a>
-        )}
-      </article>
+    {experiments.map((experiment, index) => (
+      <ProjectCard project={experiment} lang={lang} id={`project-details-${index}`} />
     ))}
   </div>
   <div class="carousel-controls" hidden>
@@ -175,6 +133,7 @@ const experiments = [
       this.querySelector('[data-direction="previous"]')?.addEventListener('click', () => move(-1), { signal });
       this.querySelector('[data-direction="next"]')?.addEventListener('click', () => move(1), { signal });
       track.addEventListener('keydown', (event) => {
+        if ((event.target as HTMLElement).closest('dialog')) return;
         if (event.altKey || event.ctrlKey || event.metaKey || event.shiftKey) return;
         if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return;
         event.preventDefault();
@@ -189,6 +148,7 @@ const experiments = [
       }, { signal, passive: true });
       track.addEventListener('scrollend', updateRange, { signal });
       track.addEventListener('focusin', (event) => {
+        if ((event.target as HTMLElement).closest('dialog')) return;
         const card = (event.target as HTMLElement).closest<HTMLElement>('.experiment');
         if (!card) return;
         const left = card.offsetLeft;
@@ -247,165 +207,10 @@ const experiments = [
   .carousel-controls[hidden] { display: none; }
   .range { margin: 0; font-size: .8rem; }
   .carousel-buttons { display: flex; gap: .5rem; }
-  button { display: grid; place-items: center; width: 2.75rem; height: 2.75rem; border: 1px solid rgb(120 120 130 / .3); border-radius: 50%; color: #a60075; background: rgb(120 120 130 / .055); font-size: 1.25rem; }
-  button:hover { border-color: #a60075; background: rgb(248 0 174 / .06); }
-  :global(.dark) button { color: #ff70d4; }
-  :global(.dark) button:hover { border-color: #ff70d4; }
-
-  .experiment {
-    position: relative;
-    min-width: 0;
-    scroll-snap-align: start;
-    border: 1px solid rgb(120 120 130 / .2);
-    border-radius: 1.15rem;
-    background: rgb(120 120 130 / .055);
-    overflow: hidden;
-    transition: border-color 180ms, transform 180ms, box-shadow 180ms;
-  }
-
-  .experiment:hover,
-  .experiment:focus-within {
-    transform: translateY(-2px);
-    border-color: rgb(248 0 174 / .42);
-    box-shadow: 0 16px 38px rgb(20 20 30 / .10);
-  }
-
-  .project-link {
-    display: flex;
-    height: 100%;
-    flex-direction: column;
-  }
-
-  a:focus-visible {
-    outline: 2px solid #F800AE;
-    outline-offset: -4px;
-    border-radius: 1rem;
-  }
-
-  .live-link {
-    position: absolute;
-    right: 1rem;
-    bottom: 1rem;
-    display: inline-flex;
-    align-items: center;
-    gap: .3rem;
-    color: #a60075;
-    font-size: .875rem;
-    font-weight: 650;
-  }
-
-  .live-link:hover { text-decoration: underline; text-underline-offset: 3px; }
-  .live-link:focus-visible { outline-offset: 4px; border-radius: 2px; }
-  :global(.dark) .live-link { color: #ff70d4; }
-
-  .preview {
-    aspect-ratio: 16 / 9;
-    overflow: hidden;
-    border-bottom: 1px solid rgb(120 120 130 / .14);
-    background: #0d1119;
-  }
-
-  img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    transition: transform 220ms ease;
-  }
-
-  .experiment:hover img {
-    transform: scale(1.015);
-  }
-
-  .tool-cover { object-fit: cover; object-position: top; }
-
-  .experiment-copy {
-    padding: 1rem;
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-  }
-
-  .meta-row {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-between;
-    gap: .75rem;
-    margin-bottom: .75rem;
-  }
-
-  .status,
-  .source {
-    font-size: .65rem;
-    font-weight: 700;
-    letter-spacing: .08em;
-    text-transform: uppercase;
-  }
-
-  .status {
-    color: #a60075;
-  }
-
-  .source {
-    color: #62626e;
-  }
-
-  h3 {
-    font-size: 1.1rem;
-    font-weight: 650;
-    line-height: 1.35;
-    overflow-wrap: anywhere;
-  }
-
-  p {
-    margin-top: .6rem;
-    color: #62626e;
-    font-size: .875rem;
-    line-height: 1.6;
-  }
-
-  .tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: .4rem;
-    margin-top: 1rem;
-  }
-
-  .tags li {
-    border: 1px solid rgb(120 120 130 / .18);
-    border-radius: 999px;
-    padding: .25rem .5rem;
-    color: #62626e;
-    background: rgb(120 120 130 / .055);
-    font-size: .75rem;
-    font-weight: 600;
-  }
-
-  .action {
-    align-self: flex-start;
-    display: inline-flex;
-    align-items: center;
-    gap: .3rem;
-    padding-top: 1.2rem;
-    margin-top: auto;
-    color: #a60075;
-    font-size: .875rem;
-    font-weight: 650;
-  }
-
-  :global(.dark) p {
-    color: #acacb8;
-  }
-
-  :global(.dark) .status,
-  :global(.dark) .action {
-    color: #ff70d4;
-  }
-
-  :global(.dark) .source,
-  :global(.dark) .tags li {
-    color: #9c9ca8;
-  }
+  .carousel-buttons button { display: grid; place-items: center; width: 2.75rem; height: 2.75rem; border: 1px solid rgb(120 120 130 / .3); border-radius: 50%; color: #a60075; background: rgb(120 120 130 / .055); font-size: 1.25rem; }
+  .carousel-buttons button:hover { border-color: #a60075; background: rgb(248 0 174 / .06); }
+  :global(.dark) .carousel-buttons button { color: #ff70d4; }
+  :global(.dark) .carousel-buttons button:hover { border-color: #ff70d4; }
 
   @media (min-width: 640px) {
     .lab-track { grid-auto-columns: calc((100% - var(--gap)) / 2); }
@@ -415,16 +220,4 @@ const experiments = [
     .lab-track { grid-auto-columns: calc((100% - 2 * var(--gap)) / 3); }
   }
 
-  @media (prefers-reduced-motion: reduce) {
-    .experiment,
-    img {
-      transition: none;
-    }
-
-    .experiment:hover,
-    .experiment:focus-within,
-    .experiment:hover img {
-      transform: none;
-    }
-  }
 </style>

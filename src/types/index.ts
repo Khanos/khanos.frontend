@@ -63,6 +63,18 @@ export interface dalleImageType {
   image: string;
 };
 
+export interface ProjectShowcase {
+  summary: string;
+  description?: string;
+  purpose?: string;
+  status?: 'public' | 'private' | 'experimental' | 'archived';
+  statusNote?: string;
+  images?: { src: string | import('astro').ImageMetadata; alt: string; caption?: string }[];
+  highlights?: { title: string; description: string }[];
+  tech?: string[];
+  links?: { label: string; url: string; type: 'repository' | 'live' | 'article' | 'documentation' }[];
+}
+
 export interface ProjectType {
   image: string;
   imageAlt: string;
@@ -71,6 +83,7 @@ export interface ProjectType {
   tags: string[];
   link?: string;
   github?: string;
+  showcase?: ProjectShowcase;
 }
 
 // Url Shortener types
@@ -93,3 +106,11 @@ export interface urlListType {
   error: false;
   pagination: { limit: number; next: string | null };
 };
+
+// Lab cards share the portfolio project model, with imported or public covers.
+export interface LabProject extends Omit<ProjectType, 'image'> {
+  image: string | import('astro').ImageMetadata;
+  status: string;
+  linkLabel: string;
+  liveHref?: string;
+}
