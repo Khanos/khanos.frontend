@@ -13,6 +13,14 @@ coverage for evidence paths; read source directly when coverage is incomplete
 or graph relationships are insufficient, especially in Astro templates.
 Use `rg` for literals, configuration, documentation, and source fallbacks.
 
+## Feature explorations
+
+Before exploring or implementing a new feature, follow
+[Feature exploration workflow](docs/feature-exploration.md). It defines the
+discovery evidence, reuse decisions, scope, and verification needed for a proposal
+or implementation. For project-card actions or showcase content, also read
+[Project showcases](docs/project-showcases.md).
+
 ## Related agent handoffs
 
 Before changing private blog administration, owner access, scheduling, or preview,
