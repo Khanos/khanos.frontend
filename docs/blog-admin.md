@@ -17,7 +17,7 @@ Installing this new admin feature does require a normal application deployment.
 - `/api/blog-admin/preview`: POST Markdown, return sanitized HTML.
 - `/api/blog-admin/upload`: POST owner-authenticated client-upload authorization metadata.
 
-The shared owner boundary also requires the Vercel Firewall SDK admission rules
+The shared owner boundary also requires backend Redis admission support
 described in [Short URL security and rollout](short-url-security.md). Configure
 them before deployment; missing production controls fail closed for blog routes,
 including preview and Blob upload authorization.
