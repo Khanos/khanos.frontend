@@ -75,6 +75,21 @@ export interface ProjectShowcase {
   links?: { label: string; url: string; type: 'repository' | 'live' | 'article' | 'documentation' }[];
 }
 
+export interface ProjectCaseStudy {
+  id: string;
+  company: string;
+  role: string;
+  startYear: number;
+  endYear: number;
+  category: string;
+  summary: string;
+  problem: string;
+  contribution: string;
+  impact: string;
+  imageCaption?: string;
+  websites: { name: string; url: string }[];
+}
+
 export interface ProjectType {
   image: string;
   imageAlt: string;
@@ -84,6 +99,7 @@ export interface ProjectType {
   link?: string;
   github?: string;
   showcase?: ProjectShowcase;
+  caseStudy?: ProjectCaseStudy;
 }
 
 // Url Shortener types
@@ -113,4 +129,16 @@ export interface LabProject extends Omit<ProjectType, 'image'> {
   status: string;
   linkLabel: string;
   liveHref?: string;
+}
+
+export interface ProfessionalExperience {
+  title: string;
+  company: string;
+  date: string;
+  description: string;
+  group: 'recent' | 'earlier';
+  current?: boolean;
+  context?: string;
+  link?: string;
+  linkLabel?: string;
 }

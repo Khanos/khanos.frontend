@@ -1,7 +1,8 @@
 import { expect, test } from "@playwright/test";
 
 // Keep the portfolio smoke tests independent of analytics and external services.
-test.beforeEach(async ({ page }) => {
+test.beforeEach(async ({ page, request }) => {
+  await request.get('http://127.0.0.1:4337/__reset');
   await page.route("**/*", (route) => {
     const url = new URL(route.request().url());
     return url.hostname === "127.0.0.1" ? route.continue() : route.abort();
@@ -13,13 +14,13 @@ test("homepage separates writing from experiments and preserves article links", 
 }) => {
   await page.goto("/?lang=en");
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(
-    "Hello, I'm Epilef Rodriguez",
+    "Senior Full-Stack Engineer",
   );
   expect(
     await page
       .locator("main section[id]")
       .evaluateAll((sections) => sections.map((section) => section.id)),
-  ).toEqual(["home", "writing", "lab", "experience", "projects", "about"]);
+  ).toEqual(["home", "projects", "experience", "expertise", "lab", "writing", "contact"]);
   const writing = page.locator("#writing");
   await expect(writing.locator("article")).toHaveCount(3);
   const dates = await writing
@@ -46,7 +47,7 @@ test("Spanish homepage translates Writing and links to Spanish articles", async 
   await page.goto("/?lang=es");
   const writing = page.locator("#writing");
   await expect(writing.getByRole("heading", { level: 2 })).toHaveText(
-    "Últimos artículos",
+    "Artículos técnicos",
   );
   await expect(
     writing.getByRole("link", { name: "Ver todos los artículos" }),
@@ -73,7 +74,7 @@ test("navigation reaches sections and updates the active state", async ({
     "aria-current",
     "location",
   );
-  for (const id of ["writing", "lab", "experience", "projects", "about"]) {
+  for (const id of ["projects", "experience", "lab", "writing", "contact"]) {
     const link = page.locator(`[data-section-link="${id}"]`);
     await link.click();
     await expect(page).toHaveURL(new RegExp(`#${id}$`));
@@ -81,7 +82,7 @@ test("navigation reaches sections and updates the active state", async ({
   }
 });
 
-for (const width of [1440, 1024, 768, 375]) {
+for (const width of [1920, 1440, 1024, 768, 390, 375]) {
   test(`homepage fits the ${width}px viewport`, async ({ page }) => {
     await page.setViewportSize({ width, height: 900 });
     await page.goto("/?lang=en");
@@ -296,4 +297,203 @@ test("smooth controls and trackpad scrolling stay in sync across resize", async 
   await expect(range).toHaveText("Showing 1–2 of 8");
   await page.setViewportSize({ width: 1440, height: 900 });
   await expect(range).toHaveText("Showing 1–3 of 8");
+});
+
+for (const lang of ['en', 'es']) {
+  for (const width of [375, 390, 1440]) {
+    test(`recruiter content and SEO work without JavaScript: ${lang}, ${width}px`, async ({ browser, request }) => {
+      await request.get('http://127.0.0.1:4337/__reset');
+      const context = await browser.newContext({ javaScriptEnabled: false, viewport: { width, height: 812 } });
+      const page = await context.newPage();
+      await page.route('**/*', route => new URL(route.request().url()).hostname === '127.0.0.1' ? route.continue() : route.abort());
+      const response = await page.goto(`/?lang=${lang}&utm_source=test`);
+      expect(response?.status()).toBe(200);
+      const title = lang === 'en' ? 'Epilef Rodriguez | Senior Full-Stack Engineer' : 'Epilef Rodriguez | Ingeniero Full-Stack Senior';
+      const canonical = lang === 'en' ? 'https://epilef.app/' : 'https://epilef.app/?lang=es';
+      await expect(page.locator('html')).toHaveAttribute('lang', lang);
+      await expect(page.locator('title')).toHaveCount(1);
+      await expect(page).toHaveTitle(title);
+      await expect(page.locator('h1')).toHaveCount(1);
+      await expect(page.locator('h1')).toHaveText(lang === 'en' ? 'Senior Full-Stack Engineer' : 'Ingeniero Full-Stack Senior');
+      await expect(page.locator('meta[name="description"]')).toHaveCount(1);
+      const description = await page.locator('meta[name="description"]').getAttribute('content');
+      expect(description).toContain('React, TypeScript, Node.js');
+      await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', canonical);
+      for (const prefix of ['og', 'twitter']) {
+        await expect(page.locator(`meta[property="${prefix}:title"]`)).toHaveAttribute('content', title);
+        await expect(page.locator(`meta[property="${prefix}:description"]`)).toHaveAttribute('content', description!);
+        await expect(page.locator(`meta[property="${prefix}:url"]`)).toHaveAttribute('content', canonical);
+        await expect(page.locator(`meta[property="${prefix}:image"]`)).toHaveAttribute('content', /^https:\/\/epilef.app\//);
+      }
+      await expect(page.locator('link[hreflang="en"]')).toHaveAttribute('href', 'https://epilef.app/');
+      await expect(page.locator('link[hreflang="es"]')).toHaveAttribute('href', 'https://epilef.app/?lang=es');
+      const person = JSON.parse((await page.locator('script[type="application/ld+json"]').textContent())!);
+      expect(person).toMatchObject({ '@type': 'Person', name: 'Epilef Rodriguez', homeLocation: { name: 'Spain' }, email: 'epilef.rodriguez@gmail.com' });
+      expect(person).not.toHaveProperty('worksFor');
+      expect(person.sameAs).toContain('https://github.com/Khanos');
+      await expect(page.locator('#projects article')).toHaveCount(4);
+      await expect(page.locator('#projects dt')).toHaveCount(12);
+      await expect(page.locator('#project-achieve-platforms')).toContainText('Contentful');
+      await expect(page.locator('#project-achieve-platforms')).toContainText('Bills.com');
+      await expect(page.locator('#project-derfdice')).toContainText('Vue.js');
+      await expect(page.locator('#project-derfdice dd')).toHaveCount(3);
+      await expect(page.locator('#experience li')).toHaveCount(10);
+      await expect(page.locator('#experience')).toContainText('Achieve');
+      await expect(page.locator('#experience')).toContainText('2022 - 2023');
+      await expect(page.locator('#expertise')).toContainText('PostgreSQL');
+      await expect(page.locator('#contact')).not.toContainText('I work as a Frontend Engineer at MercadoLibre');
+      await expect(page.locator('#home')).toContainText('Epilef Rodriguez');
+      await expect(page.locator('#home a[href="https://linkedin.com/in/khanos"]')).toBeVisible();
+      const contact = page.locator('#home a[href="mailto:epilef.rodriguez@gmail.com"]');
+      await expect(contact).toBeInViewport({ ratio: 1 });
+      await expect(page.locator('h1')).toBeInViewport({ ratio: 1 });
+      expect(await page.evaluate(() => document.documentElement.scrollWidth - innerWidth)).toBeLessThanOrEqual(1);
+      for (const image of await page.locator('main img').all()) await expect(image).not.toHaveAttribute('alt', '');
+      await page.screenshot({ path: `test-results/homepage-${lang}-${width}.png` });
+      await context.close();
+    });
+  }
+}
+
+test('homepage remains available when the optional article feed fails', async ({ page, request }) => {
+  await request.get('http://127.0.0.1:4337/__mode?value=blog-failure');
+  try {
+    const response = await page.goto('/?lang=en');
+    expect(response?.status()).toBe(200);
+    expect(response?.headers()['cache-control']).toBe('no-store');
+    await expect(page.locator('h1')).toHaveText('Senior Full-Stack Engineer');
+    await expect(page.locator('#projects article')).toHaveCount(4);
+    await expect(page.locator('#writing')).toContainText('Articles are temporarily unavailable.');
+    await expect(page.locator('#contact a[href^="mailto:"]')).toBeVisible();
+  } finally {
+    await request.get('http://127.0.0.1:4337/__reset');
+  }
+});
+
+for (const lang of ['en', 'es']) {
+  for (const width of [390, 768, 1440, 1920]) {
+    test(`editorial presentation, themes and visible engineering narrative: ${lang}, ${width}px`, async ({ page }) => {
+      await page.setViewportSize({ width, height: 900 });
+      await page.emulateMedia({ reducedMotion: 'reduce' });
+      const errors: string[] = [];
+      page.on('pageerror', error => errors.push(error.message));
+      await page.goto(`/?lang=${lang}`);
+      await expect(page.locator('html')).toHaveClass(/dark/);
+      const portrait = page.locator('.hero-portrait img');
+      await expect(portrait).toBeVisible();
+      await expect.poll(() => portrait.evaluate((img: HTMLImageElement) => img.complete && img.naturalWidth > 0)).toBe(true);
+      await expect(page.locator('#home .primary-action')).toBeInViewport({ ratio: 1 });
+      await expect(page.locator('#home .hero-profiles a').last()).toHaveAttribute('href', /^mailto:epilef\.rodriguez@gmail\.com\?subject=/);
+      await page.screenshot({ path: `test-results/editorial-hero-${lang}-${width}-dark.png` });
+      const headerBottom = await page.locator('body > header').evaluate(element => element.getBoundingClientRect().bottom);
+      const nameTop = await page.locator('.hero-topline').evaluate(element => element.getBoundingClientRect().top);
+      expect(nameTop).toBeGreaterThan(headerBottom);
+      const hero = page.locator('#home');
+      await expect(hero).not.toContainText(/AI-Assisted Development|Desarrollo asistido por IA/);
+      await expect(hero.locator('.hero-technology')).toHaveText(lang === 'en'
+        ? 'React · TypeScript · Node.js · Software Architecture'
+        : 'React · TypeScript · Node.js · Arquitectura de software');
+      const cases = page.locator('.engineering-case');
+      expect(await cases.evaluateAll(elements => elements.map(element => element.id))).toEqual([
+        'project-achieve-platforms', 'project-mercadoshops', 'project-derfdice', 'project-marketing-analytics',
+      ]);
+      await expect(cases.locator('.case-period')).toHaveText(['2024', '2022–2023', '2021–2022', '2017–2021']);
+      await expect(cases.locator('h3')).toHaveText(lang === 'en' ? [
+        'Achieve — Financial Services Web Platforms', 'MercadoShops', 'DerfDice — Tabletop RPG Generator', 'DM2, Data-Collector & I-BOARDS',
+      ] : [
+        'Achieve — Plataformas web de servicios financieros', 'MercadoShops', 'DerfDice — Generador de contenido para juegos de rol', 'DM2, Data-Collector & I-BOARDS',
+      ]);
+      const achieve = page.locator('#project-achieve-platforms');
+      await expect(achieve.locator('.case-context')).toContainText(lang === 'en' ? 'Tech Lead' : 'Líder Técnico');
+      await expect(achieve.locator('.case-tech')).toContainText('GraphQL');
+      await expect(achieve.locator('.case-tech')).toContainText('Contentful');
+      await expect(achieve.locator('.case-tech')).not.toContainText('TypeScript');
+      await expect(achieve.locator('figcaption')).toContainText(lang === 'en' ? 'not a current benchmark' : 'no una medición actual');
+      await expect(achieve.locator('.case-links a')).toHaveCount(3);
+      for (const [brand, url] of [
+        ['Achieve', 'https://www.achieve.com/'],
+        ['Freedom Debt Relief', 'https://www.freedomdebtrelief.com/'],
+        ['Bills.com', 'https://www.bills.com/'],
+      ]) {
+        await expect(achieve.getByRole('link', { name: `${lang === 'en' ? 'Visit' : 'Visitar'} ${brand}`, exact: true })).toHaveAttribute('href', url);
+      }
+      const derfdice = page.locator('#project-derfdice');
+      await expect(derfdice.locator('.case-context')).toContainText('ITPex Studio');
+      await expect(derfdice.locator('.case-tech li')).toHaveText(['Vue', 'JavaScript', 'Node.js', 'Express']);
+      await expect(derfdice.getByRole('link')).toHaveAttribute('href', 'https://derfdice.com/');
+      for (const project of await cases.all()) {
+        const image = project.locator('img');
+        await image.scrollIntoViewIfNeeded();
+        await expect.poll(() => image.evaluate((image: HTMLImageElement) => image.complete && image.naturalWidth > 0)).toBe(true);
+        const ratioDifference = await image.evaluate((image: HTMLImageElement) => {
+          const box = image.getBoundingClientRect();
+          return Math.abs(box.width / box.height - image.naturalWidth / image.naturalHeight);
+        });
+        expect(ratioDifference).toBeLessThan(.02);
+        await expect(image).not.toHaveAttribute('alt', '');
+        if (['project-achieve-platforms', 'project-derfdice'].includes((await project.getAttribute('id'))!)) {
+          await project.screenshot({ path: `test-results/featured-${await project.getAttribute('id')}-${lang}-${width}-dark.png`,
+            style: 'header, .skip-link { display: none !important; }' });
+        }
+        await expect(project.locator('dd')).toHaveCount(3);
+        for (const detail of await project.locator('dd').all()) await expect(detail).toBeVisible();
+      }
+      // Smaller UI must remain readable, and essential actions usable by touch.
+      for (const selector of ['#nav-menu > a', '.hero-profiles a', '.hero-location', '.case-links a', '.case-visual figcaption']) {
+        const sizes = await page.locator(selector).evaluateAll(elements => elements.map(element => parseFloat(getComputedStyle(element).fontSize)));
+        expect(sizes.every(size => size >= 14)).toBe(true);
+      }
+      for (const selector of ['.hero-actions a', '.hero-profiles a', '#nav-menu > a', '.case-links a']) {
+        const heights = await page.locator(selector).evaluateAll(elements => elements.map(element => element.getBoundingClientRect().height));
+        expect(heights.every(height => height >= 44)).toBe(true);
+      }
+      await page.locator('#projects').screenshot({ path: `test-results/editorial-work-${lang}-${width}-dark.png`, animations: 'disabled', style: 'header, .skip-link { display: none !important; } ' });
+      expect(await page.evaluate(() => document.documentElement.scrollWidth - innerWidth)).toBeLessThanOrEqual(1);
+      const lightPage = await page.context().browser()!.newPage({ viewport: { width, height: 900 }, reducedMotion: 'reduce' });
+      lightPage.on('pageerror', error => errors.push(error.message));
+      await lightPage.addInitScript(() => localStorage.setItem('theme', 'light'));
+      await lightPage.route('**/*', route => new URL(route.request().url()).hostname === '127.0.0.1' ? route.continue() : route.abort());
+      await lightPage.goto(`/?lang=${lang}`);
+      await expect(lightPage.locator('html')).not.toHaveClass(/dark/);
+      await expect(lightPage.locator('#home .primary-action')).toBeInViewport({ ratio: 1 });
+      await expect.poll(() => lightPage.locator('.hero-portrait img').evaluate((img: HTMLImageElement) => img.complete && img.naturalWidth > 0)).toBe(true);
+      await lightPage.screenshot({ path: `test-results/editorial-hero-${lang}-${width}-light.png`, animations: 'disabled' });
+      for (const id of ['project-achieve-platforms', 'project-derfdice']) {
+        const project = lightPage.locator(`#${id}`);
+        await project.locator('img').scrollIntoViewIfNeeded();
+        await expect.poll(() => project.locator('img').evaluate((image: HTMLImageElement) => image.complete && image.naturalWidth > 0)).toBe(true);
+        await expect(project.locator('dd').last()).toBeVisible();
+        await project.screenshot({ path: `test-results/featured-${id}-${lang}-${width}-light.png`,
+          style: 'header, .skip-link { display: none !important; }' });
+      }
+      expect(await lightPage.evaluate(() => document.documentElement.scrollWidth - innerWidth)).toBeLessThanOrEqual(1);
+      await lightPage.close();
+      expect(errors).toEqual([]);
+    });
+  }
+}
+
+
+test('mobile settings remain keyboard accessible with readable navigation', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto('/?lang=en');
+  const settings = page.locator('#nav-menu .dropdown > button');
+  await settings.focus();
+  await page.keyboard.press('Enter');
+  await expect(settings).toHaveAttribute('aria-expanded', 'true');
+  const theme = page.locator('#nav-menu .dropdown-menu input').first();
+  await theme.focus();
+  await expect(theme).toBeFocused();
+  expect(await theme.evaluate(input => getComputedStyle(input.closest('label')!).outlineStyle)).toBe('solid');
+  await page.keyboard.press('Space');
+  await expect(page.locator('html')).not.toHaveClass(/dark/);
+  await page.keyboard.press('Escape');
+  await expect(settings).toBeFocused();
+  await expect(settings).toHaveAttribute('aria-expanded', 'false');
+  await expect(page.locator('#site-settings')).toBeHidden();
+  await page.reload();
+  await expect(page.locator('html')).not.toHaveClass(/dark/);
+  const box = (await settings.boundingBox())!;
+  expect(box.x + box.width).toBeLessThanOrEqual(390);
+  expect(box.y + box.height).toBeLessThanOrEqual(await page.locator('body > header').evaluate(header => header.getBoundingClientRect().bottom));
 });

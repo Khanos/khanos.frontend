@@ -1,29 +1,28 @@
 ---
-import ExperienceItem from "./ExperienceItem.astro"
-import { getLang, useTranslations } from '../i18n/utils';
+import ExperienceItem from './ExperienceItem.astro';
+import { getLang } from '../i18n/utils';
+import { ui } from '../i18n/ui';
 
-type tLang = (str: any) => any;
-
-const lang = getLang();
-const t:tLang = useTranslations(lang);
-
-type Experience = {
-  title: string;
-  company: string;
-  date: string;
-  description: string;
-  link: string;
-}
-
-const EXP: Experience[] = t('experience');
+interface Props { lang?: 'en' | 'es' }
+const { lang = getLang() } = Astro.props;
+const content = ui[lang];
+const labels = content.sections.exp;
+const groups = [
+  { id: 'recent', title: labels.recent },
+  { id: 'earlier', title: labels.earlier },
+] as const;
 ---
 
-<ol class="relative mt-16">
-  {
-    EXP.map((experience) => (
-      <li class="">
-        <ExperienceItem {...experience} />
-      </li>
-    ))
-  }
-</ol>
+<p class="experience-intro">{labels.current}</p>
+{groups.map(group => (
+  <div class:list={['experience-group', `experience-${group.id}`]} role="group" aria-labelledby={`experience-${group.id}`}>
+    <h3 id={`experience-${group.id}`} class="experience-group-title">{group.title}</h3>
+    <ol class="experience-list">
+      {content.experience.filter(experience => experience.group === group.id).map(experience => (
+        <li>
+          <ExperienceItem {...experience} lang={lang} />
+        </li>
+      ))}
+    </ol>
+  </div>
+))}

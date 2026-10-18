@@ -1,0 +1,541 @@
+/* Homepage scope preserves the existing themes on tools and articles. */
+html[data-portfolio-page] {
+  --folio-bg: #eeede7;
+  --folio-surface: #e6e4dc;
+  --folio-raised: #dedcd4;
+  --folio-text: #20201f;
+  --folio-secondary: #4f504b;
+  --folio-muted: #606159;
+  --folio-accent: #a60068;
+  --folio-onaccent: #fff;
+  --folio-line: #cdcdc3;
+  --folio-mono:
+    ui-monospace, "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+
+  /* Metadata 12–14, supporting UI 14–16, prose 16–18; display is fluid. */
+  --folio-text-meta: clamp(0.75rem, 0.7rem + 0.15vw, 0.875rem);
+  --folio-text-support: clamp(0.875rem, 0.825rem + 0.15vw, 1rem);
+  --folio-text-body: clamp(1rem, 0.95rem + 0.15vw, 1.125rem);
+  --folio-text-subtitle: clamp(1.125rem, 1.025rem + 0.3vw, 1.375rem);
+  --folio-text-project: clamp(1.5rem, 1.3rem + 0.6vw, 1.875rem);
+  --folio-text-section: clamp(2rem, 1.75rem + 0.8vw, 2.75rem);
+  --folio-text-hero: clamp(3.25rem, 1.6rem + 5vw, 6rem);
+  --folio-text-contact: clamp(2.5rem, 1.5rem + 3vw, 4.5rem);
+  --folio-leading-body: 1.65;
+  --folio-leading-heading: 1.15;
+  --folio-leading-display: 0.98;
+  --folio-tracking-heading: -0.035em;
+  --folio-tracking-display: -0.065em;
+
+  /* A shared quarter-rem rhythm, including fluid section and column gaps. */
+  --folio-space-1: 0.25rem;
+  --folio-space-2: 0.5rem;
+  --folio-space-3: 0.75rem;
+  --folio-space-4: 1rem;
+  --folio-space-5: 1.25rem;
+  --folio-space-6: 1.5rem;
+  --folio-space-7: 2rem;
+  --folio-space-8: clamp(2rem, 3.5vw, 3rem);
+  --folio-space-section: clamp(3.5rem, 5vw, 5rem);
+  --folio-width: 80rem;
+  --folio-gutter: clamp(1.25rem, 4vw, 4rem);
+}
+html.dark[data-portfolio-page] {
+  --folio-bg: #111210;
+  --folio-surface: #191a17;
+  --folio-raised: #252620;
+  --folio-text: #eeeee5;
+  --folio-secondary: #bfc1b5;
+  --folio-muted: #a2a597;
+  --folio-accent: #f68abc;
+  --folio-onaccent: #170b13;
+  --folio-line: #32352b;
+}
+html[data-portfolio-page] body {
+  background: var(--folio-bg);
+  color: var(--folio-text);
+  font-size: var(--folio-text-body);
+  line-height: var(--folio-leading-body);
+}
+html[data-portfolio-page] body > div.absolute {
+  display: none;
+}
+html[data-portfolio-page] body::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(var(--folio-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--folio-line) 1px, transparent 1px);
+  background-size: 96px 96px;
+  opacity: 0.15;
+  mask-image: linear-gradient(#000, transparent 1050px);
+}
+html[data-portfolio-page] ::selection {
+  background: var(--folio-accent);
+  color: var(--folio-onaccent);
+}
+html[data-portfolio-page] .portfolio-main {
+  position: relative;
+  padding-inline: var(--folio-gutter);
+}
+html[data-portfolio-page] .section {
+  max-width: var(--folio-width);
+  scroll-margin-top: 120px;
+}
+html[data-portfolio-page] .portfolio-hero-section {
+  padding-top: 128px;
+  padding-bottom: var(--folio-space-section);
+}
+html[data-portfolio-page] .portfolio-sections {
+  display: grid;
+  gap: var(--folio-space-section);
+  padding-bottom: var(--folio-space-section);
+}
+html[data-portfolio-page] .portfolio-sections > section {
+  position: relative;
+  border-top: 1px solid var(--folio-line);
+  padding-top: var(--folio-space-8);
+}
+html[data-portfolio-page] .section-kicker {
+  margin-bottom: var(--folio-space-5);
+  font: var(--folio-text-meta)/1.5 var(--folio-mono);
+  letter-spacing: 0.06em;
+  color: var(--folio-muted);
+}
+html[data-portfolio-page] .section-kicker > span {
+  color: var(--folio-accent);
+  margin-right: var(--folio-space-3);
+}
+html[data-portfolio-page] .section-title,
+html[data-portfolio-page] #writing h2 {
+  display: flex;
+  align-items: center;
+  gap: var(--folio-space-3);
+  margin-bottom: var(--folio-space-5);
+  font-size: var(--folio-text-section);
+  font-weight: 550;
+  letter-spacing: var(--folio-tracking-heading);
+  line-height: var(--folio-leading-heading);
+  color: var(--folio-text);
+  text-wrap: balance;
+}
+html[data-portfolio-page] .section-title > svg,
+html[data-portfolio-page] #writing h2 > svg {
+  display: none;
+}
+html[data-portfolio-page] #projects > p:not(.section-kicker),
+html[data-portfolio-page] #lab > p:not(.section-kicker),
+html[data-portfolio-page] #writing .writing-header p {
+  max-width: 70ch;
+  font-size: var(--folio-text-body);
+  line-height: var(--folio-leading-body);
+  color: var(--folio-secondary);
+}
+html[data-portfolio-page] #projects > p:not(.section-kicker) {
+  margin-bottom: var(--folio-space-8);
+}
+html[data-portfolio-page] .expertise-card {
+  position: relative;
+  padding: var(--folio-space-7);
+  border: 1px solid var(--folio-line);
+  background: var(--folio-surface);
+  transition: border-color 200ms;
+}
+html[data-portfolio-page] .expertise-card:hover {
+  border-color: var(--folio-accent);
+}
+html[data-portfolio-page] .expertise-index {
+  display: block;
+  color: var(--folio-accent);
+  font: var(--folio-text-meta)/1.5 var(--folio-mono);
+  margin-bottom: var(--folio-space-6);
+}
+html[data-portfolio-page] .expertise-card h3 {
+  font-size: var(--folio-text-subtitle);
+  font-weight: 550;
+  letter-spacing: var(--folio-tracking-heading);
+  line-height: 1.35;
+  color: var(--folio-text);
+}
+html[data-portfolio-page] .expertise-card p {
+  max-width: 60ch;
+  color: var(--folio-secondary);
+  font-size: var(--folio-text-body);
+  line-height: var(--folio-leading-body);
+}
+/* Experience uses the shared scale, with a compact but fully visible earlier group. */
+html[data-portfolio-page] #experience .experience-intro {
+  max-width: 70ch;
+  color: var(--folio-secondary);
+  font-size: var(--folio-text-body);
+  line-height: var(--folio-leading-body);
+}
+html[data-portfolio-page] .experience-group {
+  margin-top: var(--folio-space-8);
+}
+html[data-portfolio-page] .experience-group-title {
+  margin-bottom: var(--folio-space-6);
+  color: var(--folio-text);
+  font-size: var(--folio-text-subtitle);
+  font-weight: 600;
+  line-height: 1.35;
+  letter-spacing: var(--folio-tracking-heading);
+}
+html[data-portfolio-page] .experience-entry {
+  display: grid;
+  gap: var(--folio-space-5);
+  padding-block: var(--folio-space-7);
+  border-top: 1px solid var(--folio-line);
+}
+html[data-portfolio-page] .experience-identity,
+html[data-portfolio-page] .experience-contribution {
+  min-width: 0;
+}
+html[data-portfolio-page] .experience-role {
+  color: var(--folio-text);
+  font-size: var(--folio-text-subtitle);
+  font-weight: 550;
+  letter-spacing: var(--folio-tracking-heading);
+  line-height: 1.35;
+}
+html[data-portfolio-page] .experience-company {
+  margin-top: var(--folio-space-2);
+  color: var(--folio-text);
+  font-size: var(--folio-text-body);
+  font-weight: 550;
+}
+html[data-portfolio-page] .experience-context {
+  margin-top: var(--folio-space-2);
+  color: var(--folio-secondary);
+  font-size: var(--folio-text-support);
+  line-height: var(--folio-leading-body);
+}
+html[data-portfolio-page] .experience-date {
+  margin-top: var(--folio-space-3);
+  color: var(--folio-accent);
+  font-size: var(--folio-text-support);
+}
+html[data-portfolio-page] .experience-contribution > p {
+  max-width: 70ch;
+  color: var(--folio-secondary);
+  font-size: var(--folio-text-body);
+  line-height: var(--folio-leading-body);
+}
+html[data-portfolio-page] .experience-link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--folio-space-3);
+  min-height: 44px;
+  margin-top: var(--folio-space-2);
+  color: var(--folio-accent);
+  font-size: var(--folio-text-support);
+  text-decoration: underline;
+  text-underline-offset: 0.3em;
+  overflow-wrap: anywhere;
+}
+html[data-portfolio-page] .experience-link:hover {
+  color: var(--folio-text);
+}
+html[data-portfolio-page] .experience-current {
+  padding: var(--folio-space-7);
+  border: 1px solid var(--folio-line);
+  border-left: 3px solid var(--folio-accent);
+  background: var(--folio-surface);
+}
+html[data-portfolio-page] .experience-status {
+  margin-bottom: var(--folio-space-4);
+  color: var(--folio-accent);
+  font: var(--folio-text-meta)/1.5 var(--folio-mono);
+}
+html[data-portfolio-page] .experience-current .experience-role {
+  font-size: var(--folio-text-project);
+}
+html[data-portfolio-page] .experience-earlier .experience-entry {
+  padding-block: var(--folio-space-5);
+}
+html[data-portfolio-page] .profile-link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--folio-space-4);
+  min-height: 44px;
+  margin-top: var(--folio-space-6);
+  color: var(--folio-accent);
+  font-size: var(--folio-text-support);
+  font-weight: 600;
+}
+html[data-portfolio-page] a:hover {
+  text-underline-offset: 0.3em;
+}
+html[data-portfolio-page] .profile-link:hover {
+  text-decoration: underline;
+}
+html[data-portfolio-page] a:focus-visible,
+html[data-portfolio-page] button:focus-visible,
+html[data-portfolio-page] input:focus-visible {
+  outline: 2px solid var(--folio-accent);
+  outline-offset: 4px;
+}
+
+/* Lab and writing share the homepage scale; their standalone routes keep theirs. */
+html[data-portfolio-page] #lab .experiment,
+html[data-portfolio-page] #writing .writing-card {
+  border-radius: 3px;
+  background: var(--folio-surface);
+  border-color: var(--folio-line);
+}
+html[data-portfolio-page] #lab .experiment-copy h3,
+html[data-portfolio-page] #writing .writing-card h3 {
+  font-size: var(--folio-text-subtitle);
+  line-height: 1.35;
+  font-weight: 600;
+  color: var(--folio-text);
+}
+html[data-portfolio-page] #lab .experiment-copy p,
+html[data-portfolio-page] #writing .writing-card p {
+  font-size: var(--folio-text-body);
+  line-height: var(--folio-leading-body);
+  color: var(--folio-secondary);
+}
+html[data-portfolio-page] #lab .status,
+html[data-portfolio-page] #lab .source,
+html[data-portfolio-page] #writing .metadata {
+  font-size: var(--folio-text-meta);
+  line-height: 1.5;
+  letter-spacing: 0.02em;
+  color: var(--folio-muted);
+}
+html[data-portfolio-page] #lab .status,
+html[data-portfolio-page] #writing .category {
+  color: var(--folio-accent);
+}
+html[data-portfolio-page] #lab .tags li {
+  font-size: var(--folio-text-meta);
+  font-weight: 500;
+  line-height: 1.5;
+  border-radius: 0;
+  color: var(--folio-secondary);
+  border-color: var(--folio-line);
+  background: transparent;
+}
+html[data-portfolio-page] #lab .action,
+html[data-portfolio-page] #lab .live-link,
+html[data-portfolio-page] #writing .read-link,
+html[data-portfolio-page] #writing .all-posts {
+  min-height: 44px;
+  font-size: var(--folio-text-support);
+  color: var(--folio-accent);
+}
+html[data-portfolio-page] #lab .range {
+  font-size: var(--folio-text-support);
+  color: var(--folio-secondary);
+}
+html[data-portfolio-page] #lab .carousel-buttons button {
+  color: var(--folio-accent);
+  border-color: var(--folio-line);
+}
+html[data-portfolio-page] #writing .writing-header {
+  margin-bottom: var(--folio-space-7);
+}
+html[data-portfolio-page] #writing .post-link {
+  grid-template-columns: minmax(0, 0.6fr) minmax(0, 1.4fr);
+}
+html[data-portfolio-page] #writing .post-copy {
+  padding: var(--folio-space-6);
+}
+html[data-portfolio-page] #contact .section-title {
+  max-width: 16ch;
+  font-size: var(--folio-text-contact);
+  letter-spacing: var(--folio-tracking-display);
+  margin-bottom: var(--folio-space-8);
+}
+html[data-portfolio-page] #contact article {
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: var(--folio-space-8);
+}
+html[data-portfolio-page] #contact article > div {
+  max-width: 70ch;
+  font-size: var(--folio-text-body);
+  line-height: var(--folio-leading-body);
+  color: var(--folio-secondary);
+}
+html[data-portfolio-page] #contact article > img {
+  width: 12rem;
+  height: 14rem;
+  object-fit: cover;
+  padding: 0;
+  border-radius: 0;
+  transform: rotate(3deg);
+  filter: saturate(0.55);
+}
+html[data-portfolio-page] #contact article strong {
+  color: var(--folio-accent);
+}
+html[data-portfolio-page] #contact > div a {
+  border-radius: 0;
+  font-size: var(--folio-text-support);
+  min-height: 44px;
+  background: transparent;
+  color: var(--folio-text);
+  border-color: var(--folio-line);
+  padding: var(--folio-space-3) var(--folio-space-4);
+}
+html[data-portfolio-page] #contact > div a:hover {
+  border-color: var(--folio-accent);
+}
+html[data-portfolio-page] body > footer {
+  max-width: var(--folio-width);
+  width: calc(100% - 2 * var(--folio-gutter));
+  border-radius: 0;
+  border-top: 1px solid var(--folio-line);
+  background: transparent;
+  box-shadow: none;
+  backdrop-filter: none;
+  padding: var(--folio-space-6) 0;
+}
+html[data-portfolio-page] body > footer span {
+  color: var(--folio-muted);
+  font-size: var(--folio-text-meta);
+}
+html[data-portfolio-page] body > header {
+  justify-content: space-between;
+  gap: var(--folio-space-4);
+  padding: var(--folio-space-3)
+    max(var(--folio-gutter), calc((100% - var(--folio-width)) / 2));
+  margin-top: 0;
+  background: var(--folio-bg);
+  border-bottom: 1px solid var(--folio-line);
+}
+html[data-portfolio-page] .portfolio-wordmark {
+  font: 700 var(--folio-text-subtitle)/1.5 var(--folio-mono);
+  letter-spacing: -0.07em;
+}
+html[data-portfolio-page] .portfolio-wordmark span {
+  color: var(--folio-accent);
+}
+html[data-portfolio-page] #nav-menu {
+  max-width: none;
+  padding: 0;
+  gap: var(--folio-space-1);
+  background: transparent;
+  border-radius: 0;
+  backdrop-filter: none;
+  color: var(--folio-secondary);
+  animation: none;
+}
+html[data-portfolio-page] #nav-menu > a {
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+  font-size: var(--folio-text-support);
+  padding: var(--folio-space-2) var(--folio-space-3);
+  transition:
+    color 180ms,
+    background 180ms;
+}
+html[data-portfolio-page] #nav-menu > a:hover {
+  color: var(--folio-text);
+  background: var(--folio-raised);
+  transform: none;
+}
+html[data-portfolio-page] #nav-menu > a[aria-current] {
+  background: transparent;
+  border-radius: 0;
+  color: var(--folio-accent);
+  text-decoration: underline;
+  text-underline-offset: 0.4em;
+}
+html[data-portfolio-page] #nav-menu .dropdown > button {
+  min-width: 44px;
+  min-height: 44px;
+  align-items: center;
+  justify-content: center;
+}
+html[data-portfolio-page] #nav-menu a:focus-visible {
+  outline-color: var(--folio-accent);
+  border-radius: 0;
+}
+html[data-portfolio-page] #nav-menu .dropdown-menu {
+  font-size: var(--folio-text-support);
+  color: var(--folio-text);
+  background: var(--folio-surface);
+  border-color: var(--folio-line);
+}
+html[data-portfolio-page] #nav-menu .dropdown-menu label {
+  min-height: 44px;
+  align-items: center;
+}
+html[data-portfolio-page]
+  #nav-menu
+  .dropdown-menu
+  label:has(input:focus-visible) {
+  outline: 2px solid var(--folio-accent);
+  outline-offset: 3px;
+}
+@media (min-width: 900px) {
+  html[data-portfolio-page] .experience-entry {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr);
+    gap: var(--folio-space-8);
+  }
+}
+@media (max-width: 999px) {
+  html[data-portfolio-page] body > header {
+    flex-wrap: wrap;
+    gap: 0;
+    padding-block: var(--folio-space-2);
+  }
+  html[data-portfolio-page] #nav-menu {
+    flex: 1 0 100%;
+    justify-content: space-between;
+  }
+  html[data-portfolio-page] #nav-menu > a {
+    padding-inline: var(--folio-space-2);
+  }
+  html[data-portfolio-page] .portfolio-hero-section {
+    padding-top: 144px;
+  }
+}
+@media (max-width: 699px) {
+  html[data-portfolio-page] .portfolio-hero-section {
+    padding-top: 128px;
+  }
+  html[data-portfolio-page] #nav-menu {
+    display: grid;
+    grid-template-columns: repeat(6, auto);
+    width: 100%;
+    gap: 0;
+  }
+  html[data-portfolio-page] #nav-menu > a {
+    justify-content: center;
+    padding-inline: var(--folio-space-1);
+  }
+  /* Keep settings alongside the wordmark, freeing a full row for readable links. */
+  html[data-portfolio-page] #nav-menu .dropdown {
+    position: absolute;
+    top: var(--folio-space-1);
+    right: var(--folio-gutter);
+  }
+  html[data-portfolio-page] .expertise-card {
+    padding: var(--folio-space-6);
+  }
+  html[data-portfolio-page] #contact article > img {
+    width: 10rem;
+    height: 11rem;
+    margin: 0 0 var(--folio-space-2) auto;
+  }
+  html[data-portfolio-page] #writing .writing-card .post-link {
+    display: flex;
+    flex-direction: column;
+  }
+  html[data-portfolio-page] #writing .post-image {
+    aspect-ratio: 16 / 9;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  html[data-portfolio-page] .expertise-card,
+  html[data-portfolio-page] #nav-menu > a {
+    transition: none;
+  }
+}

@@ -4,82 +4,110 @@ import AboutMe from "../components/AboutMe.astro"
 import Briefcase from "../components/icons/Briefcase.astro"
 import Lab from "../components/icons/Lab.astro"
 import CodeIcon from "../components/icons/Code.astro"
+import MailIcon from "../components/icons/Mail.astro"
+import SocialPill from "../components/SocialPill.astro"
 import Laboratory from "../components/Laboratory.astro"
 import Experience from "../components/Experience.astro"
-import ProfileCheck from "../components/icons/ProfileCheck.astro"
 import Projects from "../components/Projects.astro"
 import SectionContainer from "../components/SectionContainer.astro"
 import LatestWriting from "../components/LatestWriting.astro"
 import Hero from "../components/Hero.astro"
 import { getBlogPage, blogCacheControl } from '../services/blog';
 import type { BlogPostSummary } from '../types/blog';
-import { useTranslations } from '../i18n/utils';
-
-type tLang = (str: any) => any;
+import { ui } from '../i18n/ui';
+import '../styles/portfolio.css';
 
 const lang = Astro.url.searchParams.get("lang") === "es" ? "es" : "en";
-const t:tLang = useTranslations(lang);
+const content = ui[lang];
+const { sections } = content;
+const site = Astro.site || new URL('https://epilef.app/');
+const person = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  '@id': new URL('/#person', site).href,
+  name: 'Epilef Rodriguez',
+  url: site.href,
+  jobTitle: content.hero.title,
+  description: content.layouts.home.description,
+  homeLocation: { '@type': 'Country', name: 'Spain' },
+  email: content.footer.mail,
+  sameAs: ['https://linkedin.com/in/khanos', 'https://github.com/Khanos'],
+  knowsAbout: ['React', 'TypeScript', 'Node.js', 'API integrations', 'PostgreSQL', 'Frontend architecture', 'Software testing', 'AI-assisted development'],
+};
 let posts: BlogPostSummary[] = [];
 let writingUnavailable = false;
 try {
   posts = (await getBlogPage(lang, 1, 3, 'publishedAt')).data;
   Astro.response.headers.set('Cache-Control', blogCacheControl);
 } catch {
+  // The portfolio remains useful and indexable when the optional writing feed is down.
   writingUnavailable = true;
-  Astro.response.status = 503;
   Astro.response.headers.set('Cache-Control', 'no-store');
 }
 ---
 
-<Layout
-  title={t('layouts').home.title}
-  description={t('layouts').home.description}
->
-  <main class="px-4">
-    <SectionContainer id="home" class="pt-28 pb-16 md:pt-36 md:pb-24">
-      <Hero />
+<Layout title={content.layouts.home.title} description={content.layouts.home.description} language={lang} homepage>
+  <Fragment slot="head">
+    <link rel="alternate" hreflang="en" href={site.href} />
+    <link rel="alternate" hreflang="es" href={new URL('/?lang=es', site).href} />
+    <link rel="alternate" hreflang="x-default" href={site.href} />
+    <meta property="og:locale" content={lang === 'es' ? 'es_ES' : 'en_GB'} />
+    <meta property="og:locale:alternate" content={lang === 'es' ? 'en_GB' : 'es_ES'} />
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(person).replace(/</g, '\\u003c')} />
+  </Fragment>
+  <main id="main-content" tabindex="-1" class="portfolio-main">
+    <SectionContainer id="home" class="portfolio-hero-section">
+      <Hero lang={lang} />
     </SectionContainer>
-    <div class="space-y-16 md:space-y-24">
-      <LatestWriting lang={lang} posts={posts} unavailable={writingUnavailable} />
-      <SectionContainer id="lab">
-        <h2
-          class="flex items-center mb-3 text-3xl font-semibold gap-x-3 text-black/80 dark:text-white"
-        >
-          <Lab class="size-7 shrink-0 dark:fill-white" aria-hidden="true" />
-          {t('sections').lab.title}
-        </h2>
-        <p class="mb-6 max-w-2xl leading-relaxed text-gray-600 dark:text-gray-400">{t('sections').lab.label}</p>
-        <Laboratory lang={lang} />
+    <div class="portfolio-sections">
+      <SectionContainer id="projects">
+        <p class="section-kicker"><span>01 /</span> {lang === 'es' ? 'DEL PROBLEMA A PRODUCCIÓN' : 'FROM PROBLEM TO PRODUCTION'}</p>
+        <h2 class="section-title"><CodeIcon class="size-7 shrink-0" aria-hidden="true" />{sections.projects.title}</h2>
+        <p class="mb-8 max-w-2xl leading-relaxed text-gray-600 dark:text-gray-400">{sections.projects.intro}</p>
+        <Projects lang={lang} />
       </SectionContainer>
 
       <SectionContainer id="experience">
-        <h2
-          class="flex items-center mb-6 text-3xl font-semibold gap-x-3 text-black/80 dark:text-white"
-        >
-          <Briefcase class="size-7 shrink-0" aria-hidden="true" />
-          {t('sections').exp.title}
-        </h2>
-        <Experience />
+        <p class="section-kicker"><span>02 /</span> {lang === 'es' ? 'LA TRAYECTORIA' : 'THE TRACK RECORD'}</p>
+        <h2 class="section-title"><Briefcase class="size-7 shrink-0" aria-hidden="true" />{sections.exp.title}</h2>
+        <Experience lang={lang} />
       </SectionContainer>
 
-      <SectionContainer id="projects">
-        <h2
-          class="flex items-center mb-6 text-3xl font-semibold gap-x-3 text-black/80 dark:text-white"
-        >
-          <CodeIcon class="size-7 shrink-0" aria-hidden="true" />
-          {t('sections').projects.title}
-        </h2>
-        <Projects />
+      <SectionContainer id="expertise">
+        <p class="section-kicker"><span>03 /</span> {lang === 'es' ? 'CÓMO CONSTRUYO' : 'HOW I BUILD'}</p>
+        <h2 class="section-title"><CodeIcon class="size-7 shrink-0" aria-hidden="true" />{sections.expertise.title}</h2>
+        <div class="grid gap-4 sm:grid-cols-2">
+          {sections.expertise.groups.map((group, index) => <article class="expertise-card">
+            <span class="expertise-index" aria-hidden="true">0{index + 1}</span>
+            <h3 class="font-semibold text-gray-900 dark:text-white">{group.title}</h3>
+            <p class="mt-2 text-sm leading-relaxed text-gray-700 dark:text-gray-300">{group.detail}</p>
+          </article>)}
+        </div>
       </SectionContainer>
 
-      <SectionContainer id="about">
-        <h2
-          class="flex items-center mb-6 text-3xl font-semibold gap-x-3 text-black/80 dark:text-white"
-        >
-          <ProfileCheck class="size-7 shrink-0" aria-hidden="true" />
-          {t('sections').about.title}
-        </h2>
-        <AboutMe />
+      <SectionContainer id="lab">
+        <p class="section-kicker"><span>04 /</span> {lang === 'es' ? 'SIEMPRE CONSTRUYENDO' : 'ALWAYS BUILDING'}</p>
+        <h2 class="section-title"><Lab class="size-7 shrink-0 dark:fill-white" aria-hidden="true" />{sections.lab.title}</h2>
+        <p class="mb-6 max-w-2xl leading-relaxed text-gray-600 dark:text-gray-400">{sections.lab.label}</p>
+        <Laboratory lang={lang} />
+        <a class="profile-link" href="https://github.com/Khanos">{content.hero.pills.github} <span aria-hidden="true">↗</span></a>
+      </SectionContainer>
+
+      <LatestWriting lang={lang} posts={posts} unavailable={writingUnavailable} />
+
+      <SectionContainer id="contact">
+        <p class="section-kicker"><span>06 /</span> {lang === 'es' ? 'LA SIGUIENTE CONVERSACIÓN' : 'THE NEXT CONVERSATION'}</p>
+        <!-- Retain incoming links to the former About section. -->
+        <span id="about" class="block scroll-mt-28"></span>
+        <h2 class="section-title"><MailIcon class="size-7 shrink-0" aria-hidden="true" />{sections.contact.title}</h2>
+        <AboutMe lang={lang} />
+        <div class="mt-6 flex flex-wrap gap-3">
+          <SocialPill href={`mailto:${content.footer.mail}`}><MailIcon class="size-4" aria-hidden="true" />{content.hero.contact}</SocialPill>
+          <SocialPill href="https://linkedin.com/in/khanos">LinkedIn</SocialPill>
+          <SocialPill href="https://github.com/Khanos">GitHub</SocialPill>
+          <SocialPill href="https://www.hackerrank.com/profile/KhanosVe">HackerRank</SocialPill>
+          <SocialPill href="https://www.instagram.com/epilef.js/">Instagram</SocialPill>
+        </div>
       </SectionContainer>
     </div>
   </main>

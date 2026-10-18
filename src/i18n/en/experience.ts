@@ -1,75 +1,97 @@
-const exp = [
+import type { ProfessionalExperience } from '../../types';
+
+const exp: ProfessionalExperience[] = [
+  {
+    date: "October 2024 – Present",
+    title: "Full-Stack Software Engineer",
+    company: "Kenect",
+    group: "recent",
+    description: "Build and maintain features for Kenect’s customer communication platform, including SMS, email, and voice campaigns. Develop React and TypeScript interfaces, REST API integrations, and Node.js backend services. Contribute to frontend architecture, performance, automated testing, code reviews, and maintainable production workflows, collaborating with distributed product, design, and engineering teams.",
+    link: "https://www.kenect.com",
+    linkLabel: "Kenect website",
+    context: "Contract engagement through Jobsity",
+    current: true,
+  },
   {
     date: "2024",
     title: "Tech Lead",
-    company: "© 2024 Achieve.com.",
-    description:
-      "As a Tech Lead, I optimized the team's workflow, proactively solving challenges with strategic foresight to ensure our tech stack consistently met and exceeded standards. I led the development of the company’s top three landing pages, pivotal for driving CTAs, and enforced SOLID principles to maintain robust, high-quality code, complete with comprehensive unit testing and strong code coverage.",
+    company: "Achieve",
+    group: "recent",
+    description: "Led development of high-priority marketing landing pages for a US financial services platform, focusing on conversion-oriented experiences and maintainable frontend architecture. Improved engineering workflows and applied SOLID principles, code-quality practices, and unit testing to support reliable production delivery.",
     link: "https://www.achieve.com/",
+    linkLabel: "Achieve website",
   },
   {
     date: "2022 - 2023",
     title: "Software Engineer",
     company: "Mercado Libre S.L.R.",
-    description:
-      "As a software developer at MercadoLibre, I contributed to the dynamic and challenging MercadoShops project, enhancing the platform with innovative solutions. Being part of MercadoLibre went beyond contributing to e-commerce success; it meant impacting millions and fostering my professional and technical growth in an innovative and excellent environment.",
+    group: "recent",
+    description: "Developed and refined storefront customization features for MercadoShops, Mercado Libre’s e-commerce platform. Improved purchase-flow interfaces through metrics-informed analysis, React and Redux development, and UX iteration. Contributed to implementation, documentation, testing, and production deployment.",
     link: "https://www.mercadolibre.com/",
+    linkLabel: "Mercado Libre website",
   },
   {
     date: "2022",
     title: "Full Stack Engineer",
     company: "CENORA LLC.",
-    description:
-      "At Cenora, a startup revolutionizing content management, I developed a web scraper for a leading company, extracting and organizing data into templates. Additionally, contributed to the Microsites project, overseeing frontend, backend, and database aspects, ensuring effective creation and management of micro sites with advanced tracking capabilities.",
+    group: "recent",
+    description: "Developed web scraping solutions to extract and structure content for automated publishing workflows. Contributed to the Microsites content-management platform across frontend, backend, and database layers, including functionality for content organization and tracking.",
     link: "https://cenora.com/",
+    linkLabel: "CENORA website",
   },
   {
     date: "2021 - 2022",
     title: "Frontend Developer",
     company: "ITPex Studio LLC.",
-    description:
-      "Derfdice: A project I've worked on! 🎲 Simplifying creativity for Game Masters. Generate random items effortlessly, from names to mysterious taverns. With Derfdice, streamline creativity and focus on weaving an amazing story.",
+    group: "recent",
+    description: "Developed frontend features for DerfDice, a creative tool for tabletop game masters to generate characters, items, locations, and storytelling elements. Built responsive interfaces using Vue.js and JavaScript, focusing on intuitive UI/UX and integration with Node.js backend services.",
     link: "https://derfdice.com/#/Home",
+    linkLabel: "DerfDice project website",
   },
   {
     date: "2020 - 2021",
     title: "Full Stack Developer",
     company: "Calvary Robotics LLC.",
-    description:
-      "As a Software Engineer, I've played a key role in various projects, focusing on automating internal business processes. Leveraging Microsoft's ASP.Net for robust Backend development, I integrated it seamlessly with a dynamic JavaScript Frontend, all supported by a structured Microsoft SQL database. This holistic approach ensures efficient and streamlined solutions.",
-    link: "https://calvaryrobotics.com/",
+    group: "earlier",
+    description: "Developed internal business applications to automate operational workflows. Built and integrated ASP.NET backend functionality, JavaScript interfaces, and Microsoft SQL Server databases to support reliable business-process automation.",
+    link: "https://invioautomation.com/",
+    linkLabel: "Invio Automation website",
+    context: "Now part of Invio Automation",
   },
   {
     date: "2017 - 2021",
     title: "Full Stack Engineer",
     company: "Look At Me Ventures LLC.",
-    description:
-      "As a Full-Stack Web Developer at LookAtMe Ventures, I led the development of vital apps: Data-Collector, a NodeJs/Express server employing Test-Driven development for data aggregation from major marketing services, and I-BOARDS, tracking KPIs for digital marketing campaigns across diverse channels.",
+    group: "earlier",
+    description: "Built backend services and analytics tools for digital marketing operations. Developed Data-Collector using Node.js, Express, and test-driven development to aggregate advertising-platform data through third-party APIs, and contributed to I-BOARDS dashboards for tracking campaign performance and key business metrics.",
     link: "https://www.lookatme-ventures.com/",
+    linkLabel: "Look At Me Ventures website",
   },
   {
     date: "2016",
     title: "Full Stack Engineer",
     company: "MediaTrax LLC.",
-    description:
-      "At MediaTrax, LLC, a leading provider of wholesale online marketing services, I gained valuable insights into Digital Marketing. I spearheaded the implementation of OAuth for Google Ads, ensuring secure access to campaign data, and integrated Lightweight Directory Access Protocol (LDAP) via Okta for streamlined login processes.",
+    group: "earlier",
+    description: "Developed integrations supporting digital marketing analytics and secure access to campaign data. Implemented Google Ads OAuth authentication and integrated LDAP-based identity management through Okta.",
   },
   {
     date: "2016",
     title: "Frontend Developer",
     company: "MobyDev",
-    description:
-      "At ModyDev, a Panama-based startup facilitator, I contributed to diverse projects. Podiumbuzz utilized Angular and Django Rest Framework, while Cuchibox, a pet subscription service, employed React. Both projects ran in Dockerized environments with Agile methodologies.",
+    group: "earlier",
+    description: "Contributed to web applications including Podiumbuzz, built with Angular and Django REST Framework, and Cuchibox, a subscription-based e-commerce experience developed with React. Worked with Docker-based development environments and agile delivery practices.",
     link: "https://mobidev.biz/",
+    linkLabel: "MobiDev website",
   },
   {
     date: "2012 - 2016",
     title: "Software Engineer",
     company: "PDVSA Industrial, S.A.",
-    description:
-      "In software development, architecture is pivotal, dictating modifiability, maintainability, safety, and performance. At PDVSA Industrial, I played a key role in Rational Unified Process (RUP), guiding technology decisions, aiding time estimates, and orchestrating deployments. Amidst UML and documentation, I gained insights into project management, deployment, and more. Initially a Software Developer, I contributed to reliability projects, leveraging math and object-oriented programming with QooxDoo, Python, SqlAlchemy, and Postgres. Later, I crafted a calculation engine for probabilistic distributions and Montecarlo simulation using Python and R.",
+    group: "earlier",
+    description: "Developed reliability and forecasting software using Python, PostgreSQL, and object-oriented programming. Built a calculation engine for probabilistic distributions and Monte Carlo simulations, while contributing to software architecture, technical documentation, estimation, and deployment planning.",
     link: "http://www.pdvsa.com/index.php?option=com_content&view=article&id=46:pdvsa-industrial&catid=10:noticias&Itemid=589&lang=es",
-  }
+    linkLabel: "PDVSA Industrial company page",
+  },
 ];
 
 export default exp;
