@@ -1,34 +1,48 @@
 ---
-import Layout from "../layouts/Layout.astro";
-import SectionContainer from "../components/SectionContainer.astro";
-import BlogList from "../components/BlogList.astro";
-import { getBlogPage, blogCacheControl } from "../services/blog";
-import { useTranslations } from '../i18n/utils';
-
-type tLang = (str: any) => any;
-
-const lang = Astro.url.searchParams.get("lang") === "es" ? "es" : "en";
-const t:tLang = useTranslations(lang);
+import Layout from '../layouts/Layout.astro';
+import BlogList from '../components/BlogList.astro';
+import { getBlogPage, blogCacheControl } from '../services/blog';
+import { ui } from '../i18n/ui';
+const lang = Astro.url.searchParams.get('lang') === 'es' ? 'es' : 'en';
+const labels = ui[lang];
 const pageParam = Astro.url.searchParams.get('page') || '1';
 if (!/^[1-9]\d*$/.test(pageParam) || Number(pageParam) > 1000) return new Response('Invalid page', { status: 400 });
 const page = Number(pageParam);
 let result;
-try { result = await getBlogPage(lang, page); }
+try { result = await getBlogPage(lang, page, 25, 'publishedAt'); }
 catch { return new Response(lang === 'es' ? 'Los artículos no están disponibles temporalmente.' : 'Articles are temporarily unavailable.', { status: 503, headers: { 'Cache-Control': 'no-store' } }); }
 Astro.response.headers.set('Cache-Control', blogCacheControl);
+const site = Astro.site || Astro.url.origin;
+const pageLabel = lang === 'es' ? 'Página' : 'Page';
+const description = `${labels.layouts.blog.description}${page > 1 ? ` ${pageLabel} ${page}.` : ''}`;
+const title = `${labels.layouts.blog.title}${page > 1 ? ` · ${pageLabel} ${page}` : ''}`;
+const alternate = (language: string) => {
+  const url = new URL('/blog', site);
+  if (language === 'es') url.searchParams.set('lang', 'es');
+  if (page > 1) url.searchParams.set('page', String(page));
+  return url.href;
+};
 ---
-
-<Layout
-  title={t('layouts').blog.title}
-  description={t('layouts').blog.description}
->
-  <main class="px-4">
-    <SectionContainer id="blog" class="py-16 md:py-36">
-      <BlogList posts={result.data} />
-      {result.pagination.pages > 1 && <nav class="mt-10 flex justify-between" aria-label={lang === 'es' ? 'Páginas del blog' : 'Blog pages'}>
-        {page > 1 && <a href={`/blog?lang=${lang}&page=${page - 1}`}>{lang === 'es' ? 'Anterior' : 'Previous'}</a>}
-        {page < result.pagination.pages && <a href={`/blog?lang=${lang}&page=${page + 1}`}>{lang === 'es' ? 'Siguiente' : 'Next'}</a>}
+<Layout title={title} description={description} language={lang} writing>
+  <Fragment slot="head">
+    <link rel="alternate" hreflang="en" href={alternate('en')} />
+    <link rel="alternate" hreflang="es" href={alternate('es')} />
+    <link rel="alternate" hreflang="x-default" href={alternate('en')} />
+    <meta property="og:locale" content={lang === 'es' ? 'es_ES' : 'en_GB'} />
+  </Fragment>
+  <main id="main-content" tabindex="-1" class="portfolio-main journal-main">
+    <div id="blog" class="journal-container">
+      <header class="journal-heading">
+        <p class="section-kicker"><span>05 /</span> {lang === 'es' ? 'NOTAS DE CAMPO' : 'NOTES FROM THE FIELD'}</p>
+        <h1>{labels.nav.writing.title}</h1>
+        <p class="journal-intro">{labels.layouts.blog.description}</p>
+      </header>
+      {result.data.length ? <BlogList posts={result.data} featureLatest={page === 1} /> : <p class="journal-empty">{labels.sections.writing.empty}</p>}
+      {result.pagination.pages > 1 && <nav class="journal-pagination" aria-label={lang === 'es' ? 'Páginas del blog' : 'Blog pages'}>
+        {page > 1 ? <a class="journal-link" rel="prev" href={`/blog?lang=${lang}&page=${page - 1}`}>← {lang === 'es' ? 'Anterior' : 'Previous'}</a> : <span />}
+        <span>{pageLabel} {page} / {result.pagination.pages}</span>
+        {page < result.pagination.pages && <a class="journal-link" rel="next" href={`/blog?lang=${lang}&page=${page + 1}`}>{lang === 'es' ? 'Siguiente' : 'Next'} →</a>}
       </nav>}
-    </SectionContainer>
+    </div>
   </main>
 </Layout>

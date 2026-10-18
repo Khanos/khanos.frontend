@@ -24,7 +24,20 @@ export async function startApiFixture() {
     const reply = (status, value) => { res.statusCode = status; res.end(JSON.stringify(value)); };
     const error = (status) => reply(status, { error: 'Fixture request failed', code: 'FIXTURE_FAILURE' });
     if (url.pathname === '/__reset') { reset(); return reply(200, {}); }
-    if (url.pathname === '/__mode') { mode = url.searchParams.get('value'); return reply(200, {}); }
+    if (url.pathname === '/__mode') {
+      mode = url.searchParams.get('value');
+      if (mode === 'blog-editorial') {
+        posts = posts.map(post => ({ ...post,
+          title: `${post.language === 'es' ? 'Arquitectura frontend: decisiones para sistemas que crecen' : 'Frontend architecture: decisions for systems that grow'}`,
+          excerpt: post.language === 'es' ? 'Notas prácticas sobre interfaces, límites y herramientas para construir software mantenible.' : 'Practical notes on interfaces, boundaries, and tools for building maintainable software.',
+          content: '# A field note\n\nA **useful** article with an [accessible link](https://example.com).\n\n## Architecture in practice\n\nReadable paragraphs make room for careful thinking.\n\n### A smaller interface\n\n- Keep ownership clear.\n- Prefer simple boundaries.\n\n> A useful constraint makes the next decision easier.\n\nUse `const` for a binding.\n\n```javascript\nconst example = "A deliberately long line for local scrolling: ' + 'architecture '.repeat(30) + '";\n```\n\n| Decision | Context | Tradeoff | Outcome |\n| --- | --- | --- | --- |\n| Shared components | Consistent interface | Local ownership | Readable software |\n\n![A system diagram](/blog-assets/images/test.jpg)',
+        }));
+      }
+      if (mode === 'blog-many') posts = Array.from({ length: 28 }, (_, index) => ({ ...blogPosts[0], id: (index + 100).toString(16).padStart(24, '0'), slug: `en/note-${index + 1}`, title: `Note ${index + 1}` }));
+      if (mode === 'blog-empty') posts = [];
+      if (mode === 'blog-minimal') posts = posts.map(post => ({ ...post, coverImage: '', categories: [], author: '', anonymous: true, excerpt: '' }));
+      return reply(200, {});
+    }
     if (url.pathname === '/__stats') return reply(200, { calls });
     calls++;
     if (url.pathname.startsWith('/blog-assets/')) {

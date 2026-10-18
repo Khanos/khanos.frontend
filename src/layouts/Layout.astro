@@ -1,5 +1,7 @@
 ---
 import "@fontsource-variable/onest"
+import "../styles/portfolio.css"
+import "../styles/blog-editorial.css"
 
 import Header from "../components/Header.astro"
 import Footer from "../components/Footer.astro"
@@ -12,23 +14,30 @@ interface Props {
   title: string
   description: string
   anonymous?: boolean
+  authorName?: string
   ownerPage?: boolean
   article?: boolean
   language?: string
   socialImage?: string
   homepage?: boolean
+  writing?: boolean
 }
 
-const { description, title, anonymous = false, ownerPage = false, article = false, language, socialImage = '/img/logo-v2.png', homepage = false } = Astro.props;
+const { description, title, anonymous = false, authorName = 'Epilef Rodriguez', ownerPage = false, article = false, language, socialImage = '/img/logo-v2.png', homepage = false, writing = false } = Astro.props;
 const lang = (language || Astro.url.searchParams.get('lang')) === 'es' ? 'es' : 'en';
 setDefaultLang(lang);
 const canonicalUrl = new URL(Astro.url.pathname, Astro.site || Astro.url.origin);
-if (homepage && lang === 'es') canonicalUrl.searchParams.set('lang', 'es');
+const portfolio = homepage || writing;
+if ((homepage || (writing && !article)) && lang === 'es') canonicalUrl.searchParams.set('lang', 'es');
+if (writing && !article) {
+  const page = Astro.url.searchParams.get('page');
+  if (page && /^[1-9]\d*$/.test(page) && Number(page) > 1) canonicalUrl.searchParams.set('page', String(Number(page)));
+}
 const canonical = canonicalUrl.href;
 const socialImageUrl = new URL(socialImage, Astro.site || Astro.url.origin).href;
 ---
 <!doctype html>
-<html lang={lang} class={homepage ? 'dark' : undefined} data-portfolio-page={homepage ? 'true' : undefined} data-owner-page={ownerPage ? 'true' : undefined}>
+<html lang={lang} class={portfolio ? 'dark' : undefined} data-portfolio-page={portfolio ? 'true' : undefined} data-owner-page={ownerPage ? 'true' : undefined}>
   <head>
     <meta charset="UTF-8" />
     <meta name="description" content={description} />
@@ -44,7 +53,7 @@ const socialImageUrl = new URL(socialImage, Astro.site || Astro.url.origin).href
 
     <!-- Primary Meta Tags -->
     <title>{title}</title>
-    {!anonymous && <meta name="author" content="Epilef Rodriguez" />}
+    {!anonymous && authorName && <meta name="author" content={authorName} />}
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content={(article || anonymous) ? "article" : "website"}>
@@ -113,8 +122,8 @@ const socialImageUrl = new URL(socialImage, Astro.site || Astro.url.origin).href
       dark:bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,#2B2B2B,rgba(255,255,255,0))]"
     >
     </div>
-    {homepage && <a class="skip-link" href="#main-content">{ui[lang].sections.contact.skip}</a>}
-    <Header lang={lang} homepage={homepage} />
+    {portfolio && <a class="skip-link" href="#main-content">{ui[lang].sections.contact.skip}</a>}
+    <Header lang={lang} homepage={portfolio} writing={writing} />
     <slot />
     <Footer />
     <!-- Google Tag Manager (noscript) -->

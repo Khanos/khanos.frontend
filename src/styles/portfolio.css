@@ -1,4 +1,4 @@
-/* Homepage scope preserves the existing themes on tools and articles. */
+/* Shared portfolio identity. Opt in through Layout for the homepage and Writing. */
 html[data-portfolio-page] {
   --folio-bg: #eeede7;
   --folio-surface: #e6e4dc;
@@ -278,7 +278,7 @@ html[data-portfolio-page] input:focus-visible {
   outline-offset: 4px;
 }
 
-/* Lab and writing share the homepage scale; their standalone routes keep theirs. */
+/* Homepage Lab and Writing previews share the portfolio scale. */
 html[data-portfolio-page] #lab .experiment,
 html[data-portfolio-page] #writing .writing-card {
   border-radius: 3px;
@@ -458,6 +458,8 @@ html[data-portfolio-page] #nav-menu a:focus-visible {
   border-radius: 0;
 }
 html[data-portfolio-page] #nav-menu .dropdown-menu {
+  left: auto;
+  right: 0;
   font-size: var(--folio-text-support);
   color: var(--folio-text);
   background: var(--folio-surface);

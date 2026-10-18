@@ -55,7 +55,7 @@ const ConfigMenu = (props: ConfigMenuProps) => {
       document.documentElement.classList[storedTheme === 'dark' ? "add" : "remove"]("dark")
     }
     if(!language) {
-      setLanguage(localStorage.getItem('lang') || lang);
+      setLanguage(lang);
     }
   }, [theme, language]);
 

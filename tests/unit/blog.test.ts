@@ -32,7 +32,7 @@ it('renders Markdown, tables and details while preventing HTML, URL and CSS inje
   const html = renderBlog('# Heading\n\n**Bold** [Bad](javascript:alert(1))\n\n| A | B |\n| - | - |\n| 1 | 2 |\n\n<details><summary>Sources</summary>Safe</details>\n\n<script>alert(1)</script><iframe src="https://evil.example"></iframe><svg onload="alert(1)"></svg><img src="javascript:alert(1)" onerror="alert(1)"><span style="background:url(javascript:alert(1));position:fixed;width:50%">safe</span>');
   expect(html).toContain('<h1>Heading</h1>');
   expect(html).toContain('<strong>Bold</strong>');
-  expect(html).toContain('<table>');
+  expect(html).toContain('<table tabindex="0">');
   expect(html).toContain('<details><summary>Sources</summary>Safe</details>');
   expect(html).not.toMatch(/<script|<iframe|<svg|onerror|(?:href|src)="javascript:|position:|background:/);
 });
@@ -51,4 +51,17 @@ it('resolves backend asset URLs and blocks unsafe image sources', () => {
   expect(blogAsset('javascript:alert(1)')).toBe('');
   expect(renderBlog('![Cover](/blog-assets/images/test.jpg)')).toContain('https://khanos-backend.herokuapp.com/blog-assets/images/test.jpg');
   expect(renderBlog('<img src="http://external.example/a.jpg">')).not.toContain('external.example');
+});
+
+it('keeps the article title as the only H1 and renders safe, highlighted code with keyboard scrolling', () => {
+  const content = '# Intro\n\n## Section\n\n### Detail\n\n<h1>HTML heading</h1>\n\n```javascript\nconst value = "<script>bad()</script>";\n```\n\n```unknown-language\n<img onerror=alert(1)>\n```';
+  const html = renderBlog(content, { article: true });
+  expect(html).not.toContain('<h1');
+  expect(html).toContain('<h2>Intro</h2>');
+  expect(html).toContain('<h2>HTML heading</h2>');
+  expect(html).toContain('hljs-keyword');
+  expect(html).toContain('tabindex="0"');
+  expect(html).toContain('&lt;script&gt;');
+  expect(html).not.toMatch(/<script|<img|style=/);
+  expect(renderBlog('# Preview')).toContain('<h1>Preview</h1>');
 });

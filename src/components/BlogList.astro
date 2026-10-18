@@ -1,17 +1,10 @@
 ---
-import type { BlogPostSummary } from "../types/blog"
-
-import Post from "./Post.astro"
-
-type Props = {
-    posts: BlogPostSummary[]
-}
-
-const { posts } = Astro.props
+import type { BlogPostSummary } from '../types/blog';
+import Post from './Post.astro';
+interface Props { posts: BlogPostSummary[]; featureLatest?: boolean; heading?: 'h2' | 'h3' }
+const { posts, featureLatest = false, heading = 'h2' } = Astro.props;
+const [featured, ...remaining] = posts;
+const grid = featureLatest ? remaining : posts;
 ---
-
-<div
-    class="grid grid-cols-2 gap-x-16 gap-y-16 max-md:grid-cols-1 max-sm:gap-y-14"
->
-    {posts.map(post => <Post post={post} />)}
-</div>
+{featureLatest && featured && <Post post={featured} featured />}
+{grid.length > 0 && <div class="journal-grid">{grid.map(post => <Post post={post} heading={heading} />)}</div>}

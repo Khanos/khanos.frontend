@@ -1,0 +1,13 @@
+---
+import type { BlogPostSummary } from '../types/blog';
+import { ui } from '../i18n/ui';
+interface Props { post: BlogPostSummary; author?: boolean }
+const { post, author = false } = Astro.props;
+const date = new Date(post.publishedAt!);
+---
+<div class="journal-metadata">
+  {post.categories.map(category => <span class="journal-category">{category.replace(/-/g, ' ')}</span>)}
+  <time datetime={date.toISOString()}>{post.displayDate || new Intl.DateTimeFormat(post.language, { month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC' }).format(date)}</time>
+  {post.readingMinutes > 0 && <span>{post.readingMinutes} {ui[post.language].sections.writing.readingTime}</span>}
+  {author && !post.anonymous && post.author && <span>{post.author}</span>}
+</div>
