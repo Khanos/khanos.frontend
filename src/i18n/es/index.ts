@@ -139,9 +139,10 @@ const es =  {
     exp: {
       title: 'Experiencia profesional',
       label: 'experiencia',
-      linkLabel: 'Web de la empresa',
-      current: 'Mi trabajo actual abarca ingeniería full-stack para equipos internacionales: React, TypeScript, Node.js, integraciones de APIs, aplicaciones en producción y flujos de desarrollo asistidos por IA.',
-      history: 'Trayectoria seleccionada',
+      current: 'Más de una década construyendo software en producción para SaaS, comercio electrónico, servicios financieros, tecnología de marketing y sistemas industriales. Mi experiencia abarca arquitectura frontend, desarrollo backend, integraciones de APIs y liderazgo técnico en equipos internacionales.',
+      recent: 'Experiencia reciente',
+      earlier: 'Experiencia anterior',
+      currentRole: 'Puesto actual',
     },
     projects: {
       title: 'Proyectos de ingeniería destacados',

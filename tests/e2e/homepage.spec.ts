@@ -333,7 +333,7 @@ for (const lang of ['en', 'es']) {
       expect(person.sameAs).toContain('https://github.com/Khanos');
       await expect(page.locator('#projects article')).toHaveCount(2);
       await expect(page.locator('#projects dt')).toHaveCount(6);
-      await expect(page.locator('#experience li')).toHaveCount(9);
+      await expect(page.locator('#experience li')).toHaveCount(10);
       await expect(page.locator('#experience')).toContainText('Achieve');
       await expect(page.locator('#experience')).toContainText('2022 - 2023');
       await expect(page.locator('#expertise')).toContainText('PostgreSQL');

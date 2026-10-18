@@ -30,9 +30,11 @@ anchors remain, and `#about` is retained as an alias inside Contact.
 - User-provided professional context supports the senior title, Spain location,
   international/distributed collaboration, React/TypeScript/Node.js specialization,
   production work, and AI-assisted workflows.
-- Existing English/Spanish experience records support the role history. Dates are
-  unchanged; the latest dated record remains Achieve in 2024. Present professional
-  focus is described separately without inventing an employer, arrangement or date.
+- Existing English/Spanish experience records support the role history. Historical
+  dates remain unchanged. Kenect is now the first role, dated
+  October 2024–Present from the owner’s explicit confirmation; Jobsity is described
+  as the contract engagement rather than a second inferred employment timeline.
+  See [Experience audit](experience-audit.md) for the source and link checks.
 - The existing biography and MercadoShops project record support storefront
   customization, purchase-flow work, metrics analysis and implementation through
   deployment. The case study describes delivered work without conversion claims.
@@ -55,7 +57,8 @@ anchors remain, and `#about` is retained as an alias inside Contact.
 No résumé asset or URL was found in the repository’s assets, public files,
 translated content or documentation. The homepage uses the existing email action,
 engineering-work link, LinkedIn and GitHub. Add “View Résumé” when a real URL is
-provided. Confirm any roles or dates after 2024 before extending the role history.
+provided. Kenect’s assignment start date has since been confirmed by the owner;
+see [Experience audit](experience-audit.md) for remaining historical link checks.
 
 ## Changed files
 

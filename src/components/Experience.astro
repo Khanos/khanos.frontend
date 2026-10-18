@@ -1,32 +1,28 @@
 ---
-import ExperienceItem from "./ExperienceItem.astro"
-import { getLang, useTranslations } from '../i18n/utils';
-
-type tLang = (str: any) => any;
+import ExperienceItem from './ExperienceItem.astro';
+import { getLang } from '../i18n/utils';
+import { ui } from '../i18n/ui';
 
 interface Props { lang?: 'en' | 'es' }
 const { lang = getLang() } = Astro.props;
-const t:tLang = useTranslations(lang);
-
-type Experience = {
-  title: string;
-  company: string;
-  date: string;
-  description: string;
-  link?: string;
-}
-
-const EXP: Experience[] = t('experience');
+const content = ui[lang];
+const labels = content.sections.exp;
+const groups = [
+  { id: 'recent', title: labels.recent },
+  { id: 'earlier', title: labels.earlier },
+] as const;
 ---
 
-<p class="max-w-3xl leading-relaxed text-gray-700 dark:text-gray-300">{t('sections').exp.current}</p>
-<p class="mt-6 text-sm font-mono text-gray-600 dark:text-gray-400">{t('sections').exp.history}</p>
-<ol class="relative mt-8">
-  {
-    EXP.map((experience) => (
-      <li class="">
-        <ExperienceItem {...experience} lang={lang} />
-      </li>
-    ))
-  }
-</ol>
+<p class="experience-intro">{labels.current}</p>
+{groups.map(group => (
+  <div class:list={['experience-group', `experience-${group.id}`]} role="group" aria-labelledby={`experience-${group.id}`}>
+    <h3 id={`experience-${group.id}`} class="experience-group-title">{group.title}</h3>
+    <ol class="experience-list">
+      {content.experience.filter(experience => experience.group === group.id).map(experience => (
+        <li>
+          <ExperienceItem {...experience} lang={lang} />
+        </li>
+      ))}
+    </ol>
+  </div>
+))}

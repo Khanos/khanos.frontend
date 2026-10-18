@@ -126,7 +126,6 @@ html[data-portfolio-page] #writing h2 > svg {
   display: none;
 }
 html[data-portfolio-page] #projects > p:not(.section-kicker),
-html[data-portfolio-page] #experience > p:not(.section-kicker),
 html[data-portfolio-page] #lab > p:not(.section-kicker),
 html[data-portfolio-page] #writing .writing-header p {
   max-width: 70ch;
@@ -166,46 +165,95 @@ html[data-portfolio-page] .expertise-card p {
   font-size: var(--folio-text-body);
   line-height: var(--folio-leading-body);
 }
-html[data-portfolio-page] #experience ol {
+/* Experience uses the shared scale, with a compact but fully visible earlier group. */
+html[data-portfolio-page] #experience .experience-intro {
+  max-width: 70ch;
+  color: var(--folio-secondary);
+  font-size: var(--folio-text-body);
+  line-height: var(--folio-leading-body);
+}
+html[data-portfolio-page] .experience-group {
   margin-top: var(--folio-space-8);
 }
-html[data-portfolio-page] #experience li > div {
-  margin: 0;
-  padding: var(--folio-space-7) 0;
+html[data-portfolio-page] .experience-group-title {
+  margin-bottom: var(--folio-space-6);
+  color: var(--folio-text);
+  font-size: var(--folio-text-subtitle);
+  font-weight: 600;
+  line-height: 1.35;
+  letter-spacing: var(--folio-tracking-heading);
+}
+html[data-portfolio-page] .experience-entry {
+  display: grid;
+  gap: var(--folio-space-5);
+  padding-block: var(--folio-space-7);
   border-top: 1px solid var(--folio-line);
 }
-html[data-portfolio-page] #experience li > div::before,
-html[data-portfolio-page] #experience li span.rounded-full {
-  display: none;
+html[data-portfolio-page] .experience-identity,
+html[data-portfolio-page] .experience-contribution {
+  min-width: 0;
 }
-html[data-portfolio-page] #experience li h3 {
+html[data-portfolio-page] .experience-role {
   color: var(--folio-text);
   font-size: var(--folio-text-subtitle);
   font-weight: 550;
   letter-spacing: var(--folio-tracking-heading);
   line-height: 1.35;
 }
-html[data-portfolio-page] #experience li h3 + p {
-  color: var(--folio-secondary);
-  font-size: var(--folio-text-body);
+html[data-portfolio-page] .experience-company {
   margin-top: var(--folio-space-2);
+  color: var(--folio-text);
+  font-size: var(--folio-text-body);
+  font-weight: 550;
 }
-html[data-portfolio-page] #experience a {
-  min-height: 44px;
+html[data-portfolio-page] .experience-context {
+  margin-top: var(--folio-space-2);
+  color: var(--folio-secondary);
   font-size: var(--folio-text-support);
-  color: var(--folio-accent);
+  line-height: var(--folio-leading-body);
 }
-html[data-portfolio-page] #experience time {
-  display: block;
-  color: var(--folio-accent);
-  font-size: var(--folio-text-support);
+html[data-portfolio-page] .experience-date {
   margin-top: var(--folio-space-3);
+  color: var(--folio-accent);
+  font-size: var(--folio-text-support);
 }
-html[data-portfolio-page] #experience li > div > div:last-child {
+html[data-portfolio-page] .experience-contribution > p {
+  max-width: 70ch;
   color: var(--folio-secondary);
   font-size: var(--folio-text-body);
   line-height: var(--folio-leading-body);
-  max-width: 70ch;
+}
+html[data-portfolio-page] .experience-link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--folio-space-3);
+  min-height: 44px;
+  margin-top: var(--folio-space-2);
+  color: var(--folio-accent);
+  font-size: var(--folio-text-support);
+  text-decoration: underline;
+  text-underline-offset: 0.3em;
+  overflow-wrap: anywhere;
+}
+html[data-portfolio-page] .experience-link:hover {
+  color: var(--folio-text);
+}
+html[data-portfolio-page] .experience-current {
+  padding: var(--folio-space-7);
+  border: 1px solid var(--folio-line);
+  border-left: 3px solid var(--folio-accent);
+  background: var(--folio-surface);
+}
+html[data-portfolio-page] .experience-status {
+  margin-bottom: var(--folio-space-4);
+  color: var(--folio-accent);
+  font: var(--folio-text-meta)/1.5 var(--folio-mono);
+}
+html[data-portfolio-page] .experience-current .experience-role {
+  font-size: var(--folio-text-project);
+}
+html[data-portfolio-page] .experience-earlier .experience-entry {
+  padding-block: var(--folio-space-5);
 }
 html[data-portfolio-page] .profile-link {
   display: inline-flex;
@@ -427,12 +475,9 @@ html[data-portfolio-page]
   outline-offset: 3px;
 }
 @media (min-width: 900px) {
-  html[data-portfolio-page] #experience li > div {
+  html[data-portfolio-page] .experience-entry {
     grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr);
     gap: var(--folio-space-8);
-  }
-  html[data-portfolio-page] #experience li > div > div {
-    grid-column: auto;
   }
 }
 @media (max-width: 999px) {
@@ -474,9 +519,6 @@ html[data-portfolio-page]
   }
   html[data-portfolio-page] .expertise-card {
     padding: var(--folio-space-6);
-  }
-  html[data-portfolio-page] #experience li > div {
-    display: block;
   }
   html[data-portfolio-page] #contact article > img {
     width: 10rem;

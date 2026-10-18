@@ -1,75 +1,97 @@
-const exp = [
+import type { ProfessionalExperience } from '../../types';
+
+const exp: ProfessionalExperience[] = [
+  {
+    date: "Octubre de 2024 – Actualidad",
+    title: "Ingeniero de Software Full-Stack",
+    company: "Kenect",
+    group: "recent",
+    description: "Desarrollo funcionalidades para la plataforma de comunicación con clientes de Kenect, incluidas campañas por SMS, correo y voz. Construyo interfaces con React y TypeScript, integraciones de APIs REST y servicios Node.js. Contribuyo a la arquitectura frontend, rendimiento, pruebas automatizadas, revisiones de código y flujos mantenibles de producción con equipos distribuidos de producto, diseño e ingeniería.",
+    link: "https://www.kenect.com",
+    linkLabel: "Web de Kenect",
+    context: "Colaboración contractual a través de Jobsity",
+    current: true,
+  },
   {
     date: "2024",
     title: "Líder Técnico",
     company: "Achieve",
-    description:
-      "Lideré el desarrollo de páginas de destino en Achieve, mejoré los flujos de trabajo del equipo y apliqué principios SOLID y pruebas unitarias para mantener la calidad del código.",
+    group: "recent",
+    description: "Lideré el desarrollo de páginas de marketing prioritarias para una plataforma estadounidense de servicios financieros, con foco en la conversión y una arquitectura frontend mantenible. Mejoré los procesos de ingeniería y apliqué principios SOLID, prácticas de calidad de código y pruebas unitarias para respaldar entregas fiables a producción.",
     link: "https://www.achieve.com/",
+    linkLabel: "Web de Achieve",
   },
   {
     date: "2022 - 2023",
     title: "Ingeniero de Software",
     company: "Mercado Libre S.L.R.",
-    description:
-      "Contribuí a las plantillas de tiendas de MercadoShops y las interfaces del flujo de compra de MercadoLibre. Trabajé con React, Redux, Node.js, Express, Sass y Jest, apoyando la implementación y el despliegue en análisis de métricas y documentación.",
+    group: "recent",
+    description: "Desarrollé y refiné funciones de personalización de tiendas para MercadoShops, la plataforma de comercio electrónico de Mercado Libre. Mejoré interfaces del flujo de compra mediante análisis de métricas, desarrollo con React y Redux e iteraciones de UX. Contribuí a la implementación, documentación, pruebas y despliegue en producción.",
     link: "https://www.mercadolibre.com/",
+    linkLabel: "Web de Mercado Libre",
   },
   {
     date: "2022",
     title: "Ingeniero Full Stack",
     company: "CENORA LLC.",
-    description:
-      "Desarrollé un scraper web para recopilar y organizar datos en plantillas. Contribuí al frontend, backend y base de datos del proyecto de gestión de contenidos Microsites, incluidas funciones de seguimiento.",
+    group: "recent",
+    description: "Desarrollé soluciones de extracción web para obtener y estructurar contenidos destinados a flujos de publicación automatizados. Contribuí a la plataforma de gestión de contenidos Microsites en las capas de frontend, backend y base de datos, incluidas funciones de organización y seguimiento de contenidos.",
     link: "https://cenora.com/",
+    linkLabel: "Web de CENORA",
   },
   {
     date: "2021 - 2022",
     title: "Desarrollador Frontend",
     company: "ITPex Studio LLC.",
-    description:
-      "Lideré el desarrollo frontend de DerfDice, una herramienta para que Game Masters generen nombres, objetos y elementos narrativos. Me enfoqué en UI/UX y una interfaz minimalista; el proyecto utilizaba Vue, Node.js y Express.",
+    group: "recent",
+    description: "Desarrollé funciones frontend para DerfDice, una herramienta creativa que permite generar personajes, objetos, lugares y elementos narrativos para juegos de rol. Construí interfaces adaptables con Vue.js y JavaScript, con foco en una UI/UX intuitiva y la integración con servicios backend Node.js.",
     link: "https://derfdice.com/#/Home",
+    linkLabel: "Web del proyecto DerfDice",
   },
   {
     date: "2020 - 2021",
     title: "Desarrollador Full Stack",
     company: "Calvary Robotics LLC.",
-    description:
-      "Desarrollé aplicaciones para automatizar procesos internos, integrando un backend ASP.NET, un frontend JavaScript y una base de datos Microsoft SQL.",
-    link: "https://calvaryrobotics.com/",
+    group: "earlier",
+    description: "Desarrollé aplicaciones internas para automatizar procesos operativos. Construí e integré funcionalidad backend con ASP.NET, interfaces JavaScript y bases de datos Microsoft SQL Server para respaldar una automatización fiable de los procesos de negocio.",
+    link: "https://invioautomation.com/",
+    linkLabel: "Web de Invio Automation",
+    context: "Actualmente forma parte de Invio Automation",
   },
   {
     date: "2017 - 2021",
     title: "Ingeniero Full Stack",
     company: "Look At Me Ventures LLC.",
-    description:
-      "Lideré el desarrollo de Data-Collector e I-BOARDS. Utilicé Node.js, Express, desarrollo guiado por pruebas, tareas asíncronas y almacenamiento SQL para agregar datos de marketing y presentar KPIs de campañas.",
+    group: "earlier",
+    description: "Construí servicios backend y herramientas de análisis para operaciones de marketing digital. Desarrollé Data-Collector con Node.js, Express y desarrollo guiado por pruebas para agregar datos publicitarios mediante APIs de terceros, y contribuí a los paneles I-BOARDS para consultar el rendimiento de campañas y métricas clave.",
     link: "https://www.lookatme-ventures.com/",
+    linkLabel: "Web de Look At Me Ventures",
   },
   {
     date: "2016",
     title: "Ingeniero Full Stack",
     company: "MediaTrax LLC.",
-    description:
-      "Implementé OAuth para acceder a datos de campañas de Google Ads e integré LDAP mediante Okta para la autenticación.",
+    group: "earlier",
+    description: "Desarrollé integraciones para análisis de marketing digital y acceso seguro a datos de campañas. Implementé autenticación OAuth para Google Ads e integré la gestión de identidades basada en LDAP mediante Okta.",
   },
   {
     date: "2016",
     title: "Desarrollador Frontend",
     company: "MobyDev",
-    description:
-      "Contribuí a Podiumbuzz con Angular y Django REST Framework, y a Cuchibox con React. Trabajé en entornos Docker con prácticas de desarrollo ágil.",
+    group: "earlier",
+    description: "Contribuí a aplicaciones web como Podiumbuzz, desarrollada con Angular y Django REST Framework, y Cuchibox, una experiencia de comercio electrónico por suscripción construida con React. Trabajé con entornos de desarrollo basados en Docker y prácticas de entrega ágil.",
     link: "https://mobidev.biz/",
+    linkLabel: "Web de MobiDev",
   },
   {
     date: "2012 - 2016",
     title: "Ingeniero de Software",
     company: "PDVSA Industrial, S.A.",
-    description:
-      "Contribuí a aplicaciones de fiabilidad con QooxDoo, Python, SQLAlchemy y PostgreSQL. Construí un motor de cálculo de distribuciones probabilísticas y simulación de Monte Carlo con Python y R, y participé en decisiones tecnológicas, estimación, documentación y despliegues.",
+    group: "earlier",
+    description: "Desarrollé software de fiabilidad y previsión con Python, PostgreSQL y programación orientada a objetos. Construí un motor de cálculo de distribuciones probabilísticas y simulaciones de Monte Carlo, y contribuí a la arquitectura, documentación técnica, estimación y planificación de despliegues.",
     link: "http://www.pdvsa.com/index.php?option=com_content&view=article&id=46:pdvsa-industrial&catid=10:noticias&Itemid=589&lang=es",
-  }
+    linkLabel: "Página de PDVSA Industrial",
+  },
 ];
 
 export default exp;

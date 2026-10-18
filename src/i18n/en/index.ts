@@ -135,9 +135,10 @@ const en =  {
     exp: {
       title: 'Professional Experience',
       label: 'experience',
-      linkLabel: 'Company website',
-      current: 'My work today spans full-stack engineering for international teams: React, TypeScript, Node.js, API integrations, production applications, and AI-assisted developer workflows.',
-      history: 'Selected roles',
+      current: 'Over a decade of building production software across SaaS, e-commerce, fintech, marketing technology, and industrial systems. My experience spans frontend architecture, backend development, API integrations, and technical leadership across international teams.',
+      recent: 'Recent Experience',
+      earlier: 'Earlier Experience',
+      currentRole: 'Current position',
     },
     projects: {
       title: 'Featured Engineering Work',

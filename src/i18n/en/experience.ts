@@ -1,75 +1,97 @@
-const exp = [
+import type { ProfessionalExperience } from '../../types';
+
+const exp: ProfessionalExperience[] = [
+  {
+    date: "October 2024 – Present",
+    title: "Full-Stack Software Engineer",
+    company: "Kenect",
+    group: "recent",
+    description: "Build and maintain features for Kenect’s customer communication platform, including SMS, email, and voice campaigns. Develop React and TypeScript interfaces, REST API integrations, and Node.js backend services. Contribute to frontend architecture, performance, automated testing, code reviews, and maintainable production workflows, collaborating with distributed product, design, and engineering teams.",
+    link: "https://www.kenect.com",
+    linkLabel: "Kenect website",
+    context: "Contract engagement through Jobsity",
+    current: true,
+  },
   {
     date: "2024",
     title: "Tech Lead",
     company: "Achieve",
-    description:
-      "Led landing-page development at Achieve, improved team workflows, and applied SOLID principles and unit testing to maintain code quality.",
+    group: "recent",
+    description: "Led development of high-priority marketing landing pages for a US financial services platform, focusing on conversion-oriented experiences and maintainable frontend architecture. Improved engineering workflows and applied SOLID principles, code-quality practices, and unit testing to support reliable production delivery.",
     link: "https://www.achieve.com/",
+    linkLabel: "Achieve website",
   },
   {
     date: "2022 - 2023",
     title: "Software Engineer",
     company: "Mercado Libre S.L.R.",
-    description:
-      "Contributed to MercadoShops storefront templates and purchase-flow interfaces at MercadoLibre. Worked with React, Redux, Node.js, Express, Sass, and Jest, with metric analysis and documentation guiding implementation and deployment.",
+    group: "recent",
+    description: "Developed and refined storefront customization features for MercadoShops, Mercado Libre’s e-commerce platform. Improved purchase-flow interfaces through metrics-informed analysis, React and Redux development, and UX iteration. Contributed to implementation, documentation, testing, and production deployment.",
     link: "https://www.mercadolibre.com/",
+    linkLabel: "Mercado Libre website",
   },
   {
     date: "2022",
     title: "Full Stack Engineer",
     company: "CENORA LLC.",
-    description:
-      "Built a web scraper to collect and organize data into templates. Contributed across frontend, backend, and database layers of the Microsites content-management project, including tracking functionality.",
+    group: "recent",
+    description: "Developed web scraping solutions to extract and structure content for automated publishing workflows. Contributed to the Microsites content-management platform across frontend, backend, and database layers, including functionality for content organization and tracking.",
     link: "https://cenora.com/",
+    linkLabel: "CENORA website",
   },
   {
     date: "2021 - 2022",
     title: "Frontend Developer",
     company: "ITPex Studio LLC.",
-    description:
-      "Led frontend development of DerfDice, a tool for Game Masters to generate names, items, and story elements. Focused on UI/UX and a minimal interface; the project used Vue, Node.js, and Express.",
+    group: "recent",
+    description: "Developed frontend features for DerfDice, a creative tool for tabletop game masters to generate characters, items, locations, and storytelling elements. Built responsive interfaces using Vue.js and JavaScript, focusing on intuitive UI/UX and integration with Node.js backend services.",
     link: "https://derfdice.com/#/Home",
+    linkLabel: "DerfDice project website",
   },
   {
     date: "2020 - 2021",
     title: "Full Stack Developer",
     company: "Calvary Robotics LLC.",
-    description:
-      "Built applications to automate internal business processes, integrating an ASP.NET backend, JavaScript frontend, and Microsoft SQL database.",
-    link: "https://calvaryrobotics.com/",
+    group: "earlier",
+    description: "Developed internal business applications to automate operational workflows. Built and integrated ASP.NET backend functionality, JavaScript interfaces, and Microsoft SQL Server databases to support reliable business-process automation.",
+    link: "https://invioautomation.com/",
+    linkLabel: "Invio Automation website",
+    context: "Now part of Invio Automation",
   },
   {
     date: "2017 - 2021",
     title: "Full Stack Engineer",
     company: "Look At Me Ventures LLC.",
-    description:
-      "Led development of Data-Collector and I-BOARDS. Used Node.js, Express, test-driven development, asynchronous jobs, and SQL storage to aggregate marketing data and present campaign KPIs.",
+    group: "earlier",
+    description: "Built backend services and analytics tools for digital marketing operations. Developed Data-Collector using Node.js, Express, and test-driven development to aggregate advertising-platform data through third-party APIs, and contributed to I-BOARDS dashboards for tracking campaign performance and key business metrics.",
     link: "https://www.lookatme-ventures.com/",
+    linkLabel: "Look At Me Ventures website",
   },
   {
     date: "2016",
     title: "Full Stack Engineer",
     company: "MediaTrax LLC.",
-    description:
-      "Implemented OAuth for access to Google Ads campaign data and integrated LDAP through Okta for authentication.",
+    group: "earlier",
+    description: "Developed integrations supporting digital marketing analytics and secure access to campaign data. Implemented Google Ads OAuth authentication and integrated LDAP-based identity management through Okta.",
   },
   {
     date: "2016",
     title: "Frontend Developer",
     company: "MobyDev",
-    description:
-      "Contributed to Podiumbuzz with Angular and Django REST Framework, and Cuchibox with React. Worked in Docker-based environments with Agile development practices.",
+    group: "earlier",
+    description: "Contributed to web applications including Podiumbuzz, built with Angular and Django REST Framework, and Cuchibox, a subscription-based e-commerce experience developed with React. Worked with Docker-based development environments and agile delivery practices.",
     link: "https://mobidev.biz/",
+    linkLabel: "MobiDev website",
   },
   {
     date: "2012 - 2016",
     title: "Software Engineer",
     company: "PDVSA Industrial, S.A.",
-    description:
-      "Contributed to reliability applications using QooxDoo, Python, SQLAlchemy, and PostgreSQL. Built a calculation engine for probability distributions and Monte Carlo simulation with Python and R, and contributed to technology decisions, estimation, documentation, and deployments.",
+    group: "earlier",
+    description: "Developed reliability and forecasting software using Python, PostgreSQL, and object-oriented programming. Built a calculation engine for probabilistic distributions and Monte Carlo simulations, while contributing to software architecture, technical documentation, estimation, and deployment planning.",
     link: "http://www.pdvsa.com/index.php?option=com_content&view=article&id=46:pdvsa-industrial&catid=10:noticias&Itemid=589&lang=es",
-  }
+    linkLabel: "PDVSA Industrial company page",
+  },
 ];
 
 export default exp;

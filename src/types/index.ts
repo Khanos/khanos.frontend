@@ -115,3 +115,15 @@ export interface LabProject extends Omit<ProjectType, 'image'> {
   linkLabel: string;
   liveHref?: string;
 }
+
+export interface ProfessionalExperience {
+  title: string;
+  company: string;
+  date: string;
+  description: string;
+  group: 'recent' | 'earlier';
+  current?: boolean;
+  context?: string;
+  link?: string;
+  linkLabel?: string;
+}
