@@ -13,11 +13,10 @@ const ConfigMenu = (props: ConfigMenuProps) => {
   const t: tLang = useTranslations(lang as 'en' | 'es');
   const [theme, setTheme] = useState('');
   const [language, setLanguage] = useState('');
+  const [menuOpen, setMenuOpen] = useState(false);
 
   const toggleMenu = () => {
-    console.log(document.querySelector('.dropdown-menu'))
-    document.querySelector('.dropdown-menu')?.classList.toggle('block');
-    console.log('toggleMenu clicked!')
+    setMenuOpen(open => !open);
   }
 
   const toggleTheme = (e: any) => {
@@ -51,7 +50,7 @@ const ConfigMenu = (props: ConfigMenuProps) => {
 
   useEffect(() => {
     if(!theme) {
-      const storedTheme = localStorage.getItem('theme') || 'light';
+      const storedTheme = localStorage.getItem('theme') || (document.documentElement.classList.contains('dark') ? 'dark' : 'light');
       setTheme(storedTheme);
       document.documentElement.classList[storedTheme === 'dark' ? "add" : "remove"]("dark")
     }
@@ -61,14 +60,19 @@ const ConfigMenu = (props: ConfigMenuProps) => {
   }, [theme, language]);
 
   return (
-    <div className="dropdown inline-block relative">
-      <button onClick={toggleMenu} aria-label={t('configs')[theme]} className="py-2 px-2 rounded appearance-none border-none flex transition hover:scale-125">
+    <div className="dropdown inline-block relative" onKeyDown={event => {
+      if (event.key === 'Escape') {
+        setMenuOpen(false);
+        event.currentTarget.querySelector('button')?.focus();
+      }
+    }}>
+      <button onClick={toggleMenu} aria-expanded={menuOpen} aria-controls="site-settings" aria-label={t('configs')[theme]} className="py-2 px-2 rounded appearance-none border-none flex transition hover:scale-125">
         <CogIcon 
           id="light" 
           className="theme-toggle-icon size-5 transition-all fill:text-gray-600 dark:fill-gray-200" 
         />
       </button>
-      <ul className="dropdown-menu absolute hidden right-0 md:left-0 text-gray-700 pt-1
+      <ul id="site-settings" style={{ display: menuOpen ? "block" : "none" }} className="dropdown-menu absolute right-0 md:left-0 text-gray-700 pt-1
         text-sm p-1 min-w-[10rem] rounded-md border border-gray-100 bg-white/90 dark:bg-gray-900/90 dark:border-gray-500/20 shadow-[0_3px_10px_rgb(0,0,0,0.2)] backdrop-blur-md
       ">
         <li className="px-2 py-1.5 mb-2 cursor-default hover:bg-neutral-400/40 dark:hover:bg-gray-500/50 rounded-sm">

@@ -2,9 +2,9 @@ const exp = [
   {
     date: "2024",
     title: "Tech Lead",
-    company: "© 2024 Achieve.com.",
+    company: "Achieve",
     description:
-      "As a Tech Lead, I optimized the team's workflow, proactively solving challenges with strategic foresight to ensure our tech stack consistently met and exceeded standards. I led the development of the company’s top three landing pages, pivotal for driving CTAs, and enforced SOLID principles to maintain robust, high-quality code, complete with comprehensive unit testing and strong code coverage.",
+      "Led landing-page development at Achieve, improved team workflows, and applied SOLID principles and unit testing to maintain code quality.",
     link: "https://www.achieve.com/",
   },
   {
@@ -12,7 +12,7 @@ const exp = [
     title: "Software Engineer",
     company: "Mercado Libre S.L.R.",
     description:
-      "As a software developer at MercadoLibre, I contributed to the dynamic and challenging MercadoShops project, enhancing the platform with innovative solutions. Being part of MercadoLibre went beyond contributing to e-commerce success; it meant impacting millions and fostering my professional and technical growth in an innovative and excellent environment.",
+      "Contributed to MercadoShops storefront templates and purchase-flow interfaces at MercadoLibre. Worked with React, Redux, Node.js, Express, Sass, and Jest, with metric analysis and documentation guiding implementation and deployment.",
     link: "https://www.mercadolibre.com/",
   },
   {
@@ -20,7 +20,7 @@ const exp = [
     title: "Full Stack Engineer",
     company: "CENORA LLC.",
     description:
-      "At Cenora, a startup revolutionizing content management, I developed a web scraper for a leading company, extracting and organizing data into templates. Additionally, contributed to the Microsites project, overseeing frontend, backend, and database aspects, ensuring effective creation and management of micro sites with advanced tracking capabilities.",
+      "Built a web scraper to collect and organize data into templates. Contributed across frontend, backend, and database layers of the Microsites content-management project, including tracking functionality.",
     link: "https://cenora.com/",
   },
   {
@@ -28,7 +28,7 @@ const exp = [
     title: "Frontend Developer",
     company: "ITPex Studio LLC.",
     description:
-      "Derfdice: A project I've worked on! 🎲 Simplifying creativity for Game Masters. Generate random items effortlessly, from names to mysterious taverns. With Derfdice, streamline creativity and focus on weaving an amazing story.",
+      "Led frontend development of DerfDice, a tool for Game Masters to generate names, items, and story elements. Focused on UI/UX and a minimal interface; the project used Vue, Node.js, and Express.",
     link: "https://derfdice.com/#/Home",
   },
   {
@@ -36,7 +36,7 @@ const exp = [
     title: "Full Stack Developer",
     company: "Calvary Robotics LLC.",
     description:
-      "As a Software Engineer, I've played a key role in various projects, focusing on automating internal business processes. Leveraging Microsoft's ASP.Net for robust Backend development, I integrated it seamlessly with a dynamic JavaScript Frontend, all supported by a structured Microsoft SQL database. This holistic approach ensures efficient and streamlined solutions.",
+      "Built applications to automate internal business processes, integrating an ASP.NET backend, JavaScript frontend, and Microsoft SQL database.",
     link: "https://calvaryrobotics.com/",
   },
   {
@@ -44,7 +44,7 @@ const exp = [
     title: "Full Stack Engineer",
     company: "Look At Me Ventures LLC.",
     description:
-      "As a Full-Stack Web Developer at LookAtMe Ventures, I led the development of vital apps: Data-Collector, a NodeJs/Express server employing Test-Driven development for data aggregation from major marketing services, and I-BOARDS, tracking KPIs for digital marketing campaigns across diverse channels.",
+      "Led development of Data-Collector and I-BOARDS. Used Node.js, Express, test-driven development, asynchronous jobs, and SQL storage to aggregate marketing data and present campaign KPIs.",
     link: "https://www.lookatme-ventures.com/",
   },
   {
@@ -52,14 +52,14 @@ const exp = [
     title: "Full Stack Engineer",
     company: "MediaTrax LLC.",
     description:
-      "At MediaTrax, LLC, a leading provider of wholesale online marketing services, I gained valuable insights into Digital Marketing. I spearheaded the implementation of OAuth for Google Ads, ensuring secure access to campaign data, and integrated Lightweight Directory Access Protocol (LDAP) via Okta for streamlined login processes.",
+      "Implemented OAuth for access to Google Ads campaign data and integrated LDAP through Okta for authentication.",
   },
   {
     date: "2016",
     title: "Frontend Developer",
     company: "MobyDev",
     description:
-      "At ModyDev, a Panama-based startup facilitator, I contributed to diverse projects. Podiumbuzz utilized Angular and Django Rest Framework, while Cuchibox, a pet subscription service, employed React. Both projects ran in Dockerized environments with Agile methodologies.",
+      "Contributed to Podiumbuzz with Angular and Django REST Framework, and Cuchibox with React. Worked in Docker-based environments with Agile development practices.",
     link: "https://mobidev.biz/",
   },
   {
@@ -67,7 +67,7 @@ const exp = [
     title: "Software Engineer",
     company: "PDVSA Industrial, S.A.",
     description:
-      "In software development, architecture is pivotal, dictating modifiability, maintainability, safety, and performance. At PDVSA Industrial, I played a key role in Rational Unified Process (RUP), guiding technology decisions, aiding time estimates, and orchestrating deployments. Amidst UML and documentation, I gained insights into project management, deployment, and more. Initially a Software Developer, I contributed to reliability projects, leveraging math and object-oriented programming with QooxDoo, Python, SqlAlchemy, and Postgres. Later, I crafted a calculation engine for probabilistic distributions and Montecarlo simulation using Python and R.",
+      "Contributed to reliability applications using QooxDoo, Python, SQLAlchemy, and PostgreSQL. Built a calculation engine for probability distributions and Monte Carlo simulation with Python and R, and contributed to technology decisions, estimation, documentation, and deployments.",
     link: "http://www.pdvsa.com/index.php?option=com_content&view=article&id=46:pdvsa-industrial&catid=10:noticias&Itemid=589&lang=es",
   }
 ];

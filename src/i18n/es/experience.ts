@@ -2,9 +2,9 @@ const exp = [
   {
     date: "2024",
     title: "Líder Técnico",
-    company: "© 2024 Achieve.com.",
+    company: "Achieve",
     description:
-      "Como Líder Técnico, optimicé el flujo de trabajo del equipo, resolviendo proactivamente desafíos con previsión estratégica para garantizar que nuestra pila tecnológica cumpliera y superara consistentemente los estándares. Lideré el desarrollo de las tres principales páginas de destino de la empresa, fundamentales para impulsar las llamadas a la acción, y apliqué los principios SOLID para mantener un código robusto y de alta calidad, completo con pruebas unitarias exhaustivas y una sólida cobertura de código.",
+      "Lideré el desarrollo de páginas de destino en Achieve, mejoré los flujos de trabajo del equipo y apliqué principios SOLID y pruebas unitarias para mantener la calidad del código.",
     link: "https://www.achieve.com/",
   },
   {
@@ -12,7 +12,7 @@ const exp = [
     title: "Ingeniero de Software",
     company: "Mercado Libre S.L.R.",
     description:
-      "Como desarrollador de software en MercadoLibre, contribuí al dinámico y desafiante proyecto de MercadoShops, mejorando la plataforma con soluciones innovadoras. Ser parte de MercadoLibre fue más allá de contribuir al éxito del comercio electrónico; significó impactar a millones y fomentar mi crecimiento profesional y técnico en un ambiente innovador y excelente.",
+      "Contribuí a las plantillas de tiendas de MercadoShops y las interfaces del flujo de compra de MercadoLibre. Trabajé con React, Redux, Node.js, Express, Sass y Jest, apoyando la implementación y el despliegue en análisis de métricas y documentación.",
     link: "https://www.mercadolibre.com/",
   },
   {
@@ -20,7 +20,7 @@ const exp = [
     title: "Ingeniero Full Stack",
     company: "CENORA LLC.",
     description:
-      "En Cenora, una startup que revoluciona la gestión de contenidos, desarrollé un scraper web para una empresa líder, extrayendo y organizando datos en plantillas. Además, contribuí al proyecto Microsites, supervisando aspectos de frontend, backend y base de datos, asegurando la creación y gestión efectiva de micrositios con capacidades avanzadas de seguimiento.",
+      "Desarrollé un scraper web para recopilar y organizar datos en plantillas. Contribuí al frontend, backend y base de datos del proyecto de gestión de contenidos Microsites, incluidas funciones de seguimiento.",
     link: "https://cenora.com/",
   },
   {
@@ -28,7 +28,7 @@ const exp = [
     title: "Desarrollador Frontend",
     company: "ITPex Studio LLC.",
     description:
-      "Derfdice: ¡Un proyecto en el que he trabajado! 🎲 Simplificando la creatividad para los Game Masters. Genera elementos aleatorios sin esfuerzo, desde nombres hasta tabernas misteriosas. Con Derfdice, agiliza la creatividad y concéntrate en tejer una historia asombrosa.",
+      "Lideré el desarrollo frontend de DerfDice, una herramienta para que Game Masters generen nombres, objetos y elementos narrativos. Me enfoqué en UI/UX y una interfaz minimalista; el proyecto utilizaba Vue, Node.js y Express.",
     link: "https://derfdice.com/#/Home",
   },
   {
@@ -36,7 +36,7 @@ const exp = [
     title: "Desarrollador Full Stack",
     company: "Calvary Robotics LLC.",
     description:
-      "Como Ingeniero de Software, desempeñé un papel clave en varios proyectos, centrándome en la automatización de procesos empresariales internos. Aprovechando ASP.Net de Microsoft para un sólido desarrollo backend, lo integré perfectamente con un frontend dinámico de JavaScript, todo respaldado por una estructurada base de datos SQL de Microsoft. Este enfoque integral garantiza soluciones eficientes y simplificadas.",
+      "Desarrollé aplicaciones para automatizar procesos internos, integrando un backend ASP.NET, un frontend JavaScript y una base de datos Microsoft SQL.",
     link: "https://calvaryrobotics.com/",
   },
   {
@@ -44,7 +44,7 @@ const exp = [
     title: "Ingeniero Full Stack",
     company: "Look At Me Ventures LLC.",
     description:
-      "Como Desarrollador Web Full-Stack en LookAtMe Ventures, lideré el desarrollo de aplicaciones vitales: Data-Collector, un servidor NodeJs/Express que emplea el desarrollo orientado a pruebas para la agregación de datos de importantes servicios de marketing, e I-BOARDS, rastreando KPIs para campañas de marketing digital en diversos canales.",
+      "Lideré el desarrollo de Data-Collector e I-BOARDS. Utilicé Node.js, Express, desarrollo guiado por pruebas, tareas asíncronas y almacenamiento SQL para agregar datos de marketing y presentar KPIs de campañas.",
     link: "https://www.lookatme-ventures.com/",
   },
   {
@@ -52,14 +52,14 @@ const exp = [
     title: "Ingeniero Full Stack",
     company: "MediaTrax LLC.",
     description:
-      "En MediaTrax, LLC, un proveedor líder de servicios de marketing online al por mayor, obtuve valiosos conocimientos sobre Marketing Digital. Encabecé la implementación de OAuth para Google Ads, asegurando el acceso seguro a los datos de la campaña, e integré el Protocolo Ligero de Acceso a Directorios (LDAP) a través de Okta para procesos de inicio de sesión simplificados.",
+      "Implementé OAuth para acceder a datos de campañas de Google Ads e integré LDAP mediante Okta para la autenticación.",
   },
   {
     date: "2016",
     title: "Desarrollador Frontend",
     company: "MobyDev",
     description:
-      "En ModyDev, una facilitadora de startups con sede en Panamá, contribuí a diversos proyectos. Podiumbuzz utilizó Angular y Django Rest Framework, mientras que Cuchibox, un servicio de suscripción para mascotas, empleó React. Ambos proyectos se ejecutaron en entornos Dockerizados con metodologías ágiles.",
+      "Contribuí a Podiumbuzz con Angular y Django REST Framework, y a Cuchibox con React. Trabajé en entornos Docker con prácticas de desarrollo ágil.",
     link: "https://mobidev.biz/",
   },
   {
@@ -67,7 +67,7 @@ const exp = [
     title: "Ingeniero de Software",
     company: "PDVSA Industrial, S.A.",
     description:
-      "En el desarrollo de software, la arquitectura es fundamental, dictando modificabilidad, mantenibilidad, seguridad y rendimiento. En PDVSA Industrial, desempeñé un papel clave en el Proceso Unificado de Rational (RUP), guiando decisiones tecnológicas, ayudando en estimaciones de tiempo y orquestando implementaciones. En medio de UML y documentación, obtuve conocimientos sobre gestión de proyectos, implementación y más. Inicialmente como Desarrollador de Software, contribuí a proyectos de fiabilidad, aprovechando matemáticas y programación orientada a objetos con QooxDoo, Python, SqlAlchemy y Postgres. Más tarde, diseñé un motor de cálculo para distribuciones probabilísticas y simulación de Montecarlo utilizando Python y R.",
+      "Contribuí a aplicaciones de fiabilidad con QooxDoo, Python, SQLAlchemy y PostgreSQL. Construí un motor de cálculo de distribuciones probabilísticas y simulación de Monte Carlo con Python y R, y participé en decisiones tecnológicas, estimación, documentación y despliegues.",
     link: "http://www.pdvsa.com/index.php?option=com_content&view=article&id=46:pdvsa-industrial&catid=10:noticias&Itemid=589&lang=es",
   }
 ];

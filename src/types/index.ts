@@ -84,6 +84,7 @@ export interface ProjectType {
   link?: string;
   github?: string;
   showcase?: ProjectShowcase;
+  caseStudy?: { category: string; summary: string; problem: string; contribution: string; impact: string };
 }
 
 // Url Shortener types

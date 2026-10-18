@@ -12,11 +12,18 @@ const projects:ProjectType[] = [
   },
   {
     title: "MercadoShops",
+    caseStudy: {
+      category: "Commerce / Frontend",
+      summary: "Storefront customization and purchase-flow engineering inside MercadoLibre’s commerce platform.",
+      problem: "Sellers needed customizable storefronts, while purchase flows required clear interfaces and careful evaluation.",
+      contribution: "Refined MercadoShops templates and worked on purchase-flow UX, analyzing metrics and documenting approaches from implementation through deployment.",
+      impact: "Delivered storefront refinements and purchase-flow changes within MercadoLibre’s production e-commerce platform.",
+    },
     description:
       "MercadoShops is MercadoLibre's e-commerce platform that empowers sellers to create their own online stores, offering tools for customization, payment processing, inventory management, and marketing.",
     link: "https://www.mercadolibre.com/",
     image: "../assets/img/projects/mercadolibre.png",
-    imageAlt: "MercadoLibre",
+    imageAlt: "MercadoShops dashboard with store customization and setup controls",
     tags: ["javascript", "react",  "redux", "nodejs", "express", "sass", "jest", "github"],
   },
   {
@@ -29,11 +36,18 @@ const projects:ProjectType[] = [
   },
   {
     title: "DM2, Data-Collector & I-BOARDS",
+    caseStudy: {
+      category: "Data / Full-Stack",
+      summary: "From marketing APIs to useful campaign intelligence: automated data collection and a shared KPI reporting workflow.",
+      problem: "Marketing campaign data from multiple services needed to be collected and made useful for reporting.",
+      contribution: "Led Data-Collector and I-BOARDS development: a Node.js/Express data aggregation server using test-driven development, asynchronous jobs, SQL storage, and KPI dashboards.",
+      impact: "Brought campaign data from multiple marketing channels into a shared reporting workflow with automated collection and KPI tracking.",
+    },
     description: "A solution that integrates seamlessly with major media buy channels like Facebook, Twitter, Instagram, and LinkedIn, providing real-time campaign performance insights. With (DM)², access a year's worth of metrics instantly. Empower your team to optimize campaigns with unparalleled functionality, customization, and performance reporting, all at their fingertips.",
     tags: ["javascript", "nodejs", "express", "jquery", "ganalytics", "gads", "facebook", "linkedin", "twitter", "mocha", "github"],
     link: "https://www.lookatme-ventures.com/",
     image: "../assets/img/projects/lookatme.png",
-    imageAlt: "Look At Me Ventures",
+    imageAlt: "DM2 dashboard with campaign KPIs, timelines, and channel breakdowns",
   },
   {
     title: "My Portfolio",

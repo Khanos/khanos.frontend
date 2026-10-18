@@ -12,11 +12,18 @@ const projects:ProjectType[] = [
   },
   {
     title: "MercadoShops",
+    caseStudy: {
+      category: "Comercio / Frontend",
+      summary: "Personalización de tiendas e ingeniería del flujo de compra en la plataforma de comercio de MercadoLibre.",
+      problem: "Los vendedores necesitaban tiendas personalizables y los flujos de compra requerían interfaces claras y una evaluación cuidadosa.",
+      contribution: "Mejoré plantillas de MercadoShops y trabajé en la experiencia de compra, analizando métricas y documentando alternativas desde la implementación hasta el despliegue.",
+      impact: "Entregué mejoras en las tiendas y los flujos de compra de la plataforma de comercio electrónico en producción de MercadoLibre.",
+    },
     description:
       "MercadoShops es la plataforma de comercio electrónico de MercadoLibre que permite a los vendedores crear sus propias tiendas en línea, ofreciendo herramientas para personalización, procesamiento de pagos, gestión de inventario y marketing.",
     link: "https://www.mercadolibre.com/",
     image: "../assets/img/projects/mercadolibre.png",
-    imageAlt: "MercadoLibre",
+    imageAlt: "Panel de MercadoShops con controles de personalización y configuración de tienda",
     tags: ["javascript", "react",  "redux", "nodejs", "express", "sass", "jest", "github"],
   },
   {
@@ -29,11 +36,18 @@ const projects:ProjectType[] = [
   },
   {
     title: "DM2, Data-Collector & I-BOARDS",
+    caseStudy: {
+      category: "Datos / Full-Stack",
+      summary: "De APIs de marketing a información útil: recopilación automática de datos y un flujo compartido de informes de KPIs.",
+      problem: "Era necesario recopilar datos de campañas de distintos servicios y hacerlos útiles para los informes.",
+      contribution: "Lideré el desarrollo de Data-Collector e I-BOARDS: un servidor Node.js/Express de agregación de datos con desarrollo guiado por pruebas, tareas asíncronas, almacenamiento SQL y paneles de KPIs.",
+      impact: "Reuní los datos de varios canales de marketing en un flujo de informes compartido, con recopilación automática y seguimiento de KPIs.",
+    },
     description: "Una solución que se integra perfectamente con los principales canales de compra de medios como Facebook, Twitter, Instagram y LinkedIn, proporcionando información en tiempo real sobre el rendimiento de las campañas. Con (DM)², acceda a un año de métricas al instante. Capacite a su equipo para optimizar campañas con una funcionalidad, personalización y generación de informes de rendimiento incomparables, todo al alcance de su mano.",
     tags: ["javascript", "nodejs", "express", "jquery", "ganalytics", "gads", "facebook", "linkedin", "twitter", "mocha", "github"],
     link: "https://www.lookatme-ventures.com/",
     image: "../assets/img/projects/lookatme.png",
-    imageAlt: "Look At Me Ventures",
+    imageAlt: "Panel de DM2 con KPIs de campañas, series temporales y desglose por canal",
   },
   {
     title: "Mi Portafolio",

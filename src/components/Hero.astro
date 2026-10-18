@@ -1,64 +1,101 @@
 ---
 import { Image } from 'astro:assets';
-import LinkedInIcon from "./icons/LinkedIn.astro"
-import MailIcon from "./icons/Mail.astro"
-import SocialPill from "./SocialPill.astro"
-import GithubIcon from "./icons/GitHub.astro"
-import Instagram from "./icons/Instagram.astro"
-import Hackerrank from "./icons/Hackerrank.astro"
-import { getLang, useTranslations } from '../i18n/utils';
-import myHeroImage from '../assets/img/hero.png';
-type tLang = (str: any) => any;
-
-const lang = getLang();
-const t:tLang = useTranslations(lang);
+import LinkedInIcon from './icons/LinkedIn.astro';
+import GithubIcon from './icons/GitHub.astro';
+import { ui } from '../i18n/ui';
+import portrait from '../assets/img/hero.png';
+interface Props { lang: 'en' | 'es' }
+const { lang } = Astro.props;
+const { hero, footer } = ui[lang];
 ---
-
-<div class="max-w-l">
-  <div class="flex flex-col sm:flex-row sm:gap-4 justify-between items-center">
-    <div class="min-w-40 mb-4 sm:mb-0">
-      <Image
-        width="400"
-        height="400"
-        src={myHeroImage}
-        format="webp"
-        alt={t('hero').profileAlt}
-        class="rounded-xl shadow-lg size-44"
-      />
-    </div>
-    <div class="flex flex-col justify-center px-4">
-      <h1
-        class="text-2xl font-bold tracking-tight text-gray-800 sm:text-4xl dark:text-white mb-4"
-      >
-        {t('hero').title}
-      </h1>
-      <p
-        class="text-lg sm:text-xl text-gray-800 dark:[&>strong]:text-[#F800AE] [&>strong]:text-[#F800AE] [&>strong]:font-semibold dark:text-gray-300"
-        set:html={t('hero').bio}
-      >
-      </p>
-    </div>
+<div class="editorial-hero">
+  <div class="hero-topline">
+    <p><span class="signal" aria-hidden="true"></span>{hero.name}<span class="hero-alias"> / khanos</span></p>
+    <span class="folio-label" aria-hidden="true">{hero.folio}</span>
   </div>
-  <nav class="flex flex-row flex-wrap justify-center gap-4 mt-8">
-    <SocialPill href={`mailto:${t('footer').mail}`}>
-      <MailIcon class="size-4" />
-      {t('hero').pills.mail}
-    </SocialPill>
-    <SocialPill href="https://linkedin.com/in/khanos">
-      <LinkedInIcon class="size-4 text-[#007acc]" />
-      {t('hero').pills.linkedin}
-    </SocialPill>
-    <SocialPill href="https://github.com/Khanos">
-      <GithubIcon class="size-4 text-black" />
-      {t('hero').pills.github}
-    </SocialPill>
-    <SocialPill href="https://www.hackerrank.com/profile/KhanosVe">
-      <Hackerrank class="size-4" />
-      {t('hero').pills.hackerank}
-    </SocialPill>
-    <SocialPill href="https://www.instagram.com/epilef.js/">
-      <Instagram class="size-4 text-[#bc2a8d]" />
-      {t('hero').pills.instagram}
-    </SocialPill>
-  </nav>
+  <div class="hero-composition">
+    <div class="hero-copy">
+      <h1 aria-label={hero.title}>{hero.title.split(' ').map((word) => <><span class:list={{ 'stack-word': word === 'Full-Stack' }}>{word}</span>{' '}</>)}</h1>
+      <p class="hero-technology">{hero.technology}</p>
+      <p class="hero-location">{hero.location}</p>
+      <p class="hero-intro">{hero.bio}</p>
+      <div class="hero-actions">
+        <a class="primary-action" href={`mailto:${footer.mail}`}>{hero.contact}<span aria-hidden="true">↗</span></a>
+        <a class="work-action" href="#projects">{hero.work}<span aria-hidden="true">↓</span></a>
+      </div>
+      <nav class="hero-profiles" aria-label={hero.socialLabel}>
+        <a href="https://github.com/Khanos" target="_blank" rel="noopener noreferrer"><GithubIcon aria-hidden="true" />GitHub <span aria-hidden="true">↗</span></a>
+        <a href="https://linkedin.com/in/khanos" target="_blank" rel="noopener noreferrer"><LinkedInIcon aria-hidden="true" />LinkedIn <span aria-hidden="true">↗</span></a>
+        <a href={`mailto:${footer.mail}?subject=${encodeURIComponent(hero.resumeSubject)}`}>{hero.resume}<span aria-hidden="true">↗</span></a>
+      </nav>
+    </div>
+    <figure class="hero-portrait">
+      <div class="portrait-registration" aria-hidden="true"><span>EP / 01</span><span>FULL-STACK</span></div>
+      <div class="portrait-image">
+        <Image src={portrait} alt={hero.profileAlt} widths={[400, 640, 800]} sizes="(max-width: 699px) 85vw, (max-width: 999px) 35vw, 480px" width={640} height={650} format="webp" loading="eager" fetchpriority="high" />
+      </div>
+      <figcaption>{hero.portraitCaption}</figcaption>
+      <span class="portrait-mark" aria-hidden="true">&lt;/&gt;</span>
+    </figure>
+  </div>
+
 </div>
+<style>
+  .editorial-hero { position: relative; }
+  .hero-topline, .hero-topline p, .hero-profiles, .portrait-registration, figcaption { display: flex; align-items: center; }
+  .hero-topline { justify-content: space-between; padding-bottom: var(--folio-space-7); font-size: var(--folio-text-support); font-weight: 550; }
+  .hero-topline p { gap: var(--folio-space-3); }
+  .signal { width: .5rem; height: .5rem; background: var(--folio-accent); }
+  .hero-alias, .folio-label { color: var(--folio-muted); font: var(--folio-text-meta)/1.5 var(--folio-mono); }
+  .hero-composition { display: grid; grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr); gap: var(--folio-space-8); align-items: center; }
+  .hero-copy { position: relative; z-index: 1; min-width: 0; }
+  h1 { font-size: var(--folio-text-hero); font-weight: 580; line-height: var(--folio-leading-display); letter-spacing: var(--folio-tracking-display); }
+  h1 > span { display: block; }
+  .stack-word { color: var(--folio-accent); }
+  .hero-technology { max-width: 34em; margin-top: var(--folio-space-6); font-size: var(--folio-text-subtitle); line-height: 1.5; font-weight: 550; text-wrap: pretty; }
+  .hero-location { margin-top: var(--folio-space-3); font-size: var(--folio-text-support); line-height: var(--folio-leading-body); color: var(--folio-secondary); }
+  .hero-intro { max-width: 62ch; margin-top: var(--folio-space-5); color: var(--folio-secondary); font-size: var(--folio-text-body); line-height: var(--folio-leading-body); text-wrap: pretty; }
+  .hero-actions { display: flex; flex-wrap: wrap; gap: var(--folio-space-3); margin-top: var(--folio-space-6); }
+  .hero-actions a { display: inline-flex; align-items: center; gap: var(--folio-space-5); justify-content: space-between; min-height: 48px; padding: var(--folio-space-3) var(--folio-space-5); border: 1px solid var(--folio-line); font-size: var(--folio-text-support); font-weight: 650; transition: background 180ms, border-color 180ms; }
+  .hero-actions a span { font-size: var(--folio-text-subtitle); transition: transform 180ms; }
+  .hero-actions .primary-action { background: var(--folio-accent); color: var(--folio-onaccent); border-color: var(--folio-accent); }
+  .hero-actions a:hover { border-color: var(--folio-accent); background: var(--folio-raised); }
+  .hero-actions .primary-action:hover { background: var(--folio-accent); filter: brightness(1.1); }
+  .hero-actions a:hover span { transform: translate(2px, -2px); }
+  .hero-profiles { flex-wrap: wrap; gap: var(--folio-space-2) var(--folio-space-5); margin-top: var(--folio-space-3); }
+  .hero-profiles a { display: inline-flex; align-items: center; gap: var(--folio-space-2); color: var(--folio-secondary); font-size: var(--folio-text-support); min-height: 44px; text-underline-offset: .3em; }
+  .hero-profiles :global(svg) { width: 17px; height: 17px; }
+  .hero-profiles a:hover { color: var(--folio-accent); text-decoration: underline; }
+  .hero-portrait { position: relative; min-width: 0; padding: var(--folio-space-4); border: 1px solid var(--folio-line); background: var(--folio-surface); transform: rotate(2deg); margin: var(--folio-space-4) var(--folio-space-3) 0 0; }
+  .portrait-registration, figcaption { justify-content: space-between; font: var(--folio-text-meta)/1.5 var(--folio-mono); color: var(--folio-muted); gap: var(--folio-space-2); }
+  .portrait-registration { padding-bottom: var(--folio-space-3); }
+  .portrait-image { overflow: hidden; aspect-ratio: .85; background: #444; }
+  .portrait-image :global(img) { display: block; width: 100%; height: 100%; object-fit: cover; object-position: 49% 50%; filter: grayscale(1) contrast(1.08); transition: filter 500ms, transform 700ms cubic-bezier(.2,.7,.2,1); }
+  .hero-portrait:hover :global(img) { filter: grayscale(.25); transform: scale(1.025); }
+  figcaption { padding-top: var(--folio-space-3); }
+  .portrait-mark { position: absolute; right: -1.1rem; bottom: 4rem; display: grid; place-content: center; width: 4rem; height: 4rem; border: 1px solid var(--folio-accent); color: var(--folio-accent); background: var(--folio-bg); font: var(--folio-text-subtitle) var(--folio-mono); transform: rotate(-8deg); }
+  a:focus-visible { outline: 2px solid var(--folio-accent); outline-offset: 5px; }
+  @media (prefers-reduced-motion: no-preference) {
+    .hero-copy, .hero-topline { animation: settle-in 700ms cubic-bezier(.2,.7,.2,1) backwards; }
+    .hero-copy { animation-delay: 70ms; }
+    .hero-portrait { animation: portrait-in 900ms cubic-bezier(.2,.7,.2,1) backwards; }
+    @keyframes settle-in { from { opacity: .1; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes portrait-in { from { opacity: .1; transform: translateY(20px) rotate(0); } to { opacity: 1; transform: translateY(0) rotate(2deg); } }
+  }
+  @media (max-width: 999px) {
+    .hero-composition { gap: var(--folio-space-6); }
+    .folio-label { display: none; }
+    .hero-portrait { padding: var(--folio-space-3); }
+    .portrait-registration span:last-child { display: none; }
+  }
+  @media (max-width: 699px) {
+    .hero-topline { padding-bottom: var(--folio-space-6); }
+    .hero-alias { display: none; }
+    .hero-composition { grid-template-columns: minmax(0, 1fr); gap: var(--folio-space-7); }
+    .hero-actions a { flex: 1 1 auto; }
+    .hero-portrait { width: min(100% - 1rem, 360px); margin: 0 auto; }
+    .portrait-image { aspect-ratio: 1.05; }
+    .portrait-registration span:last-child { display: inline; }
+  }
+  @media (prefers-reduced-motion: reduce) { *, .portrait-image :global(img) { animation: none !important; transition: none !important; } .hero-portrait:hover :global(img), .hero-actions a:hover span { transform: none; } }
+</style>

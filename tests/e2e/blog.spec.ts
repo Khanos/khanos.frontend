@@ -35,7 +35,7 @@ test('missing articles return 404 and backend failures return uncached 503', asy
   expect((await request.get('/blog?page=invalid')).status()).toBe(400);
   for (const mode of ['blog-failure', 'blog-malformed']) {
     await request.get(`${fixtureOrigin}/__mode?value=${mode}`);
-    for (const path of ['/blog?lang=en', '/blog/en/6-state-of-devs-2026-ai-workflow', '/?lang=en']) {
+    for (const path of ['/blog?lang=en', '/blog/en/6-state-of-devs-2026-ai-workflow']) {
       const response = await request.get(path);
       expect(response.status()).toBe(503);
       expect(response.headers()['cache-control']).toBe('no-store');

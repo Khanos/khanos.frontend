@@ -4,7 +4,8 @@ import { getLang, useTranslations } from '../i18n/utils';
 
 type tLang = (str: any) => any;
 
-const lang = getLang();
+interface Props { lang?: 'en' | 'es' }
+const { lang = getLang() } = Astro.props;
 const t:tLang = useTranslations(lang);
 
 type Experience = {
@@ -12,17 +13,19 @@ type Experience = {
   company: string;
   date: string;
   description: string;
-  link: string;
+  link?: string;
 }
 
 const EXP: Experience[] = t('experience');
 ---
 
-<ol class="relative mt-16">
+<p class="max-w-3xl leading-relaxed text-gray-700 dark:text-gray-300">{t('sections').exp.current}</p>
+<p class="mt-6 text-sm font-mono text-gray-600 dark:text-gray-400">{t('sections').exp.history}</p>
+<ol class="relative mt-8">
   {
     EXP.map((experience) => (
       <li class="">
-        <ExperienceItem {...experience} />
+        <ExperienceItem {...experience} lang={lang} />
       </li>
     ))
   }
