@@ -149,7 +149,7 @@ const es =  {
       label: 'projects',
       intro: 'Contribuciones a productos en producción: interfaces de comercio y sistemas backend de datos.',
       problem: 'Problema', contribution: 'Mi contribución', impact: 'Resultado',
-      projectLink: 'Web de la empresa', codeLink: 'Código fuente',
+      visitWebsite: 'Visitar {name}', codeLink: 'Código fuente',
       technology: 'Tecnologías',
       archiveImage: 'Captura histórica del proyecto',
       projectsList: ProjectsArray,

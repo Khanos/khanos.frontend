@@ -331,8 +331,12 @@ for (const lang of ['en', 'es']) {
       expect(person).toMatchObject({ '@type': 'Person', name: 'Epilef Rodriguez', homeLocation: { name: 'Spain' }, email: 'epilef.rodriguez@gmail.com' });
       expect(person).not.toHaveProperty('worksFor');
       expect(person.sameAs).toContain('https://github.com/Khanos');
-      await expect(page.locator('#projects article')).toHaveCount(2);
-      await expect(page.locator('#projects dt')).toHaveCount(6);
+      await expect(page.locator('#projects article')).toHaveCount(4);
+      await expect(page.locator('#projects dt')).toHaveCount(12);
+      await expect(page.locator('#project-achieve-platforms')).toContainText('Contentful');
+      await expect(page.locator('#project-achieve-platforms')).toContainText('Bills.com');
+      await expect(page.locator('#project-derfdice')).toContainText('Vue.js');
+      await expect(page.locator('#project-derfdice dd')).toHaveCount(3);
       await expect(page.locator('#experience li')).toHaveCount(10);
       await expect(page.locator('#experience')).toContainText('Achieve');
       await expect(page.locator('#experience')).toContainText('2022 - 2023');
@@ -358,7 +362,7 @@ test('homepage remains available when the optional article feed fails', async ({
     expect(response?.status()).toBe(200);
     expect(response?.headers()['cache-control']).toBe('no-store');
     await expect(page.locator('h1')).toHaveText('Senior Full-Stack Engineer');
-    await expect(page.locator('#projects article')).toHaveCount(2);
+    await expect(page.locator('#projects article')).toHaveCount(4);
     await expect(page.locator('#writing')).toContainText('Articles are temporarily unavailable.');
     await expect(page.locator('#contact a[href^="mailto:"]')).toBeVisible();
   } finally {
@@ -389,7 +393,48 @@ for (const lang of ['en', 'es']) {
       await expect(hero.locator('.hero-technology')).toHaveText(lang === 'en'
         ? 'React · TypeScript · Node.js · Software Architecture'
         : 'React · TypeScript · Node.js · Arquitectura de software');
-      for (const project of await page.locator('.engineering-case').all()) {
+      const cases = page.locator('.engineering-case');
+      expect(await cases.evaluateAll(elements => elements.map(element => element.id))).toEqual([
+        'project-achieve-platforms', 'project-mercadoshops', 'project-derfdice', 'project-marketing-analytics',
+      ]);
+      await expect(cases.locator('.case-period')).toHaveText(['2024', '2022–2023', '2021–2022', '2017–2021']);
+      await expect(cases.locator('h3')).toHaveText(lang === 'en' ? [
+        'Achieve — Financial Services Web Platforms', 'MercadoShops', 'DerfDice — Tabletop RPG Generator', 'DM2, Data-Collector & I-BOARDS',
+      ] : [
+        'Achieve — Plataformas web de servicios financieros', 'MercadoShops', 'DerfDice — Generador de contenido para juegos de rol', 'DM2, Data-Collector & I-BOARDS',
+      ]);
+      const achieve = page.locator('#project-achieve-platforms');
+      await expect(achieve.locator('.case-context')).toContainText(lang === 'en' ? 'Tech Lead' : 'Líder Técnico');
+      await expect(achieve.locator('.case-tech')).toContainText('GraphQL');
+      await expect(achieve.locator('.case-tech')).toContainText('Contentful');
+      await expect(achieve.locator('.case-tech')).not.toContainText('TypeScript');
+      await expect(achieve.locator('figcaption')).toContainText(lang === 'en' ? 'not a current benchmark' : 'no una medición actual');
+      await expect(achieve.locator('.case-links a')).toHaveCount(3);
+      for (const [brand, url] of [
+        ['Achieve', 'https://www.achieve.com/'],
+        ['Freedom Debt Relief', 'https://www.freedomdebtrelief.com/'],
+        ['Bills.com', 'https://www.bills.com/'],
+      ]) {
+        await expect(achieve.getByRole('link', { name: `${lang === 'en' ? 'Visit' : 'Visitar'} ${brand}`, exact: true })).toHaveAttribute('href', url);
+      }
+      const derfdice = page.locator('#project-derfdice');
+      await expect(derfdice.locator('.case-context')).toContainText('ITPex Studio');
+      await expect(derfdice.locator('.case-tech li')).toHaveText(['Vue', 'JavaScript', 'Node.js', 'Express']);
+      await expect(derfdice.getByRole('link')).toHaveAttribute('href', 'https://derfdice.com/');
+      for (const project of await cases.all()) {
+        const image = project.locator('img');
+        await image.scrollIntoViewIfNeeded();
+        await expect.poll(() => image.evaluate((image: HTMLImageElement) => image.complete && image.naturalWidth > 0)).toBe(true);
+        const ratioDifference = await image.evaluate((image: HTMLImageElement) => {
+          const box = image.getBoundingClientRect();
+          return Math.abs(box.width / box.height - image.naturalWidth / image.naturalHeight);
+        });
+        expect(ratioDifference).toBeLessThan(.02);
+        await expect(image).not.toHaveAttribute('alt', '');
+        if (['project-achieve-platforms', 'project-derfdice'].includes((await project.getAttribute('id'))!)) {
+          await project.screenshot({ path: `test-results/featured-${await project.getAttribute('id')}-${lang}-${width}-dark.png`,
+            style: 'header, .skip-link { display: none !important; }' });
+        }
         await expect(project.locator('dd')).toHaveCount(3);
         for (const detail of await project.locator('dd').all()) await expect(detail).toBeVisible();
       }
@@ -413,6 +458,14 @@ for (const lang of ['en', 'es']) {
       await expect(lightPage.locator('#home .primary-action')).toBeInViewport({ ratio: 1 });
       await expect.poll(() => lightPage.locator('.hero-portrait img').evaluate((img: HTMLImageElement) => img.complete && img.naturalWidth > 0)).toBe(true);
       await lightPage.screenshot({ path: `test-results/editorial-hero-${lang}-${width}-light.png`, animations: 'disabled' });
+      for (const id of ['project-achieve-platforms', 'project-derfdice']) {
+        const project = lightPage.locator(`#${id}`);
+        await project.locator('img').scrollIntoViewIfNeeded();
+        await expect.poll(() => project.locator('img').evaluate((image: HTMLImageElement) => image.complete && image.naturalWidth > 0)).toBe(true);
+        await expect(project.locator('dd').last()).toBeVisible();
+        await project.screenshot({ path: `test-results/featured-${id}-${lang}-${width}-light.png`,
+          style: 'header, .skip-link { display: none !important; }' });
+      }
       expect(await lightPage.evaluate(() => document.documentElement.scrollWidth - innerWidth)).toBeLessThanOrEqual(1);
       await lightPage.close();
       expect(errors).toEqual([]);

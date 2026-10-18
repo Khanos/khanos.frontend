@@ -228,3 +228,15 @@ Refinement validation:
 - `prettier --check src/styles/portfolio.css` and `git diff --check`: passed.
 - No lint script or installed lint executable is available; lint tooling was not
   added. No deployment or field Core Web Vitals measurement was performed.
+
+## Achieve and DerfDice featured projects
+
+Featured Engineering Work now renders Achieve (2024), MercadoShops (2022–2023),
+DerfDice (2021–2022), and DM2/Data-Collector/I-BOARDS (2017–2021), sorted by explicit
+project end year. The MercadoShops and DM2 project periods were confirmed by the
+owner rather than assumed from employment history. Achieve groups three brands
+into one case study. Existing images are reused with intrinsic proportions;
+Freedom Debt Relief’s asset is explicitly identified as an archived Lighthouse
+capture. See [Featured Engineering Work](featured-engineering-work.md) for the
+content evidence, missing historical screenshots, conditional technology decisions,
+files and validation. Page metadata, Person JSON-LD and other sections are unchanged.

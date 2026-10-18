@@ -145,7 +145,7 @@ const en =  {
       label: 'projects',
       intro: 'Selected contributions to production products, from commerce interfaces to backend data pipelines.',
       problem: 'Problem', contribution: 'My contribution', impact: 'Impact',
-      projectLink: 'Company website', codeLink: 'Source code',
+      visitWebsite: 'Visit {name}', codeLink: 'Source code',
       technology: 'Technologies',
       archiveImage: 'Historical project screenshot',
       projectsList: ProjectsArray,
