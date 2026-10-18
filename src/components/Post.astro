@@ -1,48 +1,25 @@
 ---
-import { Image } from "astro:assets";
-import type { BlogPostSummary } from "../types/blog";
-import { blogAsset } from "../services/blog";
-import LinkInline from "./LinkInline.astro";
-import { getLang, useTranslations } from '../i18n/utils';
-
-type tLang = (str: any) => any;
-
-const lang = getLang();
-const t: tLang = useTranslations(lang);
-
-type Props = {
-  post: BlogPostSummary;
-};
-
-const { post } = Astro.props;
+import { Image } from 'astro:assets';
+import type { BlogPostSummary } from '../types/blog';
+import { blogAsset } from '../services/blog';
+import { ui } from '../i18n/ui';
+import BlogMetadata from './BlogMetadata.astro';
+interface Props { post: BlogPostSummary; featured?: boolean; heading?: 'h2' | 'h3' }
+const { post, featured = false, heading: Heading = 'h2' } = Astro.props;
+const labels = ui[post.language].sections.writing;
+const cover = post.coverImage ? blogAsset(post.coverImage) : '';
 ---
-
-<article>
-  <a
-    href={`/blog/${post.slug}`}
-    aria-label={`Read more about ${post.title}`}
-  >
-    <Image
-      src={blogAsset(post.coverImage)}
-      alt={post.title}
-      width={600}
-      height={600 / 1.5}
-      format="webp"
-      class="rounded-2xl shadow-xl mb-4 aspect-thumbnail object-cover"
-    />
-  </a>
-  <div
-    class="text-2xl text-black/80 dark:text-white mb-4 font-semibold inline-block"
-  >
-    {post.title}
+<article class:list={['journal-card', { 'journal-featured': featured, 'journal-text-only': !cover }]}>
+  {cover && <a class="journal-image" href={`/blog/${post.slug}`} tabindex="-1" aria-hidden="true">
+    <Image src={cover} alt={post.title} width={featured ? 1200 : 640} height={featured ? 675 : 360}
+      widths={featured ? [480, 800, 1200] : [320, 480, 640]} sizes={featured ? '(min-width: 900px) 55vw, 100vw' : '(min-width: 1100px) 30vw, (min-width: 700px) 45vw, 100vw'}
+      format="webp" loading={featured ? 'eager' : 'lazy'} fetchpriority={featured ? 'high' : 'auto'} />
+  </a>}
+  <div class="journal-card-copy">
+    {featured && <p class="section-kicker">{post.language === 'es' ? 'LA ÚLTIMA NOTA' : 'LATEST NOTE'}</p>}
+    <BlogMetadata post={post} />
+    <Heading class="journal-card-title"><a href={`/blog/${post.slug}`}>{post.title}</a></Heading>
+    {post.excerpt && <p class="journal-excerpt">{post.excerpt}</p>}
+    <a class="journal-link" href={`/blog/${post.slug}`} aria-label={`${labels.readArticle}: ${post.title}`}>{labels.readArticle} <span aria-hidden="true">↗</span></a>
   </div>
-  <p class="text-gray-600 dark:text-gray-400 mb-9 line-clamp-3">
-    {post.excerpt}
-  </p>
-  <a href={`/blog/${post.slug}`}>
-  
-  </a>
-  <LinkInline href={`/blog/${post.slug}`} aria-label={t('blog').linkAriaLabel}>
-    {t('blog').linkLabel}
-  </LinkInline>
 </article>

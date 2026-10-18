@@ -9,8 +9,8 @@ const es =  {
       description: `Ingeniero Full-Stack Senior en España, especializado en React, TypeScript, Node.js y aplicaciones web escalables para equipos internacionales.`,
     },
     blog: {
-      title: `BlogTime 🤓`,
-      description: `Blog personal de Epilef Rodriguez. Aquí puedes encontrar artículos sobre tecnología, programación y otros temas interesantes.`,
+      title: `Artículos | khanos_`,
+      description: `Reflexiones sobre ingeniería de software, arquitectura frontend, herramientas de desarrollo y un mundo tecnológico en constante evolución.`,
     },
     github: {
       title: `GitHub Search 🤓`,

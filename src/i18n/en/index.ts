@@ -9,8 +9,8 @@ const en =  {
       description: `Senior Full-Stack Engineer based in Spain, specializing in React, TypeScript, Node.js, and scalable web applications for international teams.`,
     },
     blog: {
-      title: `BlogTime 🤓`,
-      description: `Epilef Rodriguez's personal blog. Here you can find articles about technology, programming, and other interesting topics.`,
+      title: `Writing | khanos_`,
+      description: `Thoughts on software engineering, frontend architecture, developer tools, and the evolving world of technology.`,
     },
     github: {
       title: `GitHub Search 🤓`,

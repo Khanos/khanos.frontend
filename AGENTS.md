@@ -73,9 +73,9 @@ or deleting either without an explicit migration task.
 `PUBLIC_BACKEND_API_URL`. Types are in `src/types/blog.ts`; runtime guards reject
 invalid contracts. There is no local collection or content fallback.
 
-`src/pages/blog.astro` lists summaries by language and page. `BlogList.astro` and
-`Post.astro` retain the existing cards. `LatestWriting.astro` requests the latest
-three summaries. `src/pages/blog/[lang]/[slug].astro` renders on demand, keeping
+`src/pages/blog.astro` lists summaries by language and page. `BlogList.astro`,
+`Post.astro`, and `BlogMetadata.astro` share the editorial article presentation.
+`LatestWriting.astro` requests the latest three summaries. `src/pages/blog/[lang]/[slug].astro` renders on demand, keeping
 URLs such as `/blog/en/6-state-of-devs-2026-ai-workflow`. `blog-sitemap.xml.ts`
 provides dynamic article URLs to the configured sitemap index.
 
@@ -94,8 +94,8 @@ blog responses support a 60-second shared cache; failures are uncached 503/404.
 - Language currently uses mutable `defaultLang`; the layout reads `?lang=`,
   while article URLs also include language. Inspect render order and navigation
   before assuming these mechanisms stay synchronized.
-- Blog cards use API excerpts. The blog index sorts by slug to preserve legacy
-  ordering; homepage Writing sorts by publication date. ISO dates represent UTC.
+- Blog cards use API excerpts. Both the blog index and homepage Writing sort by
+  publication date. ISO dates represent UTC.
 - Non-article shared metadata retains legacy values. Articles pass explicit
   language, title, excerpt, canonical URL and cover metadata through the layout.
 - `tsconfig.json` has a machine-specific legacy `baseUrl`; `.eslintrc.json`
