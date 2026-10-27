@@ -29,7 +29,7 @@ test("homepage separates writing from experiments and preserves article links", 
       times.map((time) => Date.parse(time.getAttribute("datetime")!)),
     );
   expect(dates).toEqual([...dates].sort((a, b) => b - a));
-  await expect(page.locator("#lab article")).toHaveCount(8);
+  await expect(page.locator("#lab article")).toHaveCount(9);
   await expect(page.locator('#lab a[href*="/blog"]')).toHaveCount(0);
   for (const href of await writing
     .locator("article a")
@@ -125,17 +125,17 @@ for (const lang of ["en", "es"]) {
       const range = lab.locator(".range");
       const visibleCount = width >= 1024 ? 3 : width >= 640 ? 2 : 1;
       const expectedRange = (first: number, last: number) => lang === "en"
-        ? `Showing ${first}–${last} of 8` : `Mostrando ${first}–${last} de 8`;
+        ? `Showing ${first}–${last} of 9` : `Mostrando ${first}–${last} de 9`;
       const previous = lab.getByRole("button", { name: lang === "en" ? "Previous projects" : "Proyectos anteriores" });
       const next = lab.getByRole("button", { name: lang === "en" ? "Next projects" : "Proyectos siguientes" });
-      await expect(cards).toHaveCount(8);
+      await expect(cards).toHaveCount(9);
       await expect(lab.locator(".experiment-copy h3")).toHaveText([
-        lang === "en" ? "Invoice Editor" : "Editor de facturas", "oVitals", "Wallapibara", "PNG to SVG", "Local Image Studio",
+        "DriveMount", lang === "en" ? "Invoice Editor" : "Editor de facturas", "oVitals", "Wallapibara", "PNG to SVG", "Local Image Studio",
         lang === "en" ? "SVG to Component" : "SVG a Componente",
         "GitHub API Demo", lang === "en" ? "URL Shortener" : "Acortador de URL",
       ]);
       await expect(range).toHaveText(expectedRange(1, visibleCount));
-      const repos = ["khanos-invoice-public", "ovitals", "wallapibara", "png-to-svg", "local-image-studio"];
+      const repos = ["drivemount", "khanos-invoice-public", "ovitals", "wallapibara", "png-to-svg", "local-image-studio"];
       for (let i = 0; i < repos.length; i++) {
         const link = cards.nth(i).locator(".project-link");
         await expect(link).toHaveAttribute("href", `https://github.com/Khanos/${repos[i]}`);
@@ -144,11 +144,11 @@ for (const lang of ["en", "es"]) {
         await expect(link).toHaveAccessibleName(new RegExp(lang === "en" ? "View repository" : "Ver repositorio"));
       }
       for (const [index, path] of ["svgToComponent", "github"].entries()) {
-        const link = cards.nth(index + 5).locator(".project-link");
+        const link = cards.nth(index + 6).locator(".project-link");
         await expect(link).toHaveAttribute("href", `/${path}?lang=${lang}`);
         await expect(link).not.toHaveAttribute("target", "_blank");
       }
-      const live = cards.nth(2).getByRole("link", { name: new RegExp(lang === "en" ? "Live site" : "Ver sitio") });
+      const live = cards.nth(3).getByRole("link", { name: new RegExp(lang === "en" ? "Live site" : "Ver sitio") });
       await expect(live).toHaveAttribute("href", "https://wallapibara.epilef.app/");
       await expect(live).toHaveAttribute("target", "_blank");
       await expect(live).toHaveAttribute("rel", /noopener/);
@@ -184,12 +184,12 @@ for (const lang of ["en", "es"]) {
         await previous.click();
         await expect(range).toHaveText(expectedRange(1, visibleCount));
         await previous.click();
-        await expect(range).toHaveText(expectedRange(9 - visibleCount, 8));
+        await expect(range).toHaveText(expectedRange(10 - visibleCount, 9));
         await next.click();
         await expect(range).toHaveText(expectedRange(1, visibleCount));
         await track.focus();
         await page.keyboard.press("End");
-        await expect(range).toHaveText(expectedRange(9 - visibleCount, 8));
+        await expect(range).toHaveText(expectedRange(10 - visibleCount, 9));
         await page.keyboard.press("ArrowRight");
         await expect(range).toHaveText(expectedRange(1, visibleCount));
         for (const card of await cards.all()) {
@@ -241,12 +241,12 @@ test("carousel reconnects after blog navigation and preserves tool language", as
   await expect(page.getByRole("heading", { level: 1 })).toContainText("SVG");
 });
 
-test("all eight Lab cards remain scrollable without JavaScript", async ({ browser }) => {
+test("all nine Lab cards remain scrollable without JavaScript", async ({ browser }) => {
   const context = await browser.newContext({ javaScriptEnabled: false, viewport: { width: 375, height: 900 } });
   const page = await context.newPage();
   await page.route("**/*", (route) => new URL(route.request().url()).hostname === "127.0.0.1" ? route.continue() : route.abort());
   await page.goto("/?lang=en");
-  await expect(page.locator("#lab article")).toHaveCount(8);
+  await expect(page.locator("#lab article")).toHaveCount(9);
   await expect(page.locator("#lab .carousel-controls")).toBeHidden();
   await page.locator("#lab article").last().scrollIntoViewIfNeeded();
   await expect(page.locator("#lab article").last()).toBeInViewport();
@@ -260,7 +260,7 @@ test("native touch scrolling reveals more cards and updates the range", async ({
   await page.route("**/*", (route) => new URL(route.request().url()).hostname === "127.0.0.1" ? route.continue() : route.abort());
   await page.goto("/?lang=en");
   const track = page.locator("#lab .lab-track");
-  await expect(page.locator("#lab .range")).toHaveText("Showing 1–1 of 8");
+  await expect(page.locator("#lab .range")).toHaveText("Showing 1–1 of 9");
   await track.scrollIntoViewIfNeeded();
   const bounds = (await track.boundingBox())!;
   const y = Math.min(bounds.y + 100, 800);
@@ -271,7 +271,7 @@ test("native touch scrolling reveals more cards and updates the range", async ({
   }
   await cdp.send("Input.dispatchTouchEvent", { type: "touchEnd", touchPoints: [] });
   await expect.poll(() => track.evaluate((track) => track.scrollLeft)).toBeGreaterThan(100);
-  await expect(page.locator("#lab .range")).not.toHaveText("Showing 1–1 of 8");
+  await expect(page.locator("#lab .range")).not.toHaveText("Showing 1–1 of 9");
   expect(await page.evaluate(() => document.documentElement.scrollWidth - innerWidth)).toBeLessThanOrEqual(1);
   await context.close();
 });
@@ -282,21 +282,21 @@ test("smooth controls and trackpad scrolling stay in sync across resize", async 
   await page.goto("/?lang=en");
   const lab = page.locator("#lab");
   const range = lab.locator(".range");
-  await expect(range).toHaveText("Showing 1–3 of 8");
+  await expect(range).toHaveText("Showing 1–3 of 9");
   await lab.getByRole("button", { name: "Next projects" }).click();
-  await expect(range).toHaveText("Showing 2–4 of 8");
+  await expect(range).toHaveText("Showing 2–4 of 9");
   const track = lab.locator(".lab-track");
   await track.hover();
   await page.mouse.wheel(350, 0);
-  await expect(range).not.toHaveText("Showing 2–4 of 8");
+  await expect(range).not.toHaveText("Showing 2–4 of 9");
   await page.setViewportSize({ width: 375, height: 900 });
   await track.focus();
   await page.keyboard.press("Home");
-  await expect(range).toHaveText("Showing 1–1 of 8");
+  await expect(range).toHaveText("Showing 1–1 of 9");
   await page.setViewportSize({ width: 768, height: 900 });
-  await expect(range).toHaveText("Showing 1–2 of 8");
+  await expect(range).toHaveText("Showing 1–2 of 9");
   await page.setViewportSize({ width: 1440, height: 900 });
-  await expect(range).toHaveText("Showing 1–3 of 8");
+  await expect(range).toHaveText("Showing 1–3 of 9");
 });
 
 for (const lang of ['en', 'es']) {
