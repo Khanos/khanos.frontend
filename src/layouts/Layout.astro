@@ -1,56 +1,75 @@
 ---
 import "@fontsource-variable/onest"
+import "../styles/portfolio.css"
+import "../styles/blog-editorial.css"
 
 import Header from "../components/Header.astro"
 import Footer from "../components/Footer.astro"
 import { ClientRouter } from "astro:transitions"
 import { setDefaultLang } from '../i18n/ui';
-import { getLang } from '../i18n/utils';
+import { ui } from '../i18n/ui';
 
 
 interface Props {
   title: string
   description: string
   anonymous?: boolean
+  authorName?: string
   ownerPage?: boolean
   article?: boolean
   language?: string
   socialImage?: string
+  homepage?: boolean
+  writing?: boolean
 }
 
-const { description, title, anonymous = false, ownerPage = false, article = false, language, socialImage = '/img/logo-v2.png' } = Astro.props;
-const lang: any = language || Astro.url.searchParams.get('lang') || getLang();
+const { description, title, anonymous = false, authorName = 'Epilef Rodriguez', ownerPage = false, article = false, language, socialImage = '/img/logo-v2.png', homepage = false, writing = false } = Astro.props;
+const lang = (language || Astro.url.searchParams.get('lang')) === 'es' ? 'es' : 'en';
 setDefaultLang(lang);
-const canonical = new URL(Astro.url.pathname, Astro.site || Astro.url.origin).href;
+const canonicalUrl = new URL(Astro.url.pathname, Astro.site || Astro.url.origin);
+const portfolio = homepage || writing;
+if ((homepage || (writing && !article)) && lang === 'es') canonicalUrl.searchParams.set('lang', 'es');
+if (writing && !article) {
+  const page = Astro.url.searchParams.get('page');
+  if (page && /^[1-9]\d*$/.test(page) && Number(page) > 1) canonicalUrl.searchParams.set('page', String(Number(page)));
+}
+const canonical = canonicalUrl.href;
+const socialImageUrl = new URL(socialImage, Astro.site || Astro.url.origin).href;
 ---
 <!doctype html>
-<html lang={lang} data-owner-page={ownerPage ? 'true' : undefined}>
+<html lang={lang} class={portfolio ? 'dark' : undefined} data-portfolio-page={portfolio ? 'true' : undefined} data-owner-page={ownerPage ? 'true' : undefined}>
   <head>
     <meta charset="UTF-8" />
     <meta name="description" content={description} />
     <meta name="viewport" content="width=device-width" />
+    <script is:inline data-astro-rerun>
+      try {
+        const stored = localStorage.getItem('theme');
+        const theme = stored === 'light' || stored === 'dark' ? stored : document.documentElement.dataset.portfolioPage === 'true' ? 'dark' : 'light';
+        document.documentElement.classList.toggle('dark', theme === 'dark');
+      } catch { /* Keep the server-rendered theme when storage is unavailable. */ }
+    </script>
     {ownerPage && <meta name="robots" content="noindex, nofollow" />}
 
     <!-- Primary Meta Tags -->
-    <title>{(article || anonymous) ? title : "Software Engineer - Ready for the next adventure."}</title>
-    {!article && !anonymous && <meta name="description" content="Full-Stack Developer with experience in various tools and technologies, passionate about coding, learning, and good coffee. Ready to face challenges." />}
-    <meta name="keywords" content="Full-Stack Developer, JavaScript, TypeScript, Node.js, React, Vue, Angular, HTML, CSS, SQL, NoSQL, Web Development, Software Engineer">
-    {!anonymous && <meta name="author" content="Epilef Rodriguez" />}
+    <title>{title}</title>
+    {!anonymous && authorName && <meta name="author" content={authorName} />}
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content={(article || anonymous) ? "article" : "website"}>
-    {article ? <meta property="og:url" content={canonical} /> : !anonymous && <meta property="og:url" content="https://www.epilef.org/" />}
-    {article && <link rel="canonical" href={canonical} />}
-    <meta property="og:title" content={(article || anonymous) ? title : "Full-Stack Developer Portfolio"}>
-    <meta property="og:description" content={(article || anonymous) ? description : "Full-Stack Developer with experience in various tools and technologies, passionate about coding, learning, and good coffee. Ready to face challenges."}>
-    <meta property="og:image" content={socialImage}>
+    <meta property="og:url" content={canonical} />
+    {!ownerPage && <link rel="canonical" href={canonical} />}
+    <meta property="og:title" content={title}>
+    <meta property="og:description" content={description}>
+    <meta property="og:image" content={socialImageUrl}>
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
-    {article ? <meta property="twitter:url" content={canonical} /> : !anonymous && <meta property="twitter:url" content="https://www.epilef.org/" />}
-    <meta property="twitter:title" content={(article || anonymous) ? title : "Full-Stack Developer Portfolio"}>
-    <meta property="twitter:description" content={(article || anonymous) ? description : "Full-Stack Developer with experience in various tools and technologies, passionate about coding, learning, and good coffee. Ready to face challenges."}>
-    <meta property="twitter:image" content={socialImage}>
+    <meta property="twitter:url" content={canonical} />
+    <meta property="twitter:title" content={title}>
+    <meta property="twitter:description" content={description}>
+    <meta property="twitter:image" content={socialImageUrl}>
+    <slot name="head" />
 
     <!-- Apple -->
     <link rel="apple-touch-icon" sizes="57x57" href="/apple-icon-57x57.png">
@@ -85,7 +104,6 @@ const canonical = new URL(Astro.url.pathname, Astro.site || Astro.url.origin).hr
 
     <link rel="icon" type="image/svg+xml" href="/favicon.ico" />
     <meta name="generator" content={Astro.generator} />
-    {!article && !anonymous && <title>{title}</title>}
     {!ownerPage && <ClientRouter />}
     <!-- Google Tag Manager -->
     <script>
@@ -104,7 +122,8 @@ const canonical = new URL(Astro.url.pathname, Astro.site || Astro.url.origin).hr
       dark:bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,#2B2B2B,rgba(255,255,255,0))]"
     >
     </div>
-    <Header />
+    {portfolio && <a class="skip-link" href="#main-content">{ui[lang].sections.contact.skip}</a>}
+    <Header lang={lang} homepage={portfolio} writing={writing} />
     <slot />
     <Footer />
     <!-- Google Tag Manager (noscript) -->
@@ -132,6 +151,9 @@ const canonical = new URL(Astro.url.pathname, Astro.site || Astro.url.origin).hr
         min-height: 100vh;
         overscroll-behavior: none;
       }
+
+      .skip-link { position: fixed; top: .5rem; left: .5rem; z-index: 50; padding: .75rem 1rem; background: #fff; color: #111; border-radius: .5rem; transform: translateY(-200%); }
+      .skip-link:focus { transform: translateY(0); outline: 2px solid #a60075; }
 
       .dropdown:hover .dropdown-menu {
           display: block;

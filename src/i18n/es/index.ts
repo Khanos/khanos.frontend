@@ -5,12 +5,12 @@ import { urlShowcase } from './project-showcases';
 const es =  {
   layouts: {
     home: {
-      title: `Khanos && Chill 🤓`,
-      description: `Sitio web personal de Epilef Rodriguez. Aquí puedes encontrar información sobre mi experiencia, proyectos y detalles de contacto.`,
+      title: `Epilef Rodriguez | Ingeniero Full-Stack Senior`,
+      description: `Ingeniero Full-Stack Senior en España, especializado en React, TypeScript, Node.js y aplicaciones web escalables para equipos internacionales.`,
     },
     blog: {
-      title: `BlogTime 🤓`,
-      description: `Blog personal de Epilef Rodriguez. Aquí puedes encontrar artículos sobre tecnología, programación y otros temas interesantes.`,
+      title: `Artículos | khanos_`,
+      description: `Reflexiones sobre ingeniería de software, arquitectura frontend, herramientas de desarrollo y un mundo tecnológico en constante evolución.`,
     },
     github: {
       title: `GitHub Search 🤓`,
@@ -53,7 +53,7 @@ const es =  {
   },
   sections: {
     writing: {
-      title: 'Últimos artículos',
+      title: 'Artículos técnicos',
       subtitle: 'Reflexiones, tutoriales y lecciones aprendidas sobre ingeniería de software, IA y el camino del desarrollador.',
       viewAll: 'Ver todos los artículos',
       readArticle: 'Leer artículo',
@@ -61,7 +61,7 @@ const es =  {
       empty: 'Pronto habrá nuevos artículos.',
     },
     lab: {
-      title: 'Lab',
+      title: 'Developer Lab / Código abierto',
       label: 'Experimentos, prototipos y aventuras de ingeniería que vale la pena compartir.',
       liveSite: 'Ver sitio',
       opensInNewTab: 'se abre en una pestaña nueva',
@@ -100,6 +100,13 @@ const es =  {
         description: 'Convierte SVGs en componentes React, Vue, Angular o Svelte en pocos pasos.',
         linkLabel: 'Convertir un SVG',
       },
+      driveMount: {
+        title: 'DriveMount',
+        imgAlt: 'Vista previa del asistente de DriveMount para conectar Google Drive en Linux',
+        status: 'App Linux experimental',
+        description: 'Una app de escritorio experimental para Linux que guía la conexión de Google Drive con rclone, FUSE3, OAuth, caché y servicios de usuario de systemd.',
+        linkLabel: 'Ver repositorio',
+      },
       invoice: {
         title: 'Editor de facturas',
         imgAlt: 'Ilustración de un editor de facturas junto a una vista previa A4 con conceptos de ejemplo',
@@ -116,7 +123,7 @@ const es =  {
       },
       wallapibara: {
         title: 'Wallapibara',
-        imgAlt: 'Ilustración de un patrón de fondo con formas equilibradas',
+        imgAlt: 'Editor de fondos de Wallapibara con personajes venezolanos y una vista previa del patrón',
         status: 'UI generativa',
         description: 'Un generador de fondos venezolanos con distribución por semilla, equilibrio visual, colocación en mosaicos y exportación desde el navegador.',
         linkLabel: 'Ver repositorio',
@@ -137,33 +144,58 @@ const es =  {
       },
     },
     exp: {
-      title: 'Experiencia',
+      title: 'Experiencia profesional',
       label: 'experiencia',
-      linkLabel: 'saber más',
+      current: 'Más de una década construyendo software en producción para SaaS, comercio electrónico, servicios financieros, tecnología de marketing y sistemas industriales. Mi experiencia abarca arquitectura frontend, desarrollo backend, integraciones de APIs y liderazgo técnico en equipos internacionales.',
+      recent: 'Experiencia reciente',
+      earlier: 'Experiencia anterior',
+      currentRole: 'Puesto actual',
     },
     projects: {
-      title: 'Proyectos',
-      label: 'proyectos',
+      title: 'Proyectos de ingeniería destacados',
+      label: 'projects',
+      intro: 'Contribuciones a productos en producción: interfaces de comercio y sistemas backend de datos.',
+      problem: 'Problema', contribution: 'Mi contribución', impact: 'Resultado',
+      visitWebsite: 'Visitar {name}', codeLink: 'Código fuente',
+      technology: 'Tecnologías',
+      archiveImage: 'Captura histórica del proyecto',
       projectsList: ProjectsArray,
     },
+    expertise: {
+      title: 'Especialidades técnicas',
+      groups: [
+        { title: 'Arquitectura frontend', detail: 'React, TypeScript, Next.js, Astro y componentes de interfaz reutilizables.' },
+        { title: 'Backend y APIs', detail: 'Node.js, Express, integraciones de APIs, OAuth y recopilación asíncrona de datos.' },
+        { title: 'Datos e infraestructura', detail: 'PostgreSQL, SQL, MongoDB, Docker y despliegues cloud con Vercel y Cloudflare.' },
+        { title: 'Calidad y entrega', detail: 'Jest, Mocha, Vitest, Playwright, desarrollo guiado por pruebas y flujos asistidos por IA.' },
+      ],
+    },
+    contact: { title: 'Construyamos algo útil', label: 'Contacto', skip: 'Saltar al contenido' },
     about: {
       title: 'Acerca de',
       label: 'acerca',
       personalImageAlt: 'Epilef Rodriguez',
       personalDescription: `
-      <p>Trabajo como <strong>Ingeniero Frontend</strong> en <strong>MercadoLibre</strong>, enfocado en mejorar la experiencia del usuario durante pasos cruciales del flujo de compra. Realizo un <strong>análisis exhaustivo de métricas</strong> y exploro diversas estrategias, documentando hallazgos para optimizar las tasas de completación de formularios, supervisando el proceso de implementación desde la codificación hasta el despliegue. Además, contribuí a refinar plantillas personalizadas para la <strong>división MercadoShops</strong>.</p>
-      <p>Como <strong>Desarrollador Frontend</strong>, lideré la creación de la aplicación <strong>DerfDice</strong>, siguiendo las mejores prácticas de UI/UX y priorizando un diseño minimalista para una óptima experiencia de usuario. Elaboré diversos paneles de control para mostrar creativamente datos, utilizando tecnologías de vanguardia como <strong>React, Vue.js, Angular, Astro, jQuery</strong> y <strong>KnockOut</strong>.</p>
-      <p>Transicionando al desarrollo backend, construí la <strong>herramienta DataCollector</strong>, integrando varios protocolos de seguridad para obtener valiosos insights de plataformas de marketing digital. Almacenando datos en <strong>bases de datos SQL</strong> y utilizando trabajos asíncronos para la automatización, adopté un enfoque de <strong>desarrollo dirigido por pruebas</strong>, centrándome principalmente en <strong>Node.js, Express, Sails.js, SQL</strong> y <strong>NoSQL</strong>.</p>
-      <p>Como <strong>Ingeniero</strong>, desarrollé una <strong>herramienta de simulación de Monte Carlo</strong> para pronósticos de distribución probabilística, aprovechando tecnologías de código abierto como <strong>Python y R</strong>, junto con <strong>QooxDoo</strong>. A pesar de encontrar requisitos faltantes, demostré mi formación matemática entregando el proyecto de manera eficiente.</p>
-      <p>¡Listo para emprender el próximo capítulo de mi trayectoria profesional! ✨</p>
+      <p>Soy <strong>Epilef Rodriguez</strong>, Ingeniero Full-Stack Senior en España. Trabajo con equipos internacionales y distribuidos.</p>
+      <p>Disfruto convirtiendo requisitos complejos en software útil, compartiendo lo que aprendo y tomando un buen café. Hablemos de oportunidades de ingeniería senior, colaboración remota y los productos que construye tu equipo.</p>
       `
     },
   },
   hero: {
-    title: 'Hola, soy Epilef Rodriguez',
+    title: 'Ingeniero Full-Stack Senior',
     profileAlt: 'Epilef Rodriguez',
     badge: 'Ingeniero Full-Stack',
-    bio: '<strong>Ingeniero</strong> experimentado en diversas tecnologías modernas. Entusiasta de la <strong>tecnología</strong>, comprometido con el <strong>aprendizaje</strong> continuo y apasionado por un excelente <strong>café</strong>. Dedicado a compartir conocimientos, enfrentar desafíos y disfrutar del viaje del crecimiento.',
+    name: 'Epilef Rodriguez',
+    technology: 'React · TypeScript · Node.js · Arquitectura de software',
+    location: 'En España · Colaborando con equipos internacionales',
+    bio: "Construyo aplicaciones web escalables y sistemas de software fiables, combinando una sólida experiencia en frontend con desarrollo backend, liderazgo técnico e ingeniería de producto.",
+    contact: 'Contactar',
+    work: 'Ver proyectos de ingeniería',
+    folio: 'PROYECTOS / INGENIERÍA',
+    portraitCaption: 'Ingeniero. Constructor. Siempre curioso.',
+    resume: 'Solicitar CV',
+    resumeSubject: 'Solicitud de currículum',
+    socialLabel: 'Perfiles profesionales',
     pills: {
       mail: 'Correo',
       linkedin: 'LinkedIn',

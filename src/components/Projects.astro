@@ -1,92 +1,92 @@
 ---
 import { Image } from 'astro:assets';
-import GitHub from "./icons/GitHub.astro"
-import Link from "./icons/Link.astro"
-import LinkButton from "./LinkButton.astro"
-import { getLang, useTranslations } from '../i18n/utils';
+import { getLang } from '../i18n/utils';
+import { ui } from '../i18n/ui';
 import { TAGS } from '../data/tags.astro';
-
-import type { ProjectType } from '../types'
-type TagType = {
-  name: string;
-  class: string;
-  icon: (_props: Record<string, any>) => any;
-};
-type TagsType = {
-  [key: string]: TagType;
-};
-
-const TagsObj:TagsType = TAGS;
-
-type tLang = (str: any) => any;
-
-const lang = getLang();
-const t:tLang = useTranslations(lang);
-
-const PROJECTS:ProjectType[] = t('sections').projects.projectsList;
+import type { ProjectType, ProjectCaseStudy } from '../types';
+interface Props { lang?: 'en' | 'es' }
+const { lang = getLang() } = Astro.props;
+const labels = ui[lang].sections.projects;
+// Filter into a new array before sorting; source/i18n order is not chronology.
+const projects = labels.projectsList
+  .filter((project): project is ProjectType & { caseStudy: ProjectCaseStudy } => Boolean(project.caseStudy))
+  .sort((left, right) => right.caseStudy.endYear - left.caseStudy.endYear || right.caseStudy.startYear - left.caseStudy.startYear);
 const images = import.meta.glob<{ default: ImageMetadata }>('../assets/img/projects/*.{jpeg,jpg,png,gif}');
 ---
-
-<div class="flex flex-col gap-y-16">
-  {
-    PROJECTS.map(({ image, imageAlt, title, description, tags, link, github }) => (
-      <article class="flex flex-col space-x-0 space-y-8 group md:flex-row md:space-x-8 md:space-y-0">
-        <div class="w-full md:w-1/2">
-          <div class="relative flex flex-col items-center col-span-6 row-span-5 gap-8 transition duration-500 ease-in-out transform shadow-xl overflow-clip rounded-xl sm:rounded-xl md:group-hover:-translate-y-1 md:group-hover:shadow-2xl lg:border lg:border-gray-800 lg:hover:border-gray-700 lg:hover:bg-gray-800/50">
-           { images[image] && <Image 
-              width={500}
-              height={500}
-              src={images[image]()}
-              alt={imageAlt} 
-              class="object-cover object-top w-full h-56 transition duration-500 sm:h-full md:scale-110 md:group-hover:scale-105" 
-            />}
-          </div>
+<div class="engineering-work">
+  {projects.map(({ image, imageAlt, title, caseStudy, tags, github }, index) => (
+    <article id={`project-${caseStudy.id}`} aria-labelledby={`project-${caseStudy.id}-title`} class:list={['engineering-case', { reverse: index % 2 !== 0 }]}>
+      <figure class="case-visual">
+        <div class="image-toolbar" aria-hidden="true"><span class="window-dots"><i></i><i></i><i></i></span><span>{caseStudy?.category}</span><span>0{index + 1}</span></div>
+        <div class="image-stage">
+          {images[image] && <Image src={images[image]()} alt={imageAlt} width={1000} widths={[480, 800, 1200]} sizes="(max-width: 899px) 92vw, (max-width: 1408px) 52vw, 700px" format="webp" loading="lazy" />}
         </div>
-
-        <div class="w-full max-w-96 md:w-1/2 md:max-w-lg">
-          <h3 class="text-2xl font-bold text-gray-800 dark:text-gray-100">
-            {title}
-          </h3>
-          <div class="flex flex-col mt-2">
-            <ul class="flex flex-wrap mb-2 gap-x-2">
-                {tags.map((item) => {
-                  const tag:TagType = TagsObj[item];
-                  if(tag) {
-                    return (
-                      <li>
-                        <span
-                          class={`flex gap-x-2 mt-2 rounded-full text-xs ${tag.class} py-1 px-2 `}
-                        >
-                          <tag.icon class="size-4" />{tag.name}
-                        </span>
-                      </li>
-                    )
-                  }
-                })}
-              </ul>
-
-            <div class="mt-2 text-gray-700 dark:text-gray-400">{description}</div>
-            <footer class="flex items-end justify-start mt-4 gap-x-4">
-                {github && (
-                  <LinkButton href={github}>
-                    <GitHub class="size-6" />
-                    Code
-                    
-                  </LinkButton>
-                )}
-                {link && (
-                  <LinkButton href={link}>
-                    <Link class="size-4" />
-                    Preview
-                  </LinkButton>
-                )}
-              </footer>
-          </div>
+        <figcaption><span>{caseStudy.imageCaption ?? labels.archiveImage}</span><span aria-hidden="true">↗</span></figcaption>
+      </figure>
+      <div class="case-copy">
+        <p class="case-index"><span>0{index + 1}</span> / {caseStudy?.category}</p>
+        <h3 id={`project-${caseStudy.id}-title`}>{title}</h3>
+        <p class="case-context">
+          <span>{caseStudy.company}</span><span aria-hidden="true">/</span>
+          <span>{caseStudy.role}</span><span aria-hidden="true">·</span>
+          <span class="case-period">{caseStudy.startYear === caseStudy.endYear ? caseStudy.endYear : `${caseStudy.startYear}–${caseStudy.endYear}`}</span>
+        </p>
+        <p class="case-summary">{caseStudy?.summary}</p>
+        <ul class="case-tech" aria-label={labels.technology}>
+          {tags.filter(tag => !['github', 'facebook', 'linkedin', 'twitter', 'ganalytics', 'gads'].includes(tag)).map(key => {
+            const tag = TAGS[key as keyof typeof TAGS];
+            return tag && <li>{tag.name}</li>;
+          })}
+        </ul>
+        <div class="case-links">
+          {caseStudy.websites.map(website => <a href={website.url}>{labels.visitWebsite.replace('{name}', website.name)}<span aria-hidden="true">↗</span></a>)}
+          {github && <a href={github}>{labels.codeLink}<span aria-hidden="true">↗</span></a>}
         </div>
-      </article>
-    ))
-  }
+      </div>
+      <dl class="case-narrative">{caseStudy && (['problem', 'contribution', 'impact'] as const).map(key => <div><dt>{labels[key]}</dt><dd>{caseStudy[key]}</dd></div>)}</dl>
+    </article>
+  ))}
 </div>
-
-
-
+<style>
+  .engineering-work { display: grid; gap: var(--folio-space-section); }
+  .engineering-case { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); align-items: center; gap: var(--folio-space-7) var(--folio-space-8); }
+  .engineering-case.reverse { grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr); }
+  .reverse .case-visual { grid-column: 2; grid-row: 1; }
+  .reverse .case-copy { grid-column: 1; grid-row: 1; }
+  .case-visual { min-width: 0; position: relative; border: 1px solid var(--folio-line); background: var(--folio-surface); }
+  .image-toolbar { display: flex; align-items: center; justify-content: space-between; gap: var(--folio-space-3); padding: var(--folio-space-3) var(--folio-space-4); border-bottom: 1px solid var(--folio-line); font: var(--folio-text-meta)/1.5 var(--folio-mono); color: var(--folio-muted); }
+  .window-dots { display: flex; gap: var(--folio-space-1); }
+  .window-dots i { width: 5px; height: 5px; border-radius: 50%; background: var(--folio-muted); }
+  .window-dots i:first-child { background: var(--folio-accent); }
+  .image-stage { padding: var(--folio-space-8) var(--folio-space-6); background-color: #d6cf4e; background-image: linear-gradient(135deg, rgb(255 255 255 / .12) 25%, transparent 25%, transparent 50%, rgb(255 255 255 / .12) 50%, rgb(255 255 255 / .12) 75%, transparent 75%); background-size: 5px 5px; overflow: hidden; }
+  .reverse .image-stage { background-color: #a1b8ae; }
+  .image-stage :global(img) { display: block; width: 100%; height: auto; border-radius: .2rem; box-shadow: 0 20px 35px -15px rgb(0 0 0 / .5); transform: perspective(1100px) rotateY(-4deg) rotateX(2deg); transition: transform 600ms cubic-bezier(.2,.7,.2,1); }
+  .reverse .image-stage :global(img) { transform: perspective(1100px) rotateY(4deg) rotateX(2deg); }
+  .case-visual:hover :global(img) { transform: perspective(1100px) rotateY(0) rotateX(0) translateY(-3px); }
+  figcaption { display: flex; align-items: center; justify-content: space-between; gap: var(--folio-space-4); padding: var(--folio-space-3) var(--folio-space-4); color: var(--folio-muted); font-size: var(--folio-text-support); line-height: 1.5; }
+  .case-copy { min-width: 0; }
+  .case-index { font: var(--folio-text-meta)/1.5 var(--folio-mono); color: var(--folio-muted); }
+  .case-index span { color: var(--folio-accent); }
+  h3 { margin-top: var(--folio-space-4); font-size: var(--folio-text-project); line-height: var(--folio-leading-heading); font-weight: 550; letter-spacing: var(--folio-tracking-heading); text-wrap: balance; }
+  .case-context { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--folio-space-1) var(--folio-space-2); margin-top: var(--folio-space-4); font-size: var(--folio-text-support); line-height: var(--folio-leading-body); color: var(--folio-secondary); }
+  .case-context > span[aria-hidden], .case-period { color: var(--folio-accent); }
+  .case-period { white-space: nowrap; }
+  .case-summary { max-width: 65ch; margin-top: var(--folio-space-5); font-size: var(--folio-text-body); line-height: var(--folio-leading-body); color: var(--folio-secondary); }
+  .case-tech { display: flex; flex-wrap: wrap; gap: var(--folio-space-2); margin-top: var(--folio-space-5); }
+  .case-tech li { padding: var(--folio-space-1) var(--folio-space-2); border: 1px solid var(--folio-line); color: var(--folio-secondary); font-size: var(--folio-text-meta); line-height: 1.5; }
+  .case-narrative { grid-column: 1 / -1; padding-top: var(--folio-space-6); border-top: 1px solid var(--folio-line); display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--folio-space-7); }
+  dt { font-size: var(--folio-text-support); font-weight: 650; color: var(--folio-accent); margin-bottom: var(--folio-space-2); }
+  dd { max-width: 65ch; font-size: var(--folio-text-body); line-height: var(--folio-leading-body); color: var(--folio-secondary); }
+  .case-links { display: flex; flex-wrap: wrap; gap: var(--folio-space-4); margin-top: var(--folio-space-5); }
+  .case-links a { display: inline-flex; align-items: center; gap: var(--folio-space-4); min-height: 44px; font-size: var(--folio-text-support); font-weight: 600; text-decoration: underline; text-decoration-color: var(--folio-accent); text-underline-offset: .3em; }
+  .case-links a:hover { color: var(--folio-accent); }
+  a:focus-visible { outline: 2px solid var(--folio-accent); outline-offset: 5px; }
+  @media (max-width: 899px) {
+    .engineering-case, .engineering-case.reverse { grid-template-columns: minmax(0, 1fr); gap: var(--folio-space-6); }
+    .reverse .case-visual, .reverse .case-copy { grid-column: auto; grid-row: auto; }
+    .case-copy { max-width: 70ch; }
+    .case-narrative { grid-template-columns: minmax(0, 1fr); gap: var(--folio-space-5); }
+    .image-stage { padding: var(--folio-space-7) var(--folio-space-4); }
+  }
+  @media (prefers-reduced-motion: reduce) { .image-stage :global(img) { transition: none; transform: none !important; } }
+</style>

@@ -5,12 +5,12 @@ import { urlShowcase } from './project-showcases';
 const en =  {
   layouts: {
     home: {
-      title: `Khanos && Chill 🤓`,
-      description: `Epilef Rodriguez's personal website. Here you can find information about my experience, projects, and contact details.`,
+      title: `Epilef Rodriguez | Senior Full-Stack Engineer`,
+      description: `Senior Full-Stack Engineer based in Spain, specializing in React, TypeScript, Node.js, and scalable web applications for international teams.`,
     },
     blog: {
-      title: `BlogTime 🤓`,
-      description: `Epilef Rodriguez's personal blog. Here you can find articles about technology, programming, and other interesting topics.`,
+      title: `Writing | khanos_`,
+      description: `Thoughts on software engineering, frontend architecture, developer tools, and the evolving world of technology.`,
     },
     github: {
       title: `GitHub Search 🤓`,
@@ -49,7 +49,7 @@ const en =  {
   },
   sections: {
     writing: {
-      title: 'Latest Writing',
+      title: 'Technical Writing',
       subtitle: 'Thoughts, tutorials, and lessons learned about software engineering, AI, and the developer journey.',
       viewAll: 'View all posts',
       readArticle: 'Read article',
@@ -57,7 +57,7 @@ const en =  {
       empty: 'New articles are on the way.',
     },
     lab: {
-      title: 'Lab',
+      title: 'Developer Lab / Open Source',
       label: 'Experiments, prototypes, and engineering rabbit holes worth sharing.',
       liveSite: 'Live site',
       opensInNewTab: 'opens in a new tab',
@@ -96,6 +96,13 @@ const en =  {
         description: 'Turn SVGs into React, Vue, Angular, or Svelte components in a few steps.',
         linkLabel: 'Convert an SVG',
       },
+      driveMount: {
+        title: 'DriveMount',
+        imgAlt: 'DriveMount setup wizard UI preview for connecting Google Drive on Linux',
+        status: 'Experimental Linux app',
+        description: 'An experimental Linux desktop app that guides Google Drive setup with rclone, FUSE3, OAuth, caching, and systemd user services.',
+        linkLabel: 'View repository',
+      },
       invoice: {
         title: 'Invoice Editor',
         imgAlt: 'Illustration of an invoice editor beside an A4 preview with sample line items',
@@ -112,7 +119,7 @@ const en =  {
       },
       wallapibara: {
         title: 'Wallapibara',
-        imgAlt: 'Illustrated repeating wallpaper layout with balanced shapes',
+        imgAlt: 'Wallapibara wallpaper editor with Venezuelan character choices and a live pattern preview',
         status: 'Generative UI',
         description: 'A Venezuelan-themed wallpaper generator with seeded layouts, visual balancing, tile-aware placement, and browser export.',
         linkLabel: 'View repository',
@@ -133,33 +140,58 @@ const en =  {
       },
     },
     exp: {
-      title: 'Experience',
+      title: 'Professional Experience',
       label: 'experience',
-      linkLabel: 'know more',
+      current: 'Over a decade of building production software across SaaS, e-commerce, fintech, marketing technology, and industrial systems. My experience spans frontend architecture, backend development, API integrations, and technical leadership across international teams.',
+      recent: 'Recent Experience',
+      earlier: 'Earlier Experience',
+      currentRole: 'Current position',
     },
     projects: {
-      title: 'Projects',
+      title: 'Featured Engineering Work',
       label: 'projects',
+      intro: 'Selected contributions to production products, from commerce interfaces to backend data pipelines.',
+      problem: 'Problem', contribution: 'My contribution', impact: 'Impact',
+      visitWebsite: 'Visit {name}', codeLink: 'Source code',
+      technology: 'Technologies',
+      archiveImage: 'Historical project screenshot',
       projectsList: ProjectsArray,
     },
+    expertise: {
+      title: 'Technical Expertise',
+      groups: [
+        { title: 'Frontend architecture', detail: 'React, TypeScript, Next.js, Astro, and reusable UI components.' },
+        { title: 'Backend & APIs', detail: 'Node.js, Express, API integrations, OAuth, and asynchronous data collection.' },
+        { title: 'Data & infrastructure', detail: 'PostgreSQL, SQL, MongoDB, Docker, and cloud deployments with Vercel and Cloudflare.' },
+        { title: 'Quality & delivery', detail: 'Jest, Mocha, Vitest, Playwright, test-driven development, and AI-assisted workflows.' },
+      ],
+    },
+    contact: { title: 'Let’s build something useful', label: 'Contact', skip: 'Skip to content' },
     about: {
       title: 'About',
       label: 'about',
       personalImageAlt: 'Epilef Rodriguez',
       personalDescription: `
-      <p>I work as a <strong>Frontend Engineer</strong> at <strong>MercadoLibre</strong>, focusing on enhancing the user experience during crucial steps of the purchasing flow. Conducting <strong>in-depth metric analysis</strong> and exploring various approaches, I documented findings to optimize form completion rates, overseeing the implementation process from coding to deployment. Additionally, I contributed to refining personalized templates for the <strong>MercadoShops division</strong>.</p>
-      <p>As a <strong>Frontend Developer</strong>, I spearheaded the creation of the <strong>DerfDice application</strong>, adhering to UI/UX best practices and prioritizing minimalist design for optimal user experience. Crafting diverse dashboards to creatively showcase data, I utilized cutting-edge technologies such as <strong>React, Vue.js, Angular, Astro, jQuery,</strong> and <strong>KnockOut</strong>.</p>
-      <p>Transitioning to backend development, I built the <strong>DataCollector tool</strong>, integrating various security protocols to retrieve valuable insights from digital marketing platforms. Storing data in <strong>SQL databases</strong> and utilizing asynchronous jobs for automation, I adopted a <strong>test-driven development approach</strong>, focusing primarily on <strong>Node.js, Express, Sails.js, SQL,</strong> and <strong>NoSQL</strong>.</p>
-      <p>As an <strong>Engineer</strong>, I developed a <strong>Monte Carlo simulation tool</strong> for probabilistic distribution forecasting, leveraging open-source technologies like <strong>Python and R</strong>, along with <strong>QooxDoo</strong>. Despite encountering missing requirements, I showcased my mathematical background by delivering the project efficiently.</p>
-      <p>Eager for new challenges and ready to embark on the next chapter of my career journey. ✨</p>
+      <p>I’m <strong>Epilef Rodriguez</strong>, a Senior Full-Stack Engineer based in Spain, working with international and distributed teams.</p>
+      <p>I enjoy turning complex requirements into useful software, sharing what I learn, and a good cup of coffee. Let’s talk about senior engineering roles, remote collaboration, and the products your team is building.</p>
       `
     },
   },
   hero: {
-    title: 'Hello, I\'m Epilef Rodriguez',
+    title: 'Senior Full-Stack Engineer',
     profileAlt: 'Epilef Rodriguez',
     badge: 'Software Engineer',
-    bio: 'Experienced <strong>Engineer</strong> proficient in diverse modern technologies. Enthusiastic about <strong>technology</strong>, committed to continuous <strong>learning</strong>, and passionate about great <strong>coffee</strong>. Dedicated to sharing knowledge, embracing challenges, and enjoying the journey of growth.',
+    name: 'Epilef Rodriguez',
+    technology: 'React · TypeScript · Node.js · Software Architecture',
+    location: 'Based in Spain · Working with international teams',
+    bio: "I build scalable web applications and reliable software systems, combining deep frontend expertise with backend development, technical leadership, and real-world product engineering.",
+    contact: 'Contact Me',
+    work: 'Explore engineering work',
+    folio: 'SELECTED WORK / ENGINEERING',
+    portraitCaption: 'Engineer. Builder. Curious by default.',
+    resume: 'Request résumé',
+    resumeSubject: 'Résumé request',
+    socialLabel: 'Professional profiles',
     pills: {
       mail: 'Email',
       linkedin: 'LinkedIn',

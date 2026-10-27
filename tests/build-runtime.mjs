@@ -119,6 +119,12 @@ for (const path of ['/admin/blog', '/admin/blog/new', `/admin/blog/${adminPost.i
   assert.equal(response.headers.get('cache-control'), 'no-store');
   assert.ok(!(await response.text()).includes(token));
 }
+const codePreview = await handler.fetch(adminRequest('/api/blog-admin/preview', 'POST', { content: '```javascript\nconst value = "<script>";\n```' }));
+assert.equal(codePreview.status, 200);
+const codeHtml = (await codePreview.json()).html;
+assert.ok(codeHtml.includes('hljs-keyword'));
+assert.ok(codeHtml.includes('&lt;script&gt;'));
+assert.ok(!codeHtml.includes('<script>'));
 const input = { title: 'Runtime post', slug: 'en/runtime-post', language: 'en', coverImage: 'https://example.com/cover.jpg', content: '# Runtime preview', categories: [], author: 'Fixture', anonymous: false, excerpt: '', status: 'draft' };
 for (const [method, path, body] of [
   ['POST', '/api/blog-admin', input],

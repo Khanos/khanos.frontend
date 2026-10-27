@@ -4,7 +4,8 @@ import { getLang, useTranslations } from '../i18n/utils';
 
 type tLang = (str: any) => any;
 
-const lang = getLang();
+interface Props { lang?: 'en' | 'es'; homepage?: boolean; writing?: boolean }
+const { lang = getLang(), homepage = false, writing = false } = Astro.props;
 const t:tLang = useTranslations(lang);
 
 const navItems = [
@@ -14,14 +15,9 @@ const navItems = [
     url: "/#home",
   },
   {
-    title: t('nav').writing.title,
-    label: t('nav').writing.label,
-    url: "/#writing",
-  },
-  {
-    title: t('nav').lab.title,
-    label: t('nav').lab.label,
-    url: "/#lab",
+    title: t('nav').projects.title,
+    label: t('nav').projects.label,
+    url: "/#projects",
   },
   {
     title: t('nav').exp.title,
@@ -29,14 +25,19 @@ const navItems = [
     url: "/#experience",
   },
   {
-    title: t('nav').projects.title,
-    label: t('nav').projects.label,
-    url: "/#projects",
+    title: t('nav').lab.title,
+    label: t('nav').lab.label,
+    url: "/#lab",
   },
   {
-    title: t('nav').about.title,
-    label: t('nav').about.label,
-    url: "/#about",
+    title: t('nav').writing.title,
+    label: t('nav').writing.label,
+    url: "/#writing",
+  },
+  {
+    title: t('sections').contact.label,
+    label: 'contact',
+    url: "/#contact",
   },
 ]
 ---
@@ -44,9 +45,11 @@ const navItems = [
 <header
   class="fixed top-0 z-10 flex items-center justify-center w-full mx-auto mt-2"
 >
+  {homepage && <a class="portfolio-wordmark" href={lang === 'es' ? '/?lang=es#home' : '/#home'} aria-label={`Khanos · ${t('nav').home.title}`}>khanos<span aria-hidden="true">_</span></a>}
   <nav
     class="flex flex-wrap px-3 text-sm font-medium rounded-full text-gray-600 bg-gray-200/60 dark:bg-black/60  dark:text-gray-200 justify-center items-center"
     id="nav-menu"
+    aria-label={lang === 'es' ? 'Navegación principal' : 'Main navigation'}
   >
   {
     navItems.map((link) => (
@@ -54,7 +57,8 @@ const navItems = [
       class="relative block px-2 py-2 hover:scale-110 transition"
       aria-label={link.title}
       data-section-link={link.label}
-      href={lang === "es" ? link.url.replace("/#", "/?lang=es#") : link.url}
+      aria-current={writing && link.label === 'writing' ? 'page' : undefined}
+      href={writing && link.label === 'writing' ? `/blog?lang=${lang}` : lang === "es" ? link.url.replace("/#", "/?lang=es#") : link.url}
       >
       {link.title}
       </a>
@@ -69,6 +73,7 @@ const navItems = [
     const links = Array.from(document.querySelectorAll<HTMLAnchorElement>("[data-section-link]"));
     const sections = links.map(link => document.getElementById(link.dataset.sectionLink!))
       .filter((section): section is HTMLElement => section !== null);
+    if (!sections.length) return;
     const updateActive = () => {
       const reached = sections.filter(section => section.getBoundingClientRect().top <= window.innerHeight * .35);
       const active = reached[reached.length - 1] || sections[0];

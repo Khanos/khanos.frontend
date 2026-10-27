@@ -5,7 +5,8 @@ import myAboutImage from '../assets/img/about-me.jpg';
 
 type tLang = (str: any) => any;
 
-const lang = getLang();
+interface Props { lang?: 'en' | 'es' }
+const { lang = getLang() } = Astro.props;
 const t: tLang = useTranslations(lang);
 ---
 

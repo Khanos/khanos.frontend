@@ -1,25 +1,39 @@
 import MarkdownIt from 'markdown-it';
 import sanitizeHtml from 'sanitize-html';
+import { createElement } from 'react';
+import { renderToStaticMarkup } from 'react-dom/server';
+import Highlighter from 'react-syntax-highlighter';
+// Native SSR exposes this CommonJS package as an exports object; Vite's build
+// exposes the component directly. Keep both render paths on the same component.
+const SyntaxHighlighter = (Highlighter as unknown as { default?: typeof Highlighter }).default || Highlighter;
 import { blogAsset } from '../services/blog';
 
-const markdown = new MarkdownIt({ html: true });
+const markdown = new MarkdownIt({
+  html: true,
+  highlight: (code, language) => renderToStaticMarkup(createElement(SyntaxHighlighter, {
+    language: language || 'text', useInlineStyles: false, children: code,
+  })),
+});
 // HTML is useful for the existing details sections and portable survey figures.
 // Allow presentation only; no scripts, handlers, embeds, arbitrary CSS or MDX evaluation.
-export function renderBlog(content: string): string {
+export function renderBlog(content: string, { article = false } = {}): string {
   return sanitizeHtml(markdown.render(content), {
     allowedTags: [...sanitizeHtml.defaults.allowedTags, 'img', 'details', 'summary'],
     allowedAttributes: {
       '*': ['class', 'aria-label', 'aria-labelledby', 'aria-hidden'],
       a: ['href', 'title'], img: ['src', 'alt', 'width', 'height', 'loading'],
       h3: ['id'], div: ['data-survey-visual'], figure: ['data-chart'],
-      li: ['tabindex'], span: ['style'],
+      li: ['tabindex'], pre: ['tabindex', 'aria-label'], table: ['tabindex', 'aria-label'], span: ['style'],
     },
     allowedClasses: { '*': ['survey-chart', 'not-prose', 'compact', 'workplace-charts', 'sample', 'axis',
-      'chart-rows', 'chart-row', 'row-heading', 'bar-track', 'bar-fill', 'row-details', 'chart-tooltip', 'chart-note', /^language-[a-z0-9]+$/] },
+      'chart-rows', 'chart-row', 'row-heading', 'bar-track', 'bar-fill', 'row-details', 'chart-tooltip', 'chart-note', /^language-[a-z0-9]+$/, /^hljs(?:-[a-z0-9_-]+)?$/] },
     allowedStyles: { span: { width: [/^(?:100|\d{1,2})(?:\.\d+)?%$/] } },
     allowedSchemes: ['https', 'http', 'mailto'], allowedSchemesByTag: { img: ['https', 'http'] },
     allowProtocolRelative: false,
     transformTags: {
+      ...(article ? { h1: 'h2' } : {}),
+      pre: (tagName, attributes) => ({ tagName, attribs: { ...attributes, tabindex: '0' } }),
+      table: (tagName, attributes) => ({ tagName, attribs: { ...attributes, tabindex: '0' } }),
       img: (tagName, attributes) => {
         let src = '';
         try { src = blogAsset(attributes.src || ''); } catch { /* Invalid image is omitted. */ }

@@ -5,11 +5,20 @@ import { ui } from '../i18n/ui';
 import LabGithubImage from '../assets/img/lab-github.png';
 import LabSvgToComponentImage from '../assets/img/lab-svg-to-component.png';
 import LabUrlImage from '../assets/img/lab-url.png';
+import LabWallapibaraImage from '../assets/img/lab-wallapibara.png';
+import LabDriveMountImage from '../assets/img/lab-drivemount.png';
 
 interface Props { lang: 'en' | 'es' }
 const { lang } = Astro.props;
 const lab = ui[lang].sections.lab;
 const experiments: LabProject[] = [
+  {
+    liveHref: undefined,
+    ...lab.driveMount,
+    image: LabDriveMountImage,
+    link: 'https://github.com/Khanos/drivemount',
+    tags: ['Rust', 'Tauri 2', 'React', 'rclone'],
+  },
   {
     liveHref: 'https://invoice.epilef.app/',
     ...lab.invoice,
@@ -27,7 +36,7 @@ const experiments: LabProject[] = [
   {
     liveHref: 'https://wallapibara.epilef.app/',
     ...lab.wallapibara,
-    image: '/lab/wallapibara.svg',
+    image: LabWallapibaraImage,
     link: 'https://github.com/Khanos/wallapibara',
     tags: ['Next.js', 'TypeScript', 'Generative UI', 'Algorithms'],
   },
