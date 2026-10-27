@@ -100,6 +100,13 @@ const es =  {
         description: 'Convierte SVGs en componentes React, Vue, Angular o Svelte en pocos pasos.',
         linkLabel: 'Convertir un SVG',
       },
+      driveMount: {
+        title: 'DriveMount',
+        imgAlt: 'Vista previa del asistente de DriveMount para conectar Google Drive en Linux',
+        status: 'App Linux experimental',
+        description: 'Una app de escritorio experimental para Linux que guía la conexión de Google Drive con rclone, FUSE3, OAuth, caché y servicios de usuario de systemd.',
+        linkLabel: 'Ver repositorio',
+      },
       invoice: {
         title: 'Editor de facturas',
         imgAlt: 'Ilustración de un editor de facturas junto a una vista previa A4 con conceptos de ejemplo',
@@ -116,7 +123,7 @@ const es =  {
       },
       wallapibara: {
         title: 'Wallapibara',
-        imgAlt: 'Ilustración de un patrón de fondo con formas equilibradas',
+        imgAlt: 'Editor de fondos de Wallapibara con personajes venezolanos y una vista previa del patrón',
         status: 'UI generativa',
         description: 'Un generador de fondos venezolanos con distribución por semilla, equilibrio visual, colocación en mosaicos y exportación desde el navegador.',
         linkLabel: 'Ver repositorio',
