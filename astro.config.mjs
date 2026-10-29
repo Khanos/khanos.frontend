@@ -33,5 +33,9 @@ export default defineConfig({
   // Bundle the sanitizer so Vite converts that boundary to native ESM imports.
   vite: { ssr: { noExternal: development ? [] : ['sanitize-html'] } },
   output: 'server',
-  adapter: vercel()
+  adapter: vercel({
+    webAnalytics: {
+      enabled: true,
+    },
+  })
 });
