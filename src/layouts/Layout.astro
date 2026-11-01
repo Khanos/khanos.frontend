@@ -8,6 +8,7 @@ import Footer from "../components/Footer.astro"
 import { ClientRouter } from "astro:transitions"
 import { setDefaultLang } from '../i18n/ui';
 import { ui } from '../i18n/ui';
+import Analytics from '@vercel/analytics/astro';
 
 
 interface Props {
@@ -105,6 +106,7 @@ const socialImageUrl = new URL(socialImage, Astro.site || Astro.url.origin).href
     <link rel="icon" type="image/svg+xml" href="/favicon.ico" />
     <meta name="generator" content={Astro.generator} />
     {!ownerPage && <ClientRouter />}
+    <Analytics />
     <!-- Google Tag Manager -->
     <script>
       import { loadGTM } from '../scripts/gtm.ts';
