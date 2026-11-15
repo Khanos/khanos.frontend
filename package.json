@@ -25,7 +25,7 @@
     "@types/react-dom": "^18.3.0",
     "@vercel/analytics": "^2.0.1",
     "@vercel/blob": "2.8.0",
-    "astro": "^7.3.2",
+    "astro": "^7.4.7",
     "astro-robots-txt": "^1.0.0",
     "markdown-it": "^15.0.3",
     "prettier": "^3.3.3",
@@ -46,7 +46,7 @@
     "@types/markdown-it": "^14.2.0",
     "@types/react-syntax-highlighter": "^15.5.13",
     "@types/sanitize-html": "^2.16.2",
-    "vite": "8.2.2",
+    "vite": "8.3.8",
     "vitest": "^5.0.3"
   },
   "engines": {
